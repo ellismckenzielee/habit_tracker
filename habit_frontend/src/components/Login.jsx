@@ -6,11 +6,11 @@ const Login = () => {
 
       <div className={style.FormContainer}>
         <form className={style.Form}>
-          <label>username</label>
-          <input type="text"></input>
-          <label>password</label>
-          <input type="password"></input>
-          <input type="submit"></input>
+          <label htmlFor="username">username</label>
+          <input id="username" type="text" className={style.Input}></input>
+          <label htmlFor="password">password</label>
+          <input id="password" type="password" className={style.Input}></input>
+          <input type="submit" className={style.Submit}></input>
         </form>
       </div>
     </div>

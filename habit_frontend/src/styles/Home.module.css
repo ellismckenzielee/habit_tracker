@@ -1,6 +1,6 @@
 .Home {
-  background-color: rgb(198, 52, 52);
-  height: 70vh;
+  background-color: #f5efed;
+  height: 65vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,6 +11,6 @@
   margin: 0;
   font-weight: bold;
   font-size: 100px;
-  color: black;
+  color: #b80c09;
   text-shadow: -5px -5px white;
 }

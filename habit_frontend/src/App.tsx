@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import Home from "./components/Home";
 interface Response {
   id: any;
   name: string;
@@ -21,6 +22,7 @@ function App() {
   }, []);
   return (
     <div className="App">
+      <Home />
       <h1> Do it over and over and over again </h1>
       {habits.map((habit, indx) => {
         return <p>{habit.name}</p>;

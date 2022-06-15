@@ -1,0 +1,19 @@
+.Login {
+  background-color: blue;
+  height: 30vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.FormContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}

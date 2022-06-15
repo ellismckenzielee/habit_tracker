@@ -1,23 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
-
+interface Response {
+  id: any;
+  name: string;
+}
 function App() {
+  const [habits, setHabits] = useState<any[]>([]);
   useEffect(() => {
     const url = "http://localhost:5656/habits";
     console.log(url);
     axios
       .get(url)
-      .then((res) => {
-        console.log("RES", res);
+      .then(({ data: habits }: { data: Response }) => {
+        setHabits([habits]);
       })
       .catch(() => {
         console.log("unsuccessful");
       });
-  });
+  }, []);
   return (
     <div className="App">
-      <h1> Habitsies </h1>
+      <h1> Do it over and over and over again </h1>
+      {habits.map((habit, indx) => {
+        return <p>{habit.name}</p>;
+      })}
     </div>
   );
 }

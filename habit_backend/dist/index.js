@@ -31,9 +31,10 @@ app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 app.get("/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const habitDb = client.db("habit_tracker");
     const habits = habitDb.collection("habits");
-    const result = yield habits.findOne({ name: "trello" });
-    console.log(result);
-    res.json(result);
+    const result = yield habits.find();
+    result.toArray().then((data) => {
+        res.send(data);
+    });
 }));
 client
     .connect()

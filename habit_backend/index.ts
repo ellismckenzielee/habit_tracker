@@ -1,5 +1,5 @@
 import express, { Express, Response, Request } from "express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId, WithId } from "mongodb";
 import cors from "cors";
 const app: Express = express();
 app.use(cors());
@@ -15,14 +15,19 @@ app.get("/", async (req: Request, res: Response) => {
   console.log(result);
   res.send("You have reached the / path!!!");
 });
-
+interface Result {
+  id: ObjectId;
+  name: String;
+}
 app.get("/habits", async (req: Request, res: Response) => {
   const habitDb = client.db("habit_tracker");
   const habits = habitDb.collection("habits");
-  const result = await habits.findOne({ name: "trello" });
-  console.log(result);
-  res.json(result);
+  const result = await habits.find();
+  result.toArray().then((data) => {
+    res.send(data);
+  });
 });
+
 client
   .connect()
   .then(() => {

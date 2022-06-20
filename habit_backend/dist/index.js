@@ -14,9 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
+app.use((0, body_parser_1.default)());
 const port = process.env.PORT;
 const url = process.env.DB_URL;
 console.log(process.env.PORT, process.env.DB_URL);
@@ -27,6 +30,16 @@ app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield habits.insertOne({ name: "trello" });
     console.log(result);
     res.send("You have reached the / path!!!");
+}));
+app.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const habitDb = client.db("habit_tracker");
+    const users = habitDb.collection("users");
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log(username, password, "!");
+    const hash = yield bcryptjs_1.default.hash(password, 10);
+    const user = yield users.insertOne({ username, password: hash });
+    res.json(user);
 }));
 app.get("/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const habitDb = client.db("habit_tracker");

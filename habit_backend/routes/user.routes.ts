@@ -14,7 +14,7 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     if (foundUser) {
       const result = await bcrypt.compare(password, foundUser.password);
       if (result) {
-        res.json({ username: foundUser.username });
+        res.json({ userId: foundUser._id, username: foundUser.username });
       } else {
         res.json(null);
       }

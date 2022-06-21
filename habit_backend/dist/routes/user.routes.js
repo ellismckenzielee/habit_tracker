@@ -22,11 +22,8 @@ userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
     const users = habitDb.collection("users");
     const username = req.body.username;
     const password = req.body.password;
-    habitDb.listCollections().forEach(console.log);
     try {
-        console.log("trying findUser");
         const foundUser = yield users.findOne({ username });
-        console.log(foundUser);
         if (foundUser) {
             const result = yield bcryptjs_1.default.compare(password, foundUser.password);
             if (result) {
@@ -52,5 +49,14 @@ userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const user = yield users.insertOne({ username, password: hash });
     console.log("end of userRouter/signup function");
     res.json(user);
+}));
+userRouter.post("/:user_id/habit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in userRouter/:user_id/habit function");
+    const habitDb = db_1.default.db("habit_tracker");
+    const habits = habitDb.collection("habits");
+    const user_id = req.params.user_id;
+    const habitName = req.body.habit;
+    const habit = yield habits.insertOne({ user_id, habit: habitName });
+    res.json(habit);
 }));
 exports.default = userRouter;

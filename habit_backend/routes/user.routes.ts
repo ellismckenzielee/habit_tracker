@@ -5,17 +5,12 @@ import bcrypt from "bcryptjs";
 
 userRouter.post("/login", async (req: Request, res: Response) => {
   console.log("in userRouter/login function");
-
   const habitDb = client.db("habit_tracker");
   const users = habitDb.collection("users");
   const username = req.body.username!;
-
   const password = req.body.password!;
-  habitDb.listCollections().forEach(console.log);
   try {
-    console.log("trying findUser");
     const foundUser = await users.findOne({ username });
-    console.log(foundUser);
     if (foundUser) {
       const result = await bcrypt.compare(password, foundUser.password);
       if (result) {
@@ -40,6 +35,16 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   const user = await users.insertOne({ username, password: hash });
   console.log("end of userRouter/signup function");
   res.json(user);
+});
+
+userRouter.post("/:user_id/habit", async (req: Request, res: Response) => {
+  console.log("in userRouter/:user_id/habit function");
+  const habitDb = client.db("habit_tracker");
+  const habits = habitDb.collection("habits");
+  const user_id = req.params.user_id;
+  const habitName = req.body.habit!;
+  const habit = await habits.insertOne({ user_id, habit: habitName });
+  res.json(habit);
 });
 
 export default userRouter;

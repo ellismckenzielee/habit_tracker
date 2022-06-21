@@ -16,6 +16,10 @@ const checkPassword = (password) => {
         success = false;
         message = "Includes non-alphanumeric characters";
     }
+    else if (!/[A-Z]/.test(password)) {
+        success = false;
+        message = "Includes uppercase characters";
+    }
     else {
         success = true;
         message = "";

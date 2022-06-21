@@ -57,5 +57,16 @@ describe("testing security utility functions", () => {
             expect(result.success).toBe(expectedSuccess);
             expect(result.message).toBe(expectedMessage);
         });
+        test("should return an object with success: false and message: no uppercase", () => {
+            // ARRANGE
+            const password = "password&123";
+            const expectedSuccess = false;
+            const expectedMessage = "Includes uppercase characters";
+            // ACT
+            const result = (0, security_utils_1.checkPassword)(password);
+            // ASSERT
+            expect(result.success).toBe(expectedSuccess);
+            expect(result.message).toBe(expectedMessage);
+        });
     });
 });

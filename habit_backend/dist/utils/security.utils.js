@@ -20,9 +20,13 @@ const checkPassword = (password) => {
         success = false;
         message = "Includes uppercase characters";
     }
+    else if (!/[a-z]/.test(password)) {
+        success = false;
+        message = "Includes lowercase characters";
+    }
     else {
         success = true;
-        message = "";
+        message = "Password satisfactory";
     }
     return { success, message };
 };

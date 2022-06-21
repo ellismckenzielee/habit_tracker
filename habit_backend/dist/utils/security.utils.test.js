@@ -68,5 +68,27 @@ describe("testing security utility functions", () => {
             expect(result.success).toBe(expectedSuccess);
             expect(result.message).toBe(expectedMessage);
         });
+        test("should return an object with success: false and message: no lowercase", () => {
+            // ARRANGE
+            const password = "PASSWORD&123";
+            const expectedSuccess = false;
+            const expectedMessage = "Includes lowercase characters";
+            // ACT
+            const result = (0, security_utils_1.checkPassword)(password);
+            // ASSERT
+            expect(result.success).toBe(expectedSuccess);
+            expect(result.message).toBe(expectedMessage);
+        });
+        test("should return an object with success: true and message: password passed", () => {
+            // ARRANGE
+            const password = "PASSWORDpassword&123";
+            const expectedSuccess = true;
+            const expectedMessage = "Password satisfactory";
+            // ACT
+            const result = (0, security_utils_1.checkPassword)(password);
+            // ASSERT
+            expect(result.success).toBe(expectedSuccess);
+            expect(result.message).toBe(expectedMessage);
+        });
     });
 });

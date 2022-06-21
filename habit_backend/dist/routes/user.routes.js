@@ -19,6 +19,25 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const url = process.env.DB_URL;
 console.log(process.env.PORT, process.env.DB_URL);
 const client = new mongodb_1.MongoClient(url);
+userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const habitDb = client.db("habit_tracker");
+    const users = habitDb.collection("users");
+    const username = req.body.username;
+    const password = req.body.password;
+    const foundUser = yield users.findOne({ username });
+    if (foundUser) {
+        const result = yield bcryptjs_1.default.compare(password, foundUser.password);
+        if (result) {
+            res.json({ username: foundUser.username });
+        }
+        else {
+            res.json(null);
+        }
+    }
+    else {
+        res.json(null);
+    }
+}));
 userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const habitDb = client.db("habit_tracker");
     const users = habitDb.collection("users");

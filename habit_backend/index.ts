@@ -1,5 +1,6 @@
 import express, { Express, Response, Request } from "express";
 import { MongoClient, ObjectId, WithId } from "mongodb";
+import userRouter from "./routes/user.routes";
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -19,17 +20,7 @@ app.get("/", async (req: Request, res: Response) => {
   res.send("You have reached the / path!!!");
 });
 
-app.post("/signup", async (req: Request, res: Response) => {
-  const habitDb = client.db("habit_tracker");
-  const users = habitDb.collection("users");
-  const username = req.body.username!;
-  const password = req.body.password!;
-  console.log(username, password, "!");
-  const hash = await bcrypt.hash(password, 10);
-  const user = await users.insertOne({ username, password: hash });
-  res.json(user);
-});
-
+app.use("/user", userRouter);
 app.get("/habits", async (req: Request, res: Response) => {
   const habitDb = client.db("habit_tracker");
   const habits = habitDb.collection("habits");

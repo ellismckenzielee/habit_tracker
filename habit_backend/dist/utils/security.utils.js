@@ -2,31 +2,34 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkPassword = void 0;
 const checkPassword = (password) => {
-    let success;
+    const responseMessages = {
+        length: "Minimum 7 characters",
+        numeric: "Includes numeric characters",
+        non_alpha: "Includes non-alphanumeric characters",
+        uppercase: "Includes uppercase characters",
+        lowercase: "Includes lowercase characters",
+        success: "Password satisfactory",
+    };
+    let success = false;
     let message;
     if (password.length < 7) {
-        success = false;
-        message = "Minimum 7 characters";
+        message = responseMessages["length"];
     }
     else if (!/[0-9]/.test(password)) {
-        success = false;
-        message = "Includes numeric characters";
+        message = responseMessages["numeric"];
     }
     else if (!/[^0-9a-zA-Z]/.test(password)) {
-        success = false;
-        message = "Includes non-alphanumeric characters";
+        message = responseMessages["non_alpha"];
     }
     else if (!/[A-Z]/.test(password)) {
-        success = false;
-        message = "Includes uppercase characters";
+        message = responseMessages["uppercase"];
     }
     else if (!/[a-z]/.test(password)) {
-        success = false;
-        message = "Includes lowercase characters";
+        message = responseMessages["lowercase"];
     }
     else {
         success = true;
-        message = "Password satisfactory";
+        message = responseMessages["success"];
     }
     return { success, message };
 };

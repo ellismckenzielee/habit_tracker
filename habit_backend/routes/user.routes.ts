@@ -1,31 +1,36 @@
 import express, { Express, Response, Request } from "express";
 const userRouter = express.Router();
-import { MongoClient, ObjectId, WithId } from "mongodb";
+import client from "../db/db";
 import bcrypt from "bcryptjs";
 
-const url = process.env.DB_URL!;
-console.log(process.env.PORT, process.env.DB_URL);
-const client = new MongoClient(url);
-
 userRouter.post("/login", async (req: Request, res: Response) => {
+  console.log("in userRouter/login function");
+
   const habitDb = client.db("habit_tracker");
   const users = habitDb.collection("users");
   const username = req.body.username!;
+
   const password = req.body.password!;
-  const foundUser = await users.findOne({ username });
-  if (foundUser) {
-    const result = await bcrypt.compare(password, foundUser.password);
-    if (result) {
-      res.json({ username: foundUser.username });
-    } else {
-      res.json(null);
+  habitDb.listCollections().forEach(console.log);
+  try {
+    console.log("trying findUser");
+    const foundUser = await users.findOne({ username });
+    console.log(foundUser);
+    if (foundUser) {
+      const result = await bcrypt.compare(password, foundUser.password);
+      if (result) {
+        res.json({ username: foundUser.username });
+      } else {
+        res.json(null);
+      }
     }
-  } else {
-    res.json(null);
+  } catch (err) {
+    res.send(null);
   }
 });
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
+  console.log("in userRouter/signup function");
   const habitDb = client.db("habit_tracker");
   const users = habitDb.collection("users");
   const username = req.body.username!;
@@ -33,6 +38,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   console.log(username, password, "!");
   const hash = await bcrypt.hash(password, 10);
   const user = await users.insertOne({ username, password: hash });
+  console.log("end of userRouter/signup function");
   res.json(user);
 });
 

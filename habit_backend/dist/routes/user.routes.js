@@ -14,38 +14,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userRouter = express_1.default.Router();
-const mongodb_1 = require("mongodb");
+const db_1 = __importDefault(require("../db/db"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const url = process.env.DB_URL;
-console.log(process.env.PORT, process.env.DB_URL);
-const client = new mongodb_1.MongoClient(url);
 userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const habitDb = client.db("habit_tracker");
+    console.log("in userRouter/login function");
+    const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
     const username = req.body.username;
     const password = req.body.password;
-    const foundUser = yield users.findOne({ username });
-    if (foundUser) {
-        const result = yield bcryptjs_1.default.compare(password, foundUser.password);
-        if (result) {
-            res.json({ username: foundUser.username });
-        }
-        else {
-            res.json(null);
+    habitDb.listCollections().forEach(console.log);
+    try {
+        console.log("trying findUser");
+        const foundUser = yield users.findOne({ username });
+        console.log(foundUser);
+        if (foundUser) {
+            const result = yield bcryptjs_1.default.compare(password, foundUser.password);
+            if (result) {
+                res.json({ username: foundUser.username });
+            }
+            else {
+                res.json(null);
+            }
         }
     }
-    else {
-        res.json(null);
+    catch (err) {
+        res.send(null);
     }
 }));
 userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const habitDb = client.db("habit_tracker");
+    console.log("in userRouter/signup function");
+    const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
     const username = req.body.username;
     const password = req.body.password;
     console.log(username, password, "!");
     const hash = yield bcryptjs_1.default.hash(password, 10);
     const user = yield users.insertOne({ username, password: hash });
+    console.log("end of userRouter/signup function");
     res.json(user);
 }));
 exports.default = userRouter;

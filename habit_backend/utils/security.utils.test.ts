@@ -33,5 +33,16 @@ describe("testing security utility functions", () => {
       expect(result.success).toBe(expectedSuccess);
       expect(result.message).toBe(expectedMessage);
     });
+    test("should return an object with success: false and message: numbers", () => {
+      // ARRANGE
+      const password = "password";
+      const expectedSuccess = false;
+      const expectedMessage = "Includes numeric characters";
+      // ACT
+      const result = checkPassword(password);
+      // ASSERT
+      expect(result.success).toBe(expectedSuccess);
+      expect(result.message).toBe(expectedMessage);
+    });
   });
 });

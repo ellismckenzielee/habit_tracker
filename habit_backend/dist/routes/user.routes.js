@@ -59,4 +59,14 @@ userRouter.post("/:user_id/habit", (req, res) => __awaiter(void 0, void 0, void 
     const habit = yield habits.insertOne({ user_id, habit: habitName });
     res.json(habit);
 }));
+userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user_id = req.params.user_id;
+    const habitDb = db_1.default.db("habit_tracker");
+    const habits = habitDb.collection("habits");
+    console.log(user_id);
+    const result = yield habits.find({ user_id });
+    result.toArray().then((data) => {
+        res.send(data);
+    });
+}));
 exports.default = userRouter;

@@ -47,4 +47,15 @@ userRouter.post("/:user_id/habit", async (req: Request, res: Response) => {
   res.json(habit);
 });
 
+userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
+  const user_id = req.params.user_id;
+  const habitDb = client.db("habit_tracker");
+  const habits = habitDb.collection("habits");
+  console.log(user_id);
+  const result = await habits.find({ user_id });
+  result.toArray().then((data) => {
+    res.send(data);
+  });
+});
+
 export default userRouter;

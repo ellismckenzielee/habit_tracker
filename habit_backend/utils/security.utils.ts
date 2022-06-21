@@ -7,6 +7,9 @@ const checkPassword: Function = (password: string) => {
   } else if (!/[0-9]/.test(password)) {
     success = false;
     message = "Includes numeric characters";
+  } else if (!/[^0-9a-zA-Z]/.test(password)) {
+    success = false;
+    message = "Includes non-alphanumeric characters";
   } else {
     success = true;
     message = "";

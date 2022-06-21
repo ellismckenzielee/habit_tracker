@@ -44,5 +44,16 @@ describe("testing security utility functions", () => {
       expect(result.success).toBe(expectedSuccess);
       expect(result.message).toBe(expectedMessage);
     });
+    test("should return an object with success: false and message: non-alphanumeric", () => {
+      // ARRANGE
+      const password = "password123";
+      const expectedSuccess = false;
+      const expectedMessage = "Includes non-alphanumeric characters";
+      // ACT
+      const result = checkPassword(password);
+      // ASSERT
+      expect(result.success).toBe(expectedSuccess);
+      expect(result.message).toBe(expectedMessage);
+    });
   });
 });

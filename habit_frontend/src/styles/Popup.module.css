@@ -1,0 +1,8 @@
+.Popup {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: rgba(188, 54, 54, 0.329);
+  left: 0;
+  top: 0;
+}

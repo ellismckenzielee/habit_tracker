@@ -1,10 +1,14 @@
 import style from "../styles/Login.module.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+
 const Login = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
+  const userContext = useContext(UserContext) as UserContextType;
+  const isLoggedIn = userContext.isLoggedIn;
+  const setIsLoggedIn = userContext.setIsLoggedIn;
+  const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   console.log(password);

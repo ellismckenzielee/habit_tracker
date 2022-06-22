@@ -5,10 +5,15 @@ type UserContextType = {
   isLoggedIn: any;
   setIsLoggedIn: any;
 };
+
+type UserType = {
+  user_id: string;
+  username: string;
+};
 const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = (props: any) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<UserType | {}>({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const values: UserContextType = {
     user,
@@ -22,4 +27,4 @@ const UserProvider = (props: any) => {
 };
 
 export { UserContext, UserProvider };
-export type { UserContextType };
+export type { UserContextType, UserType };

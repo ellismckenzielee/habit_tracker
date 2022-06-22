@@ -11,7 +11,6 @@ const Login = () => {
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  console.log(password);
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}

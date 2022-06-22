@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
 const View = () => {
   interface habit {
     habit: string;
   }
   const [habits, setHabits] = useState<habit[]>([]);
+  const { user } = useContext(UserContext) as UserContextType;
   useEffect(() => {
     axios
-      .get(`http://localhost:5656/user/${"3345345"}/habits`)
+      .get(`http://localhost:5656/user/${user.userId}/habits`)
       .then(({ data }) => {
         console.log(data);
         setHabits(data);

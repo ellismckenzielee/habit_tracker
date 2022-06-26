@@ -16,7 +16,12 @@ const express_1 = __importDefault(require("express"));
 const userRouter = express_1.default.Router();
 const db_1 = __importDefault(require("../db/db"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const authentication_1 = __importDefault(require("../authentication/authentication"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const secret = process.env.JWT_SECRET;
+userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in userRouter/login function");
     const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
@@ -27,7 +32,12 @@ userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (foundUser) {
             const result = yield bcryptjs_1.default.compare(password, foundUser.password);
             if (result) {
-                res.json({ userId: foundUser._id, username: foundUser.username });
+                const token = jsonwebtoken_1.default.sign(foundUser.username, secret);
+                res.json({
+                    userId: foundUser._id,
+                    username: foundUser.username,
+                    token,
+                });
             }
             else {
                 res.json(null);

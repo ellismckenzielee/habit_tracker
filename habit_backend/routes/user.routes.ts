@@ -2,27 +2,40 @@ import express, { Express, Response, Request } from "express";
 const userRouter = express.Router();
 import client from "../db/db";
 import bcrypt from "bcryptjs";
-
-userRouter.post("/login", async (req: Request, res: Response) => {
-  console.log("in userRouter/login function");
-  const habitDb = client.db("habit_tracker");
-  const users = habitDb.collection("users");
-  const username = req.body.username!;
-  const password = req.body.password!;
-  try {
-    const foundUser = await users.findOne({ username });
-    if (foundUser) {
-      const result = await bcrypt.compare(password, foundUser.password);
-      if (result) {
-        res.json({ userId: foundUser._id, username: foundUser.username });
-      } else {
-        res.json(null);
+import passport from "../authentication/authentication";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+const secret: string = process.env.JWT_SECRET!;
+userRouter.post(
+  "/login",
+  passport.authenticate("local", { session: false }),
+  async (req: Request, res: Response) => {
+    console.log("in userRouter/login function");
+    const habitDb = client.db("habit_tracker");
+    const users = habitDb.collection("users");
+    const username = req.body.username!;
+    const password = req.body.password!;
+    try {
+      const foundUser = await users.findOne({ username });
+      if (foundUser) {
+        const result = await bcrypt.compare(password, foundUser.password);
+        if (result) {
+          const token = jwt.sign(foundUser.username, secret);
+          res.json({
+            userId: foundUser._id,
+            username: foundUser.username,
+            token,
+          });
+        } else {
+          res.json(null);
+        }
       }
+    } catch (err) {
+      res.send(null);
     }
-  } catch (err) {
-    res.send(null);
   }
-});
+);
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
   console.log("in userRouter/signup function");

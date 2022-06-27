@@ -1,5 +1,5 @@
 import style from "../styles/Login.module.css";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +11,9 @@ const Login = () => {
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(()=>{
+    
+  })
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}
@@ -24,7 +27,10 @@ const Login = () => {
             axios
               .post("http://localhost:5656/user/login", { username, password })
               .then(({ data }) => {
-                setUser(data);
+                const token = data.token;
+                window.localStorage.setItem("jwt-token", token);
+                const user = { username: data.username, userId: data.userId };
+                setUser(user);
                 setIsLoggedIn(true);
               });
           }}

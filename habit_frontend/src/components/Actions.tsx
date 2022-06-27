@@ -24,7 +24,7 @@ const Actions = () => {
         Delete
       </button>
       {action === "add" && (
-        <Popup>
+        <Popup setAction={setAction}>
           <Add></Add>
         </Popup>
       )}

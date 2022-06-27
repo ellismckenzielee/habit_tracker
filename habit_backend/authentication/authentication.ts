@@ -29,8 +29,10 @@ passport.use(
     },
     async (jwtPayload, done) => {
       console.log("JWT");
-      console.log(jwtPayload);
-      done(null, "user");
+      const habitDb = client.db("habit_tracker");
+      const users = habitDb.collection("users");
+      const user = await users.findOne({ username: jwtPayload });
+      done(null, user);
     }
   )
 );

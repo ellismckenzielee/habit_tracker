@@ -7,6 +7,16 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
+
+userRouter.get(
+  "/login",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    console.log("in userRouter/login function");
+    res.json(req.user);
+  }
+);
+
 userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),

@@ -21,6 +21,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
+userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in userRouter/login function");
+    res.json(req.user);
+}));
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in userRouter/login function");
     const habitDb = db_1.default.db("habit_tracker");

@@ -38,8 +38,10 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     secretOrKey: secret,
 }, (jwtPayload, done) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("JWT");
-    console.log(jwtPayload);
-    done(null, "user");
+    const habitDb = db_1.default.db("habit_tracker");
+    const users = habitDb.collection("users");
+    const user = yield users.findOne({ username: jwtPayload });
+    done(null, user);
 })));
 console.log("PASSPORT", passport_1.default);
 exports.default = passport_1.default;

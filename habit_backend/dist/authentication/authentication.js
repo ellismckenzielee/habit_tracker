@@ -41,7 +41,9 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
     const user = yield users.findOne({ username: jwtPayload });
-    done(null, user);
+    if (user) {
+        done(null, { username: user.username, userId: user._id });
+    }
 })));
 console.log("PASSPORT", passport_1.default);
 exports.default = passport_1.default;

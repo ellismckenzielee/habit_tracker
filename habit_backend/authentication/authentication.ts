@@ -32,7 +32,9 @@ passport.use(
       const habitDb = client.db("habit_tracker");
       const users = habitDb.collection("users");
       const user = await users.findOne({ username: jwtPayload });
-      done(null, user);
+      if (user) {
+        done(null, { username: user.username, userId: user._id });
+      }
     }
   )
 );

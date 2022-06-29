@@ -2,19 +2,14 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
+import { getHabitsByUserId } from "../utils/utils";
+import Actions from "./Actions";
+import { habit } from "../types/types";
 const View = () => {
-  interface habit {
-    habit: string;
-  }
   const [habits, setHabits] = useState<habit[]>([]);
   const { user } = useContext(UserContext) as UserContextType;
   useEffect(() => {
-    axios
-      .get(`http://localhost:5656/user/${user.userId}/habits`)
-      .then(({ data }) => {
-        console.log(data);
-        setHabits(data);
-      });
+    getHabitsByUserId(user.userId, setHabits);
   }, []);
   return (
     <div className={style.View}>
@@ -22,6 +17,7 @@ const View = () => {
       {habits.map((habit, indx) => {
         return <p key={habit.habit + indx}> {habit.habit}</p>;
       })}
+      <Actions habits={habits} />
     </div>
   );
 };

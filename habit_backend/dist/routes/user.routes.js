@@ -19,6 +19,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const authentication_1 = __importDefault(require("../authentication/authentication"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const mongodb_1 = require("mongodb");
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -82,5 +83,24 @@ userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 
     result.toArray().then((data) => {
         res.send(data);
     });
+}));
+userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(" in userRouter DELETE");
+    const user_id = req.params.user_id;
+    const habit_id = req.body.habitId;
+    console.log(habit_id);
+    const habitDb = db_1.default.db("habit_tracker");
+    const habits = habitDb.collection("habits");
+    console.log(user_id);
+    try {
+        const result = yield habits.deleteMany({
+            _id: new mongodb_1.ObjectId(habit_id),
+            user_id,
+        });
+        console.log(result);
+    }
+    catch (err) {
+        console.log(err);
+    }
 }));
 exports.default = userRouter;

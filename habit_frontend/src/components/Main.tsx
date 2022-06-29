@@ -14,7 +14,6 @@ const Main = () => {
       <h1> This is the main page </h1>
       {user && <p> hello {user.username}</p>}
       <View />
-      <Actions />
     </div>
   );
 };

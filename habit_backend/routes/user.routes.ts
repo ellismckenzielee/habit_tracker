@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { ObjectId } from "mongodb";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 
@@ -79,6 +80,25 @@ userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
   result.toArray().then((data) => {
     res.send(data);
   });
+});
+
+userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
+  console.log(" in userRouter DELETE");
+  const user_id = req.params.user_id;
+  const habit_id = req.body.habitId;
+  console.log(habit_id);
+  const habitDb = client.db("habit_tracker");
+  const habits = habitDb.collection("habits");
+  console.log(user_id);
+  try {
+    const result = await habits.deleteMany({
+      _id: new ObjectId(habit_id),
+      user_id,
+    });
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 export default userRouter;

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import style from "../styles/Actions.module.css";
 import Add from "./Add";
+import Delete from "./Delete";
 import Popup from "./Popup";
-const Actions = () => {
+import { habit } from "../types/types";
+const Actions = ({ habits }: { habits: habit[] }) => {
   const [action, setAction] = useState<null | string>(null);
   return (
     <div className={style.Actions}>
@@ -28,7 +30,11 @@ const Actions = () => {
           <Add></Add>
         </Popup>
       )}
-      {action === "delete" && <p>Delete option selected</p>}
+      {action === "delete" && (
+        <Popup setAction={setAction}>
+          <Delete habits={habits}></Delete>
+        </Popup>
+      )}
     </div>
   );
 };

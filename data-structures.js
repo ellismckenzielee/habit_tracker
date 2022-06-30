@@ -17,7 +17,7 @@ const habit = {
 // habit data for each week
 const weekData = {
   id: "nfdvkdlnbkltn547567",
-  habit_id: "dnfndbiontio",
+  habit_id: "fdvdkn58hgukfhkv34",
   weekCommencing: "MondayXXXX",
   habitHistory: [0, 0, 0, 0, 0, 0, 0],
 };

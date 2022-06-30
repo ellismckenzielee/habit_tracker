@@ -13,7 +13,7 @@ userRouter.get(
   "/login",
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response) => {
-    console.log("in userRouter/login function");
+    console.log("in GET userRouter/login function");
     res.json(req.user);
   }
 );
@@ -22,7 +22,7 @@ userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),
   async (req: Request, res: Response) => {
-    console.log("in userRouter/login function");
+    console.log("in POST userRouter/login function");
     const habitDb = client.db("habit_tracker");
     const users = habitDb.collection("users");
     const username = req.body.username!;
@@ -49,7 +49,7 @@ userRouter.post(
 );
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
-  console.log("in userRouter/signup function");
+  console.log("in POST userRouter/signup function");
   const habitDb = client.db("habit_tracker");
   const users = habitDb.collection("users");
   const username = req.body.username!;
@@ -61,8 +61,8 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   res.json(user);
 });
 
-userRouter.post("/:user_id/habit", async (req: Request, res: Response) => {
-  console.log("in userRouter/:user_id/habit function");
+userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
+  console.log("in POST userRouter/:user_id/habits function");
   const habitDb = client.db("habit_tracker");
   const habits = habitDb.collection("habits");
   const user_id = req.params.user_id;
@@ -72,6 +72,7 @@ userRouter.post("/:user_id/habit", async (req: Request, res: Response) => {
 });
 
 userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
+  console.log("in GET userRouter/:user_id/habits");
   const user_id = req.params.user_id;
   const habitDb = client.db("habit_tracker");
   const habits = habitDb.collection("habits");

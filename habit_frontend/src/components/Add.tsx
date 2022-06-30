@@ -13,7 +13,7 @@ const Add = () => {
           console.log(user);
           if (user.userId) {
             axios
-              .post(`http://localhost:5656/user/${user.userId}/habit`, {
+              .post(`http://localhost:5656/user/${user.userId}/habits`, {
                 habit: habit,
               })
               .then(console.log)

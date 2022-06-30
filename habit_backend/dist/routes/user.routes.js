@@ -23,11 +23,11 @@ const mongodb_1 = require("mongodb");
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in userRouter/login function");
+    console.log("in GET userRouter/login function");
     res.json(req.user);
 }));
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in userRouter/login function");
+    console.log("in POST userRouter/login function");
     const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
     const username = req.body.username;
@@ -54,7 +54,7 @@ userRouter.post("/login", authentication_1.default.authenticate("local", { sessi
     }
 }));
 userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in userRouter/signup function");
+    console.log("in POST userRouter/signup function");
     const habitDb = db_1.default.db("habit_tracker");
     const users = habitDb.collection("users");
     const username = req.body.username;
@@ -65,8 +65,8 @@ userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
     console.log("end of userRouter/signup function");
     res.json(user);
 }));
-userRouter.post("/:user_id/habit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in userRouter/:user_id/habit function");
+userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in POST userRouter/:user_id/habits function");
     const habitDb = db_1.default.db("habit_tracker");
     const habits = habitDb.collection("habits");
     const user_id = req.params.user_id;
@@ -75,6 +75,7 @@ userRouter.post("/:user_id/habit", (req, res) => __awaiter(void 0, void 0, void 
     res.json(habit);
 }));
 userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in GET userRouter/:user_id/habits");
     const user_id = req.params.user_id;
     const habitDb = db_1.default.db("habit_tracker");
     const habits = habitDb.collection("habits");

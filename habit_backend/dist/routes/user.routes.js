@@ -52,14 +52,19 @@ userRouter.post("/login", authentication_1.default.authenticate("local", { sessi
         res.send(null);
     }
 }));
-userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/signup function");
     const username = req.body.username;
     const password = req.body.password;
-    const user = yield (0, user_models_1.handleSignup)(username, password);
-    console.log("end of userRouter/signup function");
-    console.log(user);
-    res.json({ userId: user.insertedId });
+    try {
+        const user = yield (0, user_models_1.handleSignup)(username, password);
+        console.log("end of userRouter/signup function");
+        console.log(user);
+        res.json({ userId: user.insertedId });
+    }
+    catch (err) {
+        next(err);
+    }
 }));
 userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");

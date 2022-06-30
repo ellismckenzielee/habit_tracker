@@ -5,14 +5,18 @@ import express, {
   NextFunction,
   ErrorRequestHandler,
 } from "express";
+
+interface Err extends ErrorRequestHandler {
+  status: number;
+  message: string;
+}
 const handleErrors = (
-  err: ErrorRequestHandler,
+  err: Err,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const errorTypes = { 404: "resource not found" };
-  res.send({ status: 404, message: "resource not found" });
+  res.status(err.status).json({ message: err.message });
 };
 
 const handle500 = (

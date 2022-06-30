@@ -1,7 +1,10 @@
 import app from "../index";
 import request from "supertest";
-import client from "../db/db";
+import client, { habitDb } from "../db/db";
 const backend = request(app);
+beforeEach(() => {
+  return habitDb.dropDatabase();
+});
 afterAll(() => {
   return client.close();
 });
@@ -43,6 +46,23 @@ describe("testing habit_backend API", () => {
           .send({ username, password });
         console.log("RESPONSE", response.body);
         expect(response.body).toEqual({ userId: expect.any(String) });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    test("Unsuccessful Signup: returns status 409 and message: username already exists", async () => {
+      const username = "eddievedder";
+      const password = "pearljam10";
+      try {
+        const response = await backend
+          .post("/user/signup")
+          .send({ username, password });
+        console.log("RESPONSE", response.body);
+        const response2 = await backend
+          .post("/user/signup")
+          .send({ username, password });
+        expect(response2.status).toBe(409);
+        expect(response2.body).toEqual({ message: "username already exists" });
       } catch (err) {
         console.log(err);
       }

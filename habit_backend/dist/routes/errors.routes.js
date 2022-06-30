@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handle500 = exports.handleErrors = void 0;
 const handleErrors = (err, req, res, next) => {
-    const errorTypes = { 404: "resource not found" };
-    res.send({ status: 404, message: "resource not found" });
+    res.status(err.status).json({ message: err.message });
 };
 exports.handleErrors = handleErrors;
 const handle500 = (err, req, res, next) => {

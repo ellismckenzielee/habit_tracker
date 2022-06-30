@@ -1,4 +1,4 @@
-import express, { Express, Response, Request } from "express";
+import express, { Express, Response, Request, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
 import jwt from "jsonwebtoken";
@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 import { habits, users } from "../db/db";
 import { handleSignup } from "../models/user.models";
+import { nextTick } from "process";
 
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
@@ -48,15 +49,22 @@ userRouter.post(
   }
 );
 
-userRouter.post("/signup", async (req: Request, res: Response) => {
-  console.log("in POST userRouter/signup function");
-  const username = req.body.username!;
-  const password = req.body.password!;
-  const user = await handleSignup(username, password);
-  console.log("end of userRouter/signup function");
-  console.log(user);
-  res.json({ userId: user.insertedId });
-});
+userRouter.post(
+  "/signup",
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log("in POST userRouter/signup function");
+    const username = req.body.username!;
+    const password = req.body.password!;
+    try {
+      const user = await handleSignup(username, password);
+      console.log("end of userRouter/signup function");
+      console.log(user);
+      res.json({ userId: user.insertedId });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in POST userRouter/:user_id/habits function");

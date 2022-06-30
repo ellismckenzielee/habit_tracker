@@ -21,11 +21,12 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
 const port = process.env.PORT;
-app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("reached / endpoint");
-    res.send({ success: "reached root" });
+    res.send("reached root");
 }));
 app.use("/user", user_routes_1.default);
+app.use(errors_routes_1.handleErrors);
 app.use(errors_routes_1.handle500);
 if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => {

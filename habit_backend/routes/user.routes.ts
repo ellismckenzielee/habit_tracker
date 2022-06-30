@@ -1,13 +1,15 @@
 import express, { Express, Response, Request } from "express";
-const userRouter = express.Router();
-import client from "../db/db";
 import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
+import { habits, users } from "../db/db";
+import { handleSignup } from "../models/user.models";
+
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
+const userRouter = express.Router();
 
 userRouter.get(
   "/login",
@@ -23,8 +25,6 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   async (req: Request, res: Response) => {
     console.log("in POST userRouter/login function");
-    const habitDb = client.db("habit_tracker");
-    const users = habitDb.collection("users");
     const username = req.body.username!;
     const password = req.body.password!;
     try {
@@ -50,21 +50,15 @@ userRouter.post(
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
   console.log("in POST userRouter/signup function");
-  const habitDb = client.db("habit_tracker");
-  const users = habitDb.collection("users");
   const username = req.body.username!;
   const password = req.body.password!;
-  console.log(username, password, "!");
-  const hash = await bcrypt.hash(password, 10);
-  const user = await users.insertOne({ username, password: hash });
+  const user = await handleSignup(username, password);
   console.log("end of userRouter/signup function");
   res.json(user);
 });
 
 userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in POST userRouter/:user_id/habits function");
-  const habitDb = client.db("habit_tracker");
-  const habits = habitDb.collection("habits");
   const user_id = req.params.user_id;
   const habitName = req.body.habit!;
   const habit = await habits.insertOne({ user_id, habit: habitName });
@@ -74,9 +68,6 @@ userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
 userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in GET userRouter/:user_id/habits");
   const user_id = req.params.user_id;
-  const habitDb = client.db("habit_tracker");
-  const habits = habitDb.collection("habits");
-  console.log(user_id);
   const result = await habits.find({ user_id });
   result.toArray().then((data) => {
     res.send(data);
@@ -87,10 +78,6 @@ userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
   console.log(" in userRouter DELETE");
   const user_id = req.params.user_id;
   const habit_id = req.body.habitId;
-  console.log(habit_id);
-  const habitDb = client.db("habit_tracker");
-  const habits = habitDb.collection("habits");
-  console.log(user_id);
   try {
     const result = await habits.deleteMany({
       _id: new ObjectId(habit_id),

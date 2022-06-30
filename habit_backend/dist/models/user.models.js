@@ -12,24 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const user_routes_1 = __importDefault(require("./routes/user.routes"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const cors_1 = __importDefault(require("cors"));
-const errors_routes_1 = require("./routes/errors.routes");
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(body_parser_1.default.json());
-const port = process.env.PORT;
-app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("reached / endpoint");
-    res.send({ success: "reached root" });
-}));
-app.use("/user", user_routes_1.default);
-app.use(errors_routes_1.handle500);
-if (process.env.NODE_ENV !== "test") {
-    app.listen(port, () => {
-        console.log(`Listening on port: ${port}`);
-    });
-}
-exports.default = app;
+exports.handleSignup = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const db_1 = require("../db/db");
+const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const hash = yield bcryptjs_1.default.hash(password, 10);
+    const user = yield db_1.users.insertOne({ username, password: hash });
+    return user;
+});
+exports.handleSignup = handleSignup;

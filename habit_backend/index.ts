@@ -1,29 +1,14 @@
 import express, { Express, Response, Request } from "express";
-import client from "./db/db";
 import userRouter from "./routes/user.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
-import passport from "./authentication/authentication";
 import { handle500 } from "./routes/errors.routes";
 
-const secret = process.env.JWT_SECRET;
 
 const app: Express = express();
 app.use(cors());
 app.use(bodyParser.json());
 const port: string = process.env.PORT!;
-
-// passport.use(
-//   new JwtStrategy(opts, async function (jwt_payload, done) {
-//     console.log("JWT PAYLOAD", jwt_payload);
-//     const habitDb = client.db("habit_tracker");
-//     const users = habitDb.collection("users");
-//     done("error", false);
-
-//     const foundUser = await users.findOne({ id: jwt_payload.sub });
-//     console.log(foundUser);
-//   })
-// );
 
 app.get("/", async (req: Request, res: Response) => {
   console.log("reached / endpoint");

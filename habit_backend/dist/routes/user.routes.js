@@ -13,27 +13,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const userRouter = express_1.default.Router();
-const db_1 = __importDefault(require("../db/db"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const authentication_1 = __importDefault(require("../authentication/authentication"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongodb_1 = require("mongodb");
+const db_1 = require("../db/db");
+const user_models_1 = require("../models/user.models");
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
+const userRouter = express_1.default.Router();
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/login function");
     res.json(req.user);
 }));
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/login function");
-    const habitDb = db_1.default.db("habit_tracker");
-    const users = habitDb.collection("users");
     const username = req.body.username;
     const password = req.body.password;
     try {
-        const foundUser = yield users.findOne({ username });
+        const foundUser = yield db_1.users.findOne({ username });
         if (foundUser) {
             const result = yield bcryptjs_1.default.compare(password, foundUser.password);
             if (result) {
@@ -55,32 +54,23 @@ userRouter.post("/login", authentication_1.default.authenticate("local", { sessi
 }));
 userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/signup function");
-    const habitDb = db_1.default.db("habit_tracker");
-    const users = habitDb.collection("users");
     const username = req.body.username;
     const password = req.body.password;
-    console.log(username, password, "!");
-    const hash = yield bcryptjs_1.default.hash(password, 10);
-    const user = yield users.insertOne({ username, password: hash });
+    const user = yield (0, user_models_1.handleSignup)(username, password);
     console.log("end of userRouter/signup function");
     res.json(user);
 }));
 userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");
-    const habitDb = db_1.default.db("habit_tracker");
-    const habits = habitDb.collection("habits");
     const user_id = req.params.user_id;
     const habitName = req.body.habit;
-    const habit = yield habits.insertOne({ user_id, habit: habitName });
+    const habit = yield db_1.habits.insertOne({ user_id, habit: habitName });
     res.json(habit);
 }));
 userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits");
     const user_id = req.params.user_id;
-    const habitDb = db_1.default.db("habit_tracker");
-    const habits = habitDb.collection("habits");
-    console.log(user_id);
-    const result = yield habits.find({ user_id });
+    const result = yield db_1.habits.find({ user_id });
     result.toArray().then((data) => {
         res.send(data);
     });
@@ -89,12 +79,8 @@ userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, vo
     console.log(" in userRouter DELETE");
     const user_id = req.params.user_id;
     const habit_id = req.body.habitId;
-    console.log(habit_id);
-    const habitDb = db_1.default.db("habit_tracker");
-    const habits = habitDb.collection("habits");
-    console.log(user_id);
     try {
-        const result = yield habits.deleteMany({
+        const result = yield db_1.habits.deleteMany({
             _id: new mongodb_1.ObjectId(habit_id),
             user_id,
         });

@@ -25,37 +25,12 @@ const port: string = process.env.PORT!;
 //   })
 // );
 
-app.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  async (req: Request, res: Response) => {
-    console.log("root path");
-    const habitDb = client.db("habit_tracker");
-    console.log("root path finished");
-    res.send({ success: "reached root" });
-  }
-);
-
-app.post(
-  "/",
-  passport.authenticate("local", { session: false }),
-  async (req: Request, res: Response) => {
-    console.log("root path");
-    const habitDb = client.db("habit_tracker");
-    console.log("root path finished");
-    res.send({ success: "reached root" });
-  }
-);
+app.get("/", async (req: Request, res: Response) => {
+  console.log("reached / endpoint");
+  res.send({ success: "reached root" });
+});
 
 app.use("/user", userRouter);
-app.get("/habits", async (req: Request, res: Response) => {
-  const habitDb = client.db("habit_tracker");
-  const habits = habitDb.collection("habits");
-  const result = await habits.find();
-  result.toArray().then((data) => {
-    res.send(data);
-  });
-});
 
 app.use(handle500);
 

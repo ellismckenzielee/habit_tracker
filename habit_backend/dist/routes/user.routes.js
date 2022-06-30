@@ -58,7 +58,8 @@ userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const password = req.body.password;
     const user = yield (0, user_models_1.handleSignup)(username, password);
     console.log("end of userRouter/signup function");
-    res.json(user);
+    console.log(user);
+    res.json({ userId: user.insertedId });
 }));
 userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");

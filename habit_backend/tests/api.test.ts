@@ -33,4 +33,19 @@ describe("testing habit_backend API", () => {
       }
     });
   });
+  describe.only("POST /user/signup ENDPOINT", () => {
+    test("Successful Signup: returns status 200 and userId", async () => {
+      const username = "eddievedder";
+      const password = "pearljam10";
+      try {
+        const response = await backend
+          .post("/user/signup")
+          .send({ username, password });
+        console.log("RESPONSE", response.body);
+        expect(response.body).toEqual({ userId: expect.any(String) });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
 });

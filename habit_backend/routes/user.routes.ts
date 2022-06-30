@@ -54,7 +54,8 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   const password = req.body.password!;
   const user = await handleSignup(username, password);
   console.log("end of userRouter/signup function");
-  res.json(user);
+  console.log(user);
+  res.json({ userId: user.insertedId });
 });
 
 userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {

@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
+import { InsertOneResult, ObjectId } from "mongodb";
 import { habits, users } from "../db/db";
+
 export const handleSignup = async (username: string, password: string) => {
   const hash = await bcrypt.hash(password, 10);
   const user = await users.insertOne({ username, password: hash });

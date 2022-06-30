@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== "test") {
     console.log("connecting to db");
     connect();
 }
-const habitDb = client.db("habit_tracker");
+const habitDb = client.db(process.env.NODE_ENV === "test" ? "test" : "habit_tracker");
 exports.habitDb = habitDb;
 const users = habitDb.collection("users");
 exports.users = users;

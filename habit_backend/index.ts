@@ -4,6 +4,7 @@ import userRouter from "./routes/user.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
 import passport from "./authentication/authentication";
+import { handle500 } from "./routes/errors.routes";
 
 const secret = process.env.JWT_SECRET;
 
@@ -55,6 +56,8 @@ app.get("/habits", async (req: Request, res: Response) => {
     res.send(data);
   });
 });
+
+app.use(handle500);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {

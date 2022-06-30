@@ -18,6 +18,7 @@ const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const authentication_1 = __importDefault(require("./authentication/authentication"));
+const errors_routes_1 = require("./routes/errors.routes");
 const secret = process.env.JWT_SECRET;
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -54,6 +55,7 @@ app.get("/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.send(data);
     });
 }));
+app.use(errors_routes_1.handle500);
 if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => {
         console.log(`Listening on port: ${port}`);

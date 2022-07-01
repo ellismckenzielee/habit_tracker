@@ -3,9 +3,10 @@ import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { ObjectId } from "mongodb";
+import { FindCursor, ObjectId } from "mongodb";
 import { habits, users, weeks } from "../db/db";
 import { handleSignup } from "../models/user.models";
+import { getMonday } from "../utils/date.utils";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -68,8 +69,18 @@ userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in POST userRouter/:user_id/habits function");
   const user_id = req.params.user_id;
   const habitName = req.body.habit!;
-  const habit = await habits.insertOne({ user_id, habit: habitName });
-  res.json(habit);
+  console.log(user_id, habitName);
+  const user = await users.updateOne(
+    { _id: new ObjectId(user_id) },
+    { $addToSet: { ["habits"]: habitName } }
+  );
+  const weekToUpdate = getMonday(0);
+  const week = await weeks.updateOne(
+    { user_id, habit_week: weekToUpdate },
+    { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } }
+  );
+  console.log(week);
+  res.sendStatus(204);
 });
 
 userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
@@ -84,27 +95,29 @@ userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
 userRouter.get(
   "/:user_id/habits/:habit_week",
   async (req: Request, res: Response) => {
-    console.log("in GET userRouter/:user_id/habits/:habit_week");
+    console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
-    console.log("user", user_id, "habit", habit_week);
+    console.log("userr", user_id, "habitt", habit_week);
     const result = await weeks.findOne({ user_id, habit_week: habit_week });
     if (!result) {
-      interface Habit {
+      interface User extends FindCursor {
         _id: string;
-        habit: string;
-        type: string;
+        habits: string[];
+        username: string;
       }
-      const habit = await habits.find<Habit>({ user_id });
+      const user = await users.findOne<User>({ _id: new ObjectId(user_id) });
+      if (user) {
+        const habitsArray = user.habits;
+        const week: any = { user_id, habit_week, habits: {} };
 
-      const habitsArray = await habit.toArray();
-      const week: any = { user_id, habit_week, habits: {} };
-
-      habitsArray.forEach((habit: Habit) => {
-        week["habits"][habit.habit] = [0, 0, 0, 0, 0, 0, 0];
-      });
-      const result = await weeks.insertOne(week);
-      res.json(week);
+        habitsArray.forEach((habit: string) => {
+          console.log(habit);
+          week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
+        });
+        const result = await weeks.insertOne(week);
+        res.json(week);
+      }
     } else {
       res.json(result);
     }

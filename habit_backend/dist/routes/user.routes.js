@@ -20,6 +20,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const user_models_1 = require("../models/user.models");
+const date_utils_1 = require("../utils/date.utils");
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
@@ -70,8 +71,12 @@ userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void
     console.log("in POST userRouter/:user_id/habits function");
     const user_id = req.params.user_id;
     const habitName = req.body.habit;
-    const habit = yield db_1.habits.insertOne({ user_id, habit: habitName });
-    res.json(habit);
+    console.log(user_id, habitName);
+    const user = yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $addToSet: { ["habits"]: habitName } });
+    const weekToUpdate = (0, date_utils_1.getMonday)(0);
+    const week = yield db_1.weeks.updateOne({ user_id, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
+    console.log(week);
+    res.sendStatus(204);
 }));
 userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits");
@@ -82,20 +87,23 @@ userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 
     });
 }));
 userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in GET userRouter/:user_id/habits/:habit_week");
+    console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
-    console.log("user", user_id, "habit", habit_week);
+    console.log("userr", user_id, "habitt", habit_week);
     const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
     if (!result) {
-        const habit = yield db_1.habits.find({ user_id });
-        const habitsArray = yield habit.toArray();
-        const week = { user_id, habit_week, habits: {} };
-        habitsArray.forEach((habit) => {
-            week["habits"][habit.habit] = [0, 0, 0, 0, 0, 0, 0];
-        });
-        const result = yield db_1.weeks.insertOne(week);
-        res.json(week);
+        const user = yield db_1.users.findOne({ _id: new mongodb_1.ObjectId(user_id) });
+        if (user) {
+            const habitsArray = user.habits;
+            const week = { user_id, habit_week, habits: {} };
+            habitsArray.forEach((habit) => {
+                console.log(habit);
+                week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
+            });
+            const result = yield db_1.weeks.insertOne(week);
+            res.json(week);
+        }
     }
     else {
         res.json(result);

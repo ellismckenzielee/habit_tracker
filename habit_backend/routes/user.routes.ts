@@ -124,7 +124,6 @@ userRouter.post(
     console.log(habit_week);
     console.log(instructions, habitName, updatedDays);
     console.log(true);
-    const location = `habits.${habitName}`;
     const result = await weeks.updateOne(
       { habit_week, user_id },
       { $set: { [`habits.${habitName}`]: updatedDays } }

@@ -112,7 +112,6 @@ userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, 
     console.log(habit_week);
     console.log(instructions, habitName, updatedDays);
     console.log(true);
-    const location = `habits.${habitName}`;
     const result = yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { [`habits.${habitName}`]: updatedDays } });
     console.log("DONE");
     res.sendStatus(204);

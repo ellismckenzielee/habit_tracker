@@ -4,7 +4,13 @@ import Add from "./Add";
 import Delete from "./Delete";
 import Popup from "./Popup";
 import { habit } from "../types/types";
-const Actions = ({ habits }: { habits: habit[] }) => {
+const Actions = ({
+  habits,
+  setHabits,
+}: {
+  habits: habit[];
+  setHabits: Function;
+}) => {
   const [action, setAction] = useState<null | string>(null);
   return (
     <div className={style.Actions}>
@@ -27,7 +33,11 @@ const Actions = ({ habits }: { habits: habit[] }) => {
       </button>
       {action === "add" && (
         <Popup setAction={setAction}>
-          <Add></Add>
+          <Add
+            setAction={setAction}
+            habits={habits}
+            setHabits={setHabits}
+          ></Add>
         </Popup>
       )}
       {action === "delete" && (

@@ -1,8 +1,20 @@
 import style from "../styles/Add.module.css";
 import { useContext, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
-import axios from "axios";
-const Add = () => {
+import axios, { AxiosResponse } from "axios";
+import { habit } from "../types/types";
+interface Data extends AxiosResponse {
+  data: { insertedId: string };
+}
+const Add = ({
+  habits,
+  setHabits,
+  setAction,
+}: {
+  habits: habit[];
+  setHabits: Function;
+  setAction: Function;
+}) => {
   const [habit, setHabit] = useState("");
   const { user } = useContext(UserContext) as UserContextType;
   return (
@@ -16,7 +28,14 @@ const Add = () => {
               .post(`http://localhost:5656/user/${user.userId}/habits`, {
                 habit: habit,
               })
-              .then(console.log)
+              .then((response: Data) => {
+                setHabits(() => {
+                  const newHabit = { habit, _id: response.data.insertedId };
+                  const habitsCopy = [...habits];
+                  return [...habits, newHabit];
+                });
+                setAction(null);
+              })
               .catch(console.log);
           }
         }}

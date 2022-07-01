@@ -23,7 +23,7 @@ const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
       <button
         className={style.DateButtons}
         onClick={() => {
-          if (offset <= 0) {
+          if (offset < 0) {
             setOffset(offset + 1);
           }
         }}

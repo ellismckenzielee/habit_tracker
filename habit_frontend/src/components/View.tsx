@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import {
-  getHabitsByUserId,
-  getWeekByUserIdAndWeekStart,
-  updateWeek,
-} from "../utils/utils";
+import { getWeekByUserIdAndWeekStart, updateWeek } from "../utils/utils";
 import Actions from "./Actions";
 import { habit, week } from "../types/types";
 import Date from "./Date";
@@ -17,9 +13,10 @@ const View = () => {
   console.log("HABITS", habits);
   const { user } = useContext(UserContext) as UserContextType;
   useEffect(() => {
-    getHabitsByUserId(user.userId, setHabits);
-    getWeekByUserIdAndWeekStart(user.userId, "27-06-2022", setWeek);
-  }, []);
+    if (user.userId) {
+      getWeekByUserIdAndWeekStart(user.userId, date, setWeek);
+    }
+  }, [date, user.userId]);
   useEffect(() => {}, []);
   return (
     <div className={style.View}>
@@ -50,7 +47,7 @@ const View = () => {
                           1 - updatedHabits[name][indx];
                         updateWeek(
                           user.userId,
-                          "27-06-2022",
+                          date,
                           name,
                           updatedHabits[name]
                         );
@@ -70,7 +67,7 @@ const View = () => {
           );
         })}
       </div>
-      <Actions habits={habits} setHabits={setHabits} />
+      <Actions week={week} setWeek={setWeek} />
     </div>
   );
 };

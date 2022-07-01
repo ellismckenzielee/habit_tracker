@@ -3,19 +3,11 @@ import { habit } from "../types/types";
 import { deleteHabit } from "../utils/utils";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext } from "react";
-const Delete = ({
-  habits,
-  setHabits,
-  setAction,
-}: {
-  habits: habit[];
-  setHabits: Function;
-  setAction: Function;
-}) => {
+const Delete = () => {
   const { user } = useContext(UserContext) as UserContextType;
   return (
     <div className={style.Delete}>
-      {habits.map((habit) => {
+      {/* {habits.map((habit) => {
         return (
           <div key={habit._id} className={style.HabitContainer}>
             <p> {habit.habit} </p>
@@ -27,12 +19,12 @@ const Delete = ({
                 deleteHabit(deleteHabitId, user.userId).then(() => {
                   console.log("In delete habit");
                   setAction(null);
-                  setHabits(() => {
-                    const updatedHabits = habits.filter(
-                      (habit) => habit._id !== deleteHabitId
-                    );
-                    return updatedHabits;
-                  });
+                  // setHabits(() => {
+                  //   const updatedHabits = habits.filter(
+                  //     (habit) => habit._id !== deleteHabitId
+                  //   );
+                  //   return updatedHabits;
+                  // });
                 });
               }}
             >
@@ -40,7 +32,7 @@ const Delete = ({
             </button>
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };

@@ -1,3 +1,3 @@
 export const getMonday = () => {
-  return "";
+  return "01/02/1993";
 };

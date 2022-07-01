@@ -92,7 +92,7 @@ userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
       _id: new ObjectId(habit_id),
       user_id,
     });
-    console.log(result);
+    res.sendStatus(200);
   } catch (err) {
     console.log(err);
   }

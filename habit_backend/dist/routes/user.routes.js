@@ -90,7 +90,7 @@ userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, vo
             _id: new mongodb_1.ObjectId(habit_id),
             user_id,
         });
-        console.log(result);
+        res.sendStatus(200);
     }
     catch (err) {
         console.log(err);

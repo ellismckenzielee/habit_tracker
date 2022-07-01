@@ -42,7 +42,11 @@ const Actions = ({
       )}
       {action === "delete" && (
         <Popup setAction={setAction}>
-          <Delete habits={habits}></Delete>
+          <Delete
+            setAction={setAction}
+            habits={habits}
+            setHabits={setHabits}
+          ></Delete>
         </Popup>
       )}
     </div>

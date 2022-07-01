@@ -1,4 +1,6 @@
 import { getMonday } from "./date.utils";
+jest.useFakeTimers();
+jest.setSystemTime(new Date("2022-07-01T09:39:19.941Z"));
 describe("testing date related utility functions", () => {
   describe("getMonday", () => {
     test("should return a string", () => {
@@ -16,6 +18,14 @@ describe("testing date related utility functions", () => {
       const result = getMonday();
       // ASSERT
       expect(/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/.test(result)).toBe(expected);
+    });
+    test("should return the date of the most recent monday when passed a 0", () => {
+      // ARRANGE
+      const expected = "27/06/2022";
+      // ACT
+      const result = getMonday(0);
+      // ASSERT
+      expect(result).toBe(expected);
     });
   });
 });

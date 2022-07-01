@@ -27,5 +27,21 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(result).toBe(expected);
     });
+    test("should return the date of the previous monday when passed a -1", () => {
+      // ARRANGE
+      const expected = "20/06/2022";
+      // ACT
+      const result = getMonday(-1);
+      // ASSERT
+      expect(result).toBe(expected);
+    });
+    test("should return the date of the second previous monday when passed a -2", () => {
+      // ARRANGE
+      const expected = "13/06/2022";
+      // ACT
+      const result = getMonday(-2);
+      // ASSERT
+      expect(result).toBe(expected);
+    });
   });
 });

@@ -87,7 +87,7 @@ userRouter.get(
     console.log("in GET userRouter/:user_id/habits/:habit_week");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
-    console.log("user", user_id, "jabit", habit_week);
+    console.log("user", user_id, "habit", habit_week);
     const result = await weeks.findOne({ user_id, habit_week: habit_week });
     if (!result) {
       interface Habit {
@@ -108,6 +108,28 @@ userRouter.get(
     } else {
       res.json(result);
     }
+  }
+);
+
+userRouter.post(
+  "/:user_id/habits/:habit_week",
+  async (req: Request, res: Response) => {
+    console.log("in GET userRouter/:user_id/habits/:habit_week");
+    const user_id = req.params.user_id;
+    const habit_week = req.params.habit_week;
+    const instructions = req.body.instructions;
+    const habitName = instructions.habitName;
+    const updatedDays = instructions.updatedDays;
+    console.log(user_id);
+    console.log(habit_week);
+    console.log(instructions, habitName, updatedDays);
+    console.log(false);
+    const location = `habits.${habitName}`;
+    const result = await weeks.updateOne(
+      { habit_week, user_id },
+      { $set: { location: updatedDays } }
+    );
+    res.sendStatus(204);
   }
 );
 

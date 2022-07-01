@@ -85,7 +85,7 @@ userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, v
     console.log("in GET userRouter/:user_id/habits/:habit_week");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
-    console.log("user", user_id, "jabit", habit_week);
+    console.log("user", user_id, "habit", habit_week);
     const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
     if (!result) {
         const habit = yield db_1.habits.find({ user_id });
@@ -100,6 +100,21 @@ userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, v
     else {
         res.json(result);
     }
+}));
+userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in GET userRouter/:user_id/habits/:habit_week");
+    const user_id = req.params.user_id;
+    const habit_week = req.params.habit_week;
+    const instructions = req.body.instructions;
+    const habitName = instructions.habitName;
+    const updatedDays = instructions.updatedDays;
+    console.log(user_id);
+    console.log(habit_week);
+    console.log(instructions, habitName, updatedDays);
+    console.log(false);
+    const location = `habits.${habitName}`;
+    const result = yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { location: updatedDays } });
+    res.sendStatus(204);
 }));
 userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(" in userRouter DELETE");

@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getHabitsByUserId, getWeekByUserIdAndWeekStart } from "../utils/utils";
+import {
+  getHabitsByUserId,
+  getWeekByUserIdAndWeekStart,
+  updateWeek,
+} from "../utils/utils";
 import Actions from "./Actions";
 import { habit, week } from "../types/types";
 const View = () => {
@@ -36,13 +40,20 @@ const View = () => {
                     <div
                       key={num + indx}
                       onClick={() => {
+                        const updatedHabits: any = {};
+                        Object.keys(week.habits).forEach((name) => {
+                          const weekRecord = [...week.habits[name]];
+                          updatedHabits[name] = weekRecord;
+                        });
+                        updatedHabits[name][indx] =
+                          1 - updatedHabits[name][indx];
+                        updateWeek(
+                          user.userId,
+                          "27-06-2022",
+                          name,
+                          updatedHabits[name]
+                        );
                         setWeek(() => {
-                          let updatedHabits: any = {};
-                          Object.keys(week.habits).forEach((name) => {
-                            const weekRecord = [...week.habits[name]];
-                            updatedHabits[name] = weekRecord;
-                          });
-                          updatedHabits[name][indx] = 1;
                           const updatedWeek = { ...week };
                           updatedWeek.habits = updatedHabits;
                           return updatedWeek;

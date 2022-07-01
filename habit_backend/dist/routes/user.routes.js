@@ -111,9 +111,10 @@ userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, 
     console.log(user_id);
     console.log(habit_week);
     console.log(instructions, habitName, updatedDays);
-    console.log(false);
+    console.log(true);
     const location = `habits.${habitName}`;
-    const result = yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { location: updatedDays } });
+    const result = yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { [`habits.${habitName}`]: updatedDays } });
+    console.log("DONE");
     res.sendStatus(204);
 }));
 userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

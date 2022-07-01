@@ -25,4 +25,26 @@ const getWeekByUserIdAndWeekStart = (
     });
 };
 
-export { getHabitsByUserId, deleteHabit, getWeekByUserIdAndWeekStart };
+const updateWeek = (
+  userId: string,
+  weekStart: string,
+  habitName: string,
+  updatedDays: number[]
+) => {
+  return axios.post(
+    `http://localhost:5656/user/${userId}/habits/${weekStart}`,
+    {
+      instructions: {
+        habitName,
+        updatedDays,
+      },
+    }
+  );
+};
+
+export {
+  getHabitsByUserId,
+  deleteHabit,
+  getWeekByUserIdAndWeekStart,
+  updateWeek,
+};

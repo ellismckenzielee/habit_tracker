@@ -1,10 +1,36 @@
 import style from "../styles/Date.module.css";
+import { useEffect, useState } from "react";
+import { getMonday } from "../utils/date.utils";
 const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
+  const [offset, setOffset] = useState<number>(0);
+  useEffect(() => {
+    setDate(getMonday(offset));
+  }, [offset, setDate]);
   return (
     <div className={style.Date}>
+      <button
+        className={style.DateButtons}
+        onClick={() => {
+          setOffset(offset - 1);
+        }}
+      >
+        {" "}
+        Back{" "}
+      </button>
       <p>
         Week Commencing: <b>{date}</b>
       </p>
+      <button
+        className={style.DateButtons}
+        onClick={() => {
+          if (offset <= 0) {
+            setOffset(offset + 1);
+          }
+        }}
+      >
+        {" "}
+        Forward{" "}
+      </button>
     </div>
   );
 };

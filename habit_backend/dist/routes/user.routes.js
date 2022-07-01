@@ -86,7 +86,7 @@ userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, vo
     const user_id = req.params.user_id;
     const habit_id = req.body.habitId;
     try {
-        const result = yield db_1.habits.deleteMany({
+        yield db_1.habits.deleteMany({
             _id: new mongodb_1.ObjectId(habit_id),
             user_id,
         });

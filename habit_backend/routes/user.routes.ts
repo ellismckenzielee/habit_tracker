@@ -88,7 +88,7 @@ userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
   const user_id = req.params.user_id;
   const habit_id = req.body.habitId;
   try {
-    const result = await habits.deleteMany({
+    await habits.deleteMany({
       _id: new ObjectId(habit_id),
       user_id,
     });

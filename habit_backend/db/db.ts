@@ -22,5 +22,6 @@ const habitDb = client.db(
 );
 const users = habitDb.collection("users");
 const habits = habitDb.collection("habits");
-export { habitDb, users, habits };
+const weeks = habitDb.collection("weeks");
+export { habitDb, users, habits, weeks };
 export default client;

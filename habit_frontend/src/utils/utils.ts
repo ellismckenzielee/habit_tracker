@@ -13,4 +13,16 @@ const deleteHabit = (habitId: string, userId: string) => {
   });
 };
 
-export { getHabitsByUserId, deleteHabit };
+const getWeekByUserIdAndWeekStart = (
+  userId: string,
+  weekStart: string,
+  setWeek: Function
+) => {
+  axios
+    .get(`http://localhost:5656/user/${userId}/habits/${weekStart}`)
+    .then(({ data }) => {
+      setWeek(data);
+    });
+};
+
+export { getHabitsByUserId, deleteHabit, getWeekByUserIdAndWeekStart };

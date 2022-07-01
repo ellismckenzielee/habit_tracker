@@ -81,6 +81,26 @@ userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 
         res.send(data);
     });
 }));
+userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in GET userRouter/:user_id/habits/:habit_week");
+    const user_id = req.params.user_id;
+    const habit_week = req.params.habit_week;
+    console.log("user", user_id, "jabit", habit_week);
+    const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
+    if (!result) {
+        const habit = yield db_1.habits.find({ user_id });
+        const habitsArray = yield habit.toArray();
+        const week = { user_id, habit_week, habits: {} };
+        habitsArray.forEach((habit) => {
+            week["habits"][habit.habit] = [0, 0, 0, 0, 0, 0, 0];
+        });
+        const result = yield db_1.weeks.insertOne(week);
+        res.json(week);
+    }
+    else {
+        res.json(result);
+    }
+}));
 userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(" in userRouter DELETE");
     const user_id = req.params.user_id;

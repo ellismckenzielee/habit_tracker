@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getHabitsByUserId } from "../utils/utils";
+import { getHabitsByUserId, getWeekByUserIdAndWeekStart } from "../utils/utils";
 import Actions from "./Actions";
-import { habit } from "../types/types";
+import { habit, week } from "../types/types";
 const View = () => {
   const [habits, setHabits] = useState<habit[]>([]);
+  const [week, setWeek] = useState<week>({ _id: "", habits: {} });
+  console.log("WEEK", week);
   console.log("HABITS", habits);
   const { user } = useContext(UserContext) as UserContextType;
   useEffect(() => {
     getHabitsByUserId(user.userId, setHabits);
+    getWeekByUserIdAndWeekStart(user.userId, "27-06-2022", setWeek);
   }, []);
   useEffect(() => {}, []);
   return (
@@ -21,16 +24,34 @@ const View = () => {
         {"MTWTFSS".split("").map((day, indx) => {
           return <p key={day + indx}>{day}</p>;
         })}
-        {habits.map((habit, indx) => {
+        {Object.keys(week.habits).map((name, indx) => {
           return (
-            <React.Fragment key={habit.habit + indx}>
-              <p className={style.HabitTitle}> {habit.habit}</p>
+            <React.Fragment key={name + indx}>
+              <p className={style.HabitTitle}> {name}</p>
               {","
                 .repeat(7)
                 .split("")
                 .map((num, indx) => {
                   return (
-                    <div key={num + indx} className={style.HabitCheckBox}></div>
+                    <div
+                      key={num + indx}
+                      onClick={() => {
+                        setWeek(() => {
+                          let updatedHabits: any = {};
+                          Object.keys(week.habits).forEach((name) => {
+                            const weekRecord = [...week.habits[name]];
+                            updatedHabits[name] = weekRecord;
+                          });
+                          updatedHabits[name][indx] = 1;
+                          const updatedWeek = { ...week };
+                          updatedWeek.habits = updatedHabits;
+                          return updatedWeek;
+                        });
+                      }}
+                      className={`${style.HabitCheckBox} ${
+                        week.habits[name][indx] ? style.HabitSuccess : ""
+                      }`}
+                    ></div>
                   );
                 })}
             </React.Fragment>

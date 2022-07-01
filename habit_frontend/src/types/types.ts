@@ -3,4 +3,9 @@ interface habit {
   _id: string;
 }
 
-export type { habit };
+interface week {
+  _id: string;
+  habits: { [key: string]: number[] };
+}
+
+export type { habit, week };

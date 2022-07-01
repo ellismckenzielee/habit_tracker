@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.habits = exports.users = exports.habitDb = void 0;
+exports.weeks = exports.habits = exports.users = exports.habitDb = void 0;
 const mongodb_1 = require("mongodb");
 const host = process.env.NODE_ENV === "test" ? "localhost" : "mongo";
 const url = `mongodb://root:example@${host}:27017/?maxPoolSize=20&w=majority`;
@@ -25,4 +25,6 @@ const users = habitDb.collection("users");
 exports.users = users;
 const habits = habitDb.collection("habits");
 exports.habits = habits;
+const weeks = habitDb.collection("weeks");
+exports.weeks = weeks;
 exports.default = client;

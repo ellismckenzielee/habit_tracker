@@ -8,9 +8,11 @@ import {
 } from "../utils/utils";
 import Actions from "./Actions";
 import { habit, week } from "../types/types";
+import Date from "./Date";
 const View = () => {
   const [habits, setHabits] = useState<habit[]>([]);
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
+  const [date, setDate] = useState<string>("27-06-2022");
   console.log("WEEK", week);
   console.log("HABITS", habits);
   const { user } = useContext(UserContext) as UserContextType;
@@ -21,8 +23,7 @@ const View = () => {
   useEffect(() => {}, []);
   return (
     <div className={style.View}>
-      <p>This is the view</p>
-
+      <Date date={date} setDate={setDate} />
       <div className={style.HabitGrid}>
         <p className={style.HabitTitle}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {

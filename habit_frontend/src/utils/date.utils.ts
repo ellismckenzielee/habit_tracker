@@ -18,6 +18,6 @@ export const getMonday = (offset: number = 0) => {
     const year = groups.year;
     const month = groups.month;
     const day = groups.day;
-    return `${day}/${month}/${year}`;
+    return `${day}-${month}-${year}`;
   }
 };

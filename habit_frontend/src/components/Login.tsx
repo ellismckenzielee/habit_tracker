@@ -4,16 +4,14 @@ import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
   const userContext = useContext(UserContext) as UserContextType;
   const isLoggedIn = userContext.isLoggedIn;
   const setIsLoggedIn = userContext.setIsLoggedIn;
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(()=>{
-    
-  })
+  useEffect(() => {});
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}
@@ -56,6 +54,13 @@ const Login = () => {
             }}
           ></input>
           <input type="submit" className={style.Submit}></input>
+          <p
+            onClick={() => {
+              setHasAccount(false);
+            }}
+          >
+            Don't have an account?
+          </p>
         </form>
       </div>
     </div>

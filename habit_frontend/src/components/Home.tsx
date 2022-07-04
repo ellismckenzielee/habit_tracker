@@ -1,13 +1,15 @@
 import style from "../styles/Home.module.css";
 import Login from "./Login";
-import { useEffect, useContext, ContextType } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import Signup from "./Signup";
 import { UserContext, UserContextType } from "../context/UserContext";
 const Home = () => {
   const { setUser, isLoggedIn, user, setIsLoggedIn } = useContext(
     UserContext
   ) as UserContextType;
+  const [hasAccount, setHasAccount] = useState(true);
   console.log(user);
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("jwt-token");
@@ -33,7 +35,8 @@ const Home = () => {
         {isLoggedIn && <Navigate to="/profile" />}
         <h1 className={style.Header}> Integrate </h1>
       </div>
-      <Login />
+      {hasAccount && <Login setHasAccount={setHasAccount} />}
+      {!hasAccount && <Signup />}
     </div>
   );
 };

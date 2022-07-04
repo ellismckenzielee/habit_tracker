@@ -1,5 +1,6 @@
 .Home {
   background-color: #f5efed;
+  background-image: url("/public/images/abstract.jpg");
   height: 65vh;
   display: flex;
   flex-direction: column;
@@ -8,9 +9,13 @@
 
 .Header {
   padding: 0;
-  margin: 0;
   font-weight: bold;
   font-size: 100px;
-  color: #b80c09;
-  text-shadow: -5px -5px white;
+  color: rgba(139, 38, 53, 1);
+  text-shadow: -5px -5px #2e3532;
+  width: fit-content;
+  margin: auto;
+  background-color: rgba(244, 244, 249, 0.6);
+  border-radius: 5px;
+  padding: 10px;
 }

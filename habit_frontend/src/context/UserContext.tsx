@@ -4,6 +4,7 @@ type UserContextType = {
   setUser: any;
   isLoggedIn: any;
   setIsLoggedIn: any;
+  logout: Function;
 };
 
 type UserType = {
@@ -20,6 +21,10 @@ const UserProvider = (props: any) => {
     setUser,
     isLoggedIn,
     setIsLoggedIn,
+    logout: () => {
+      setUser({});
+      window.localStorage.removeItem("jwt-token");
+    },
   };
   return (
     <UserContext.Provider value={values}>{props.children}</UserContext.Provider>

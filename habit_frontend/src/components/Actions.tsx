@@ -8,7 +8,6 @@ const Actions = ({ week, setWeek }: { week: week; setWeek: Function }) => {
   const [action, setAction] = useState<null | string>(null);
   return (
     <div className={style.Actions}>
-      <p>This is the actions component</p>
       <button
         className={style.Button}
         onClick={() => {

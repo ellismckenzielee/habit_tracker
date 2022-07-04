@@ -12,7 +12,7 @@ const Main = () => {
     <div className={style.Main}>
       {!isLoggedIn && <Navigate to="/" />}
       <Navbar />
-      {user && <p> hello {user.username}</p>}
+      {user && <p> Here are your habits, {user.username}</p>}
       <View />
     </div>
   );

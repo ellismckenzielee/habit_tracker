@@ -1,10 +1,21 @@
 .Date {
-  border: 1px solid red;
   display: flex;
   justify-content: center;
   gap: 20px;
+  align-items: center;
 }
 
 .DateButtons {
   font-weight: bolder;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  background-color: #f4f4f9;
+}
+
+.DateButtons:hover {
+  color: #b80c09;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
 }

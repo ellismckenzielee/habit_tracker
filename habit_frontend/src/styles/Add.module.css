@@ -12,6 +12,10 @@
 .AddTitle {
   font-size: 40px;
 }
+
+.AddHabitLabel {
+  font-size: 20px;
+}
 .AddNameInput {
   padding: 0.5em;
   width: 80%;

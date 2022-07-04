@@ -19,6 +19,7 @@ const Add = ({
   const { user } = useContext(UserContext) as UserContextType;
   return (
     <div className={style.Add}>
+      <p className={style.AddTitle}>Add Habits</p>
       <form
         className={style.AddForm}
         onSubmit={(e) => {
@@ -41,7 +42,7 @@ const Add = ({
           }
         }}
       >
-        <label className={style.AddTitle} htmlFor="habitName">
+        <label className={style.AddHabitLabel} htmlFor="habitName">
           Enter Habit Name
         </label>
         <input

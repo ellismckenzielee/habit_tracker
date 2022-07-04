@@ -15,11 +15,13 @@ const Delete = ({
   const { user } = useContext(UserContext) as UserContextType;
   return (
     <div className={style.Delete}>
+      <p className={style.DeleteTitle}> Delete Habits </p>
       {Object.keys(week.habits).map((habit, indx) => {
         return (
           <div key={habit + indx} className={style.HabitContainer}>
-            <p> {habit} </p>
+            <p className={style.HabitName}> {habit} </p>
             <button
+              className={style.DeleteButton}
               onClick={(e) => {
                 e.preventDefault();
                 deleteHabit(habit, user.userId).then(console.log);

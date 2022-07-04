@@ -2,6 +2,27 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 80%;
+  width: 100%;
   gap: 20px;
+}
+
+.DeleteTitle {
+  font-size: 40px;
+}
+.HabitName {
+  min-width: 200px;
+  font-size: 20px;
+}
+
+.DeleteButton {
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  background-color: #f4f4f9;
+}
+.DeleteButton:hover {
+  color: #b80c09;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
 }

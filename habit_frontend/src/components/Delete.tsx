@@ -22,7 +22,13 @@ const Delete = ({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                
+                deleteHabit(habit, user.userId).then(console.log);
+                setAction(null);
+                setWeek(() => {
+                  const weekCopy = { ...week };
+                  delete weekCopy.habits[habit];
+                  return weekCopy;
+                });
               }}
             >
               Delete

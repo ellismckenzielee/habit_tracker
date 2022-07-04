@@ -7,9 +7,9 @@ const getHabitsByUserId = (userId: string, setHabits: Function) => {
   });
 };
 
-const deleteHabit = (habitId: string, userId: string) => {
+const deleteHabit = (habit: string, userId: string) => {
   return axios.delete(`http://localhost:5656/user/${userId}/habits`, {
-    data: { habitId },
+    data: { habit },
   });
 };
 

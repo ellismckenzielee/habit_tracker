@@ -74,6 +74,7 @@ userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void
     console.log(user_id, habitName);
     const user = yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $addToSet: { ["habits"]: habitName } });
     const weekToUpdate = (0, date_utils_1.getMonday)(0);
+    console.log("WEEK TO UPDATE", weekToUpdate);
     const week = yield db_1.weeks.updateOne({ user_id, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
     console.log(week);
     res.sendStatus(204);
@@ -127,12 +128,11 @@ userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, 
 userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(" in userRouter DELETE");
     const user_id = req.params.user_id;
-    const habit_id = req.body.habitId;
+    const habit = req.body.habit;
+    const query = { [`habits`]: habit };
     try {
-        yield db_1.habits.deleteMany({
-            _id: new mongodb_1.ObjectId(habit_id),
-            user_id,
-        });
+        yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $pull: query });
+        yield db_1.weeks.updateMany({ user_id }, { $unset: { [`habits.${habit}`]: "" } });
         res.sendStatus(200);
     }
     catch (err) {

@@ -12,7 +12,7 @@ export const getMonday = (offset: number = 0) => {
     .match(/^(?<year>[0-9]+)-(?<month>[0-9]+)-(?<day>[0-9]+)/);
   console.log(match);
   if (!match?.groups) {
-    return false;
+    return "";
   } else {
     const groups = match.groups;
     const year = groups.year;

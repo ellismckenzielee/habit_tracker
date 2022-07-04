@@ -75,6 +75,7 @@ userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
     { $addToSet: { ["habits"]: habitName } }
   );
   const weekToUpdate = getMonday(0);
+  console.log("WEEK TO UPDATE", weekToUpdate);
   const week = await weeks.updateOne(
     { user_id, habit_week: weekToUpdate },
     { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } }
@@ -149,12 +150,14 @@ userRouter.post(
 userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
   console.log(" in userRouter DELETE");
   const user_id = req.params.user_id;
-  const habit_id = req.body.habitId;
+  const habit = req.body.habit;
+  const query = { [`habits`]: habit };
   try {
-    await habits.deleteMany({
-      _id: new ObjectId(habit_id),
-      user_id,
-    });
+    await users.updateOne({ _id: new ObjectId(user_id) }, { $pull: query });
+    await weeks.updateMany(
+      { user_id },
+      { $unset: { [`habits.${habit}`]: "" } }
+    );
     res.sendStatus(200);
   } catch (err) {
     console.log(err);

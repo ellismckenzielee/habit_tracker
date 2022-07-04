@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  background-color: rgba(188, 54, 54, 0.95);
+  background-color: rgb(139, 38, 53, 0.9);
   left: 0;
   top: 0;
   display: flex;
@@ -23,11 +23,12 @@
 .CloseCross {
   color: black;
   display: inline;
+  transition: 0.5s background-color;
+  width: 100px;
 }
 
 .CloseCross:hover {
-  color: rgba(188, 54, 54);
+  color: white;
   cursor: pointer;
-  width: 100px;
-  background-color: lightblue;
+  background-color: #8b2635;
 }

@@ -1,0 +1,31 @@
+.Add {
+  width: 80%;
+}
+.AddForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.AddTitle {
+  font-size: 40px;
+}
+.AddNameInput {
+  padding: 0.5em;
+  width: 80%;
+}
+
+.AddSubmitButton {
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  background-color: #f4f4f9;
+}
+.AddSubmitButton:hover {
+  color: #b80c09;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}

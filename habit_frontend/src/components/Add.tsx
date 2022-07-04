@@ -20,6 +20,7 @@ const Add = ({
   return (
     <div className={style.Add}>
       <form
+        className={style.AddForm}
         onSubmit={(e) => {
           e.preventDefault();
           console.log(user);
@@ -40,16 +41,19 @@ const Add = ({
           }
         }}
       >
-        <label htmlFor="habitName">Habit Name</label>
+        <label className={style.AddTitle} htmlFor="habitName">
+          Enter Habit Name
+        </label>
         <input
           type="text"
           id="habitName"
           value={habit}
+          className={style.AddNameInput}
           onChange={(e) => {
             setHabit(e.target.value);
           }}
         ></input>
-        <button>Submit</button>
+        <button className={style.AddSubmitButton}>Submit</button>
       </form>
     </div>
   );

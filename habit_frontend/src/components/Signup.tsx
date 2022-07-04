@@ -1,7 +1,11 @@
 import { useState } from "react";
 import style from "../styles/Signup.module.css";
 import axios from "axios";
-const Signup = ({ setHasAccount }: { setHasAccount: Function }) => {
+const Signup = ({
+  setHasAccount,
+}: {
+  setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (

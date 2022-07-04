@@ -15,19 +15,20 @@ const Home = () => {
     const jwtToken = window.localStorage.getItem("jwt-token");
     if (jwtToken) {
       console.log(true);
+
+      axios
+        .get("http://localhost:5656/user/login", {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        })
+        .then(({ data }) => {
+          if (data.username) {
+            console.log("setting user");
+            console.log(data);
+            setIsLoggedIn(true);
+            setUser({ username: data.username, userId: data.userId });
+          }
+        });
     }
-    axios
-      .get("http://localhost:5656/user/login", {
-        headers: { Authorization: `Bearer ${jwtToken}` },
-      })
-      .then(({ data }) => {
-        if (data.username) {
-          console.log("setting user");
-          console.log(data);
-          setIsLoggedIn(true);
-          setUser({ username: data.username, userId: data.userId });
-        }
-      });
   }, []);
   return (
     <div>

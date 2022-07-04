@@ -16,7 +16,7 @@ passport.use(
     if (user) {
       done(null, user);
     } else {
-      done("error", "err");
+      done("error", "user not found");
     }
   })
 );

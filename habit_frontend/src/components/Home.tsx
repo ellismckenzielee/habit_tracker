@@ -36,7 +36,7 @@ const Home = () => {
         <h1 className={style.Header}> Integrate </h1>
       </div>
       {hasAccount && <Login setHasAccount={setHasAccount} />}
-      {!hasAccount && <Signup />}
+      {!hasAccount && <Signup setHasAccount={setHasAccount} />}
     </div>
   );
 };

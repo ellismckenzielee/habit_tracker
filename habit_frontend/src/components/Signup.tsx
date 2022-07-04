@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "../styles/Signup.module.css";
 import axios from "axios";
-const Signup = () => {
+const Signup = ({ setHasAccount }: { setHasAccount: Function }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -12,10 +12,11 @@ const Signup = () => {
           className={style.Form}
           onSubmit={(e) => {
             e.preventDefault();
-            axios.post("http://localhost:5656/user/login", {
+            axios.post("http://localhost:5656/user/signup", {
               username,
               password,
             });
+            setHasAccount(true);
           }}
         >
           <label htmlFor="username">username</label>
@@ -39,7 +40,13 @@ const Signup = () => {
             }}
           ></input>
           <input type="submit" className={style.Submit}></input>
-          <p>Don't have an account?</p>
+          <p
+            onClick={() => {
+              setHasAccount(true);
+            }}
+          >
+            Already have an account?
+          </p>
         </form>
       </div>
     </div>

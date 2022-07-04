@@ -32,7 +32,7 @@ const Actions = ({ week, setWeek }: { week: week; setWeek: Function }) => {
       )}
       {action === "delete" && (
         <Popup setAction={setAction}>
-          <Delete></Delete>
+          <Delete setAction={setAction} week={week} setWeek={setWeek}></Delete>
         </Popup>
       )}
     </div>

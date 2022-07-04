@@ -23,9 +23,13 @@ const View = () => {
     <div className={style.View}>
       <Date date={date} setDate={setDate} />
       <div className={style.HabitGrid}>
-        <p className={style.HabitTitle}>Habit name</p>
+        <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {
-          return <p key={day + indx}>{day}</p>;
+          return (
+            <p className={style.HabitHeaders} key={day + indx}>
+              {day}
+            </p>
+          );
         })}
         {Object.keys(week.habits).map((name, indx) => {
           return (

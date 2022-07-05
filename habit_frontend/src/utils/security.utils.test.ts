@@ -109,12 +109,24 @@ describe("testing security utility functions", () => {
       // ASSERT
       expect(result).toEqual(expected);
     });
-    test("should return and object with message: username should be at least 5 characters and success: false", () => {
+    test("should return an object with message: username should be at least 5 characters and success: false", () => {
       // ARRANGE
       const username = "eli";
       const expected = {
         success: false,
         message: "should be at least 5 characters",
+      };
+      // ACT
+      const result = checkUsername(username);
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
+    test("should return a success object for correct username", () => {
+      // ARRANGE
+      const username = "ellis1993";
+      const expected = {
+        success: true,
+        message: "valid",
       };
       // ACT
       const result = checkUsername(username);

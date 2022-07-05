@@ -3,15 +3,10 @@ import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
 import { getWeekByUserIdAndWeekStart, updateWeek } from "../utils/utils";
 import Actions from "./Actions";
-import { habit, week } from "../types/types";
-import Date from "./Date";
-import { getMonday } from "../utils/date.utils";
-const View = () => {
-  const [habits, setHabits] = useState<habit[]>([]);
+import { week } from "../types/types";
+const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
-  const [date, setDate] = useState<string>(getMonday(0));
-  console.log("WEEK", week);
-  console.log("HABITS", habits);
+  console.log("WEEK", date, week);
   const { user } = useContext(UserContext) as UserContextType;
   useEffect(() => {
     if (user.userId) {
@@ -21,7 +16,6 @@ const View = () => {
   useEffect(() => {}, []);
   return (
     <div className={style.View}>
-      <Date date={date} setDate={setDate} />
       <div className={style.HabitGrid}>
         <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {

@@ -15,6 +15,8 @@ const mongodb_1 = require("mongodb");
 const habit_utils_1 = require("../utils/habit.utils");
 const selectWeekByWeekStart = (user_id, habit_week) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
+    console.log("in selectWeekByWeekStart");
+    console.log(result);
     if (result) {
         return result;
     }
@@ -23,16 +25,20 @@ const selectWeekByWeekStart = (user_id, habit_week) => __awaiter(void 0, void 0,
         if (!user)
             return Promise.reject({ status: 404, message: "user not found" });
         if ((0, habit_utils_1.createNewHabitLogic)(habit_week)) {
+            console.log("found user");
             const habitsArray = user.habits;
             const week = { user_id, habit_week, habits: {} };
             habitsArray.forEach((habit) => {
                 console.log(habit);
                 week["habits"][habit] = [0, 0, 0, 0, 0, 0, 0];
             });
+            console.log(week);
             yield db_1.weeks.insertOne(week);
             return week;
         }
-        return { habits: [] };
+        else {
+            return { habits: {} };
+        }
     }
 });
 exports.selectWeekByWeekStart = selectWeekByWeekStart;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.postHabit = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const secret = process.env.JWT_SECRET;
@@ -49,3 +49,13 @@ const signupWithUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 exports.signupWithUsernamePassword = signupWithUsernamePassword;
+const postHabit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in POST userRouter/:user_id/habits function");
+    const user_id = req.params.user_id;
+    const habitName = req.body.habit;
+    console.log(user_id, habitName);
+    const week = (0, user_models_1.insertHabit)(user_id, habitName);
+    console.log(week);
+    res.sendStatus(204);
+});
+exports.postHabit = postHabit;

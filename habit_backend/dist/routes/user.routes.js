@@ -27,18 +27,7 @@ const userRouter = express_1.default.Router();
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), user_controllers_1.loginUsingJWT);
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), user_controllers_1.loginUsingUsernamePassword);
 userRouter.post("/signup", user_controllers_1.signupWithUsernamePassword);
-userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in POST userRouter/:user_id/habits function");
-    const user_id = req.params.user_id;
-    const habitName = req.body.habit;
-    console.log(user_id, habitName);
-    const user = yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $addToSet: { ["habits"]: habitName } });
-    const weekToUpdate = (0, date_utils_1.getMonday)(0);
-    console.log("WEEK TO UPDATE", weekToUpdate);
-    const week = yield db_1.weeks.updateOne({ user_id, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
-    console.log(week);
-    res.sendStatus(204);
-}));
+userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
 userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits");
     const user_id = req.params.user_id;

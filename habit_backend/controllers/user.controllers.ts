@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { handleSignup } from "../models/user.models";
+import { handleSignup, insertHabit } from "../models/user.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -42,4 +42,14 @@ export const signupWithUsernamePassword = async (
   } catch (err) {
     next(err);
   }
+};
+
+export const postHabit = async (req: Request, res: Response) => {
+  console.log("in POST userRouter/:user_id/habits function");
+  const user_id = req.params.user_id;
+  const habitName = req.body.habit!;
+  console.log(user_id, habitName);
+  const week = insertHabit(user_id, habitName);
+  console.log(week);
+  res.sendStatus(204);
 };

@@ -11,6 +11,7 @@ import { createWeek } from "../models/week.models";
 import {
   loginUsingJWT,
   loginUsingUsernamePassword,
+  postHabit,
   signupWithUsernamePassword,
 } from "../controllers/user.controllers";
 dotenv.config();
@@ -31,24 +32,7 @@ userRouter.post(
 
 userRouter.post("/signup", signupWithUsernamePassword);
 
-userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
-  console.log("in POST userRouter/:user_id/habits function");
-  const user_id = req.params.user_id;
-  const habitName = req.body.habit!;
-  console.log(user_id, habitName);
-  const user = await users.updateOne(
-    { _id: new ObjectId(user_id) },
-    { $addToSet: { ["habits"]: habitName } }
-  );
-  const weekToUpdate = getMonday(0);
-  console.log("WEEK TO UPDATE", weekToUpdate);
-  const week = await weeks.updateOne(
-    { user_id, habit_week: weekToUpdate },
-    { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } }
-  );
-  console.log(week);
-  res.sendStatus(204);
-});
+userRouter.post("/:user_id/habits", postHabit);
 
 userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in GET userRouter/:user_id/habits");

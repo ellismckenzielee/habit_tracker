@@ -7,23 +7,20 @@ export const loginUsingJWT = async (req: Request, res: Response) => {
   res.json(req.user);
 };
 
-interface UserRequest extends Request {
-  user: {
-    username: string;
-    _id: string;
-  };
-}
 export const loginUsingUsernamePassword = async (
-  req: UserRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   console.log("in POST userRouter/login function");
-  const username = req.user.username!;
-  const token = jwt.sign(username, secret);
-  res.json({
-    userId: req.user._id,
-    username: req.user.username,
-    token,
-  });
+
+  if (req.user && typeof req.user === "object") {
+    const username = req.user.username!;
+    const token = jwt.sign(username, secret);
+    res.json({
+      userId: req.user._id,
+      username: req.user.username,
+      token,
+    });
+  }
 };

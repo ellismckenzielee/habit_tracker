@@ -22,12 +22,14 @@ const loginUsingJWT = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.loginUsingJWT = loginUsingJWT;
 const loginUsingUsernamePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/login function");
-    const username = req.user.username;
-    const token = jsonwebtoken_1.default.sign(username, secret);
-    res.json({
-        userId: req.user._id,
-        username: req.user.username,
-        token,
-    });
+    if (req.user && typeof req.user === "object") {
+        const username = req.user.username;
+        const token = jsonwebtoken_1.default.sign(username, secret);
+        res.json({
+            userId: req.user._id,
+            username: req.user.username,
+            token,
+        });
+    }
 });
 exports.loginUsingUsernamePassword = loginUsingUsernamePassword;

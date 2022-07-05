@@ -17,6 +17,7 @@ const passport_local_1 = require("passport-local");
 const dotenv_1 = __importDefault(require("dotenv"));
 const passport_1 = __importDefault(require("passport"));
 const db_1 = __importDefault(require("../db/db"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 passport_1.default.use(new passport_local_1.Strategy(function (username, password, done) {
@@ -25,8 +26,15 @@ passport_1.default.use(new passport_local_1.Strategy(function (username, passwor
         const habitDb = db_1.default.db("habit_tracker");
         const users = habitDb.collection("users");
         const user = yield users.findOne({ username });
+        console.log(user);
         if (user) {
-            done(null, user);
+            const result = yield bcryptjs_1.default.compare(password, user.password);
+            if (result) {
+                done(null, user);
+            }
+            else {
+                done({ status: 403, message: "incorrect password" });
+            }
         }
         else {
             done({ status: 404, message: "user not found" });

@@ -13,9 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const authentication_1 = __importDefault(require("../authentication/authentication"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
@@ -28,31 +26,7 @@ dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), user_controllers_1.loginUsingJWT);
-userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in POST userRouter/login function");
-    const username = req.body.username;
-    const password = req.body.password;
-    try {
-        const foundUser = yield db_1.users.findOne({ username });
-        if (foundUser) {
-            const result = yield bcryptjs_1.default.compare(password, foundUser.password);
-            if (result) {
-                const token = jsonwebtoken_1.default.sign(foundUser.username, secret);
-                res.json({
-                    userId: foundUser._id,
-                    username: foundUser.username,
-                    token,
-                });
-            }
-            else {
-                next({ status: 403, message: "incorrect password" });
-            }
-        }
-    }
-    catch (err) {
-        next({ status: 500, message: "something went wrong" });
-    }
-}));
+userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), user_controllers_1.loginUsingUsernamePassword);
 userRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/signup function");
     const username = req.body.username;

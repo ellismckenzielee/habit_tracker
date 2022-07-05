@@ -1,7 +1,6 @@
 import express, { Response, Request, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 import { habits, users, weeks } from "../db/db";
@@ -9,7 +8,10 @@ import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
 import moment from "moment";
 import { createWeek } from "../models/week.models";
-import { loginUsingJWT } from "../controllers/user.controllers";
+import {
+  loginUsingJWT,
+  loginUsingUsernamePassword,
+} from "../controllers/user.controllers";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -23,29 +25,7 @@ userRouter.get(
 userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),
-  async (req: Request, res: Response, next: NextFunction) => {
-    console.log("in POST userRouter/login function");
-    const username = req.body.username!;
-    const password = req.body.password!;
-    try {
-      const foundUser = await users.findOne({ username });
-      if (foundUser) {
-        const result = await bcrypt.compare(password, foundUser.password);
-        if (result) {
-          const token = jwt.sign(foundUser.username, secret);
-          res.json({
-            userId: foundUser._id,
-            username: foundUser.username,
-            token,
-          });
-        } else {
-          next({ status: 403, message: "incorrect password" });
-        }
-      }
-    } catch (err) {
-      next({ status: 500, message: "something went wrong" });
-    }
-  }
+  loginUsingUsernamePassword
 );
 
 userRouter.post(

@@ -26,4 +26,8 @@ const checkPassword: Function = (password: string) => {
 
   return { success, message };
 };
-export { checkPassword };
+
+const checkUsername = () => {
+  return {};
+};
+export { checkPassword, checkUsername };

@@ -1,4 +1,4 @@
-import { checkPassword } from "./security.utils";
+import { checkPassword, checkUsername } from "./security.utils";
 describe("testing security utility functions", () => {
   describe("testing checkPassword", () => {
     test("should return an object", () => {
@@ -87,6 +87,16 @@ describe("testing security utility functions", () => {
       // ASSERT
       expect(result.success).toBe(expectedSuccess);
       expect(result.message).toBe(expectedMessage);
+    });
+  });
+  describe("testing checkUsername", () => {
+    test("should return an object", () => {
+      // ARRANGE
+      const expected = "object";
+      // ACT
+      const result = checkUsername();
+      // ASSERT
+      expect(typeof result).toBe(expected);
     });
   });
 });

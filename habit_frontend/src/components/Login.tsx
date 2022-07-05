@@ -30,7 +30,8 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
                 const user = { username: data.username, userId: data.userId };
                 setUser(user);
                 setIsLoggedIn(true);
-              });
+              })
+              .catch(() => {});
           }}
         >
           <label htmlFor="username">username</label>

@@ -7,8 +7,8 @@ import { habits, users, weeks } from "../db/db";
 import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
 import moment from "moment";
-import { createWeek } from "../models/week.models";
 import {
+  getHabitsByUserIdAndWeek,
   loginUsingJWT,
   loginUsingUsernamePassword,
   postHabit,
@@ -33,40 +33,7 @@ userRouter.post("/signup", signupWithUsernamePassword);
 
 userRouter.post("/:user_id/habits", postHabit);
 
-userRouter.get(
-  "/:user_id/habits/:habit_week",
-  async (req: Request, res: Response, next: NextFunction) => {
-    console.log("in GET userRouter/:user_id/habits/:habit_week!");
-    const user_id = req.params.user_id;
-    const habit_week = req.params.habit_week;
-    console.log("userr", user_id, "habitt", habit_week);
-    const result = await weeks.findOne({ user_id, habit_week: habit_week });
-    const habitWeekDate = moment(habit_week, "DD-MM-YYYY");
-    const mostRecentMonday = moment(getMonday(0), "DD-MM-YYYY");
-    console.log(
-      getMonday(0),
-      habitWeekDate,
-      habit_week,
-      mostRecentMonday,
-      mostRecentMonday.isSame(habitWeekDate)
-    );
-    if (!result) {
-      if (!mostRecentMonday.isSame(habitWeekDate)) {
-        console.log("Returning empty");
-        res.json({ habits: {} });
-      } else {
-        try {
-          const week = await createWeek(user_id, habit_week);
-          res.json(week);
-        } catch (err) {
-          next(err);
-        }
-      }
-    } else {
-      res.json(result);
-    }
-  }
-);
+userRouter.get("/:user_id/habits/:habit_week", getHabitsByUserIdAndWeek);
 
 userRouter.post(
   "/:user_id/habits/:habit_week",

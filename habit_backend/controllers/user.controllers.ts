@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { handleSignup, insertHabit } from "../models/user.models";
+import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -52,4 +53,21 @@ export const postHabit = async (req: Request, res: Response) => {
   const week = insertHabit(user_id, habitName);
   console.log(week);
   res.sendStatus(204);
+};
+
+export const getHabitsByUserIdAndWeek = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in GET userRouter/:user_id/habits/:habit_week!");
+  const user_id = req.params.user_id;
+  const habit_week = req.params.habit_week;
+
+  try {
+    const result = await selectWeekByWeekStart(user_id, habit_week);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
 };

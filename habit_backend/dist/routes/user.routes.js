@@ -17,9 +17,6 @@ const authentication_1 = __importDefault(require("../authentication/authenticati
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
-const date_utils_1 = require("../utils/date.utils");
-const moment_1 = __importDefault(require("moment"));
-const week_models_1 = require("../models/week.models");
 const user_controllers_1 = require("../controllers/user.controllers");
 dotenv_1.default.config();
 const userRouter = express_1.default.Router();
@@ -27,34 +24,7 @@ userRouter.get("/login", authentication_1.default.authenticate("jwt", { session:
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), user_controllers_1.loginUsingUsernamePassword);
 userRouter.post("/signup", user_controllers_1.signupWithUsernamePassword);
 userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
-userRouter.get("/:user_id/habits/:habit_week", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in GET userRouter/:user_id/habits/:habit_week!");
-    const user_id = req.params.user_id;
-    const habit_week = req.params.habit_week;
-    console.log("userr", user_id, "habitt", habit_week);
-    const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
-    const habitWeekDate = (0, moment_1.default)(habit_week, "DD-MM-YYYY");
-    const mostRecentMonday = (0, moment_1.default)((0, date_utils_1.getMonday)(0), "DD-MM-YYYY");
-    console.log((0, date_utils_1.getMonday)(0), habitWeekDate, habit_week, mostRecentMonday, mostRecentMonday.isSame(habitWeekDate));
-    if (!result) {
-        if (!mostRecentMonday.isSame(habitWeekDate)) {
-            console.log("Returning empty");
-            res.json({ habits: {} });
-        }
-        else {
-            try {
-                const week = yield (0, week_models_1.createWeek)(user_id, habit_week);
-                res.json(week);
-            }
-            catch (err) {
-                next(err);
-            }
-        }
-    }
-    else {
-        res.json(result);
-    }
-}));
+userRouter.get("/:user_id/habits/:habit_week", user_controllers_1.getHabitsByUserIdAndWeek);
 userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits/:habit_week");
     const user_id = req.params.user_id;

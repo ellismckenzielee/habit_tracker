@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postHabit = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.getHabitsByUserIdAndWeek = exports.postHabit = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
+const week_models_1 = require("../models/week.models");
 const secret = process.env.JWT_SECRET;
 const loginUsingJWT = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/login function");
@@ -59,3 +60,16 @@ const postHabit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendStatus(204);
 });
 exports.postHabit = postHabit;
+const getHabitsByUserIdAndWeek = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in GET userRouter/:user_id/habits/:habit_week!");
+    const user_id = req.params.user_id;
+    const habit_week = req.params.habit_week;
+    try {
+        const result = yield (0, week_models_1.selectWeekByWeekStart)(user_id, habit_week);
+        res.json(result);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getHabitsByUserIdAndWeek = getHabitsByUserIdAndWeek;

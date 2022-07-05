@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext, UserContextType } from "./context/UserContext";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const { user } = useContext(UserContext) as UserContextType;

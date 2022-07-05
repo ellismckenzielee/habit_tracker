@@ -8,6 +8,8 @@ import { habits, users, weeks } from "../db/db";
 import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
 import moment from "moment";
+import { createWeek } from "../models/week.models";
+import { nextTick } from "process";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -96,35 +98,31 @@ userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
 
 userRouter.get(
   "/:user_id/habits/:habit_week",
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
     console.log("userr", user_id, "habitt", habit_week);
     const result = await weeks.findOne({ user_id, habit_week: habit_week });
     const habitWeekDate = moment(habit_week, "DD-MM-YYYY");
-    const mostRecentMonday = moment(getMonday(0), "DD-MM-YYY");
-    console.log(getMonday(0), habitWeekDate, habit_week, mostRecentMonday);
+    const mostRecentMonday = moment(getMonday(0), "DD-MM-YYYY");
+    console.log(
+      getMonday(0),
+      habitWeekDate,
+      habit_week,
+      mostRecentMonday,
+      mostRecentMonday.isSame(habitWeekDate)
+    );
     if (!result) {
-      if (!mostRecentMonday.isAfter(habit_week)) {
+      if (!mostRecentMonday.isSame(habitWeekDate)) {
+        console.log("Returning empty");
         res.json({ habits: {} });
       } else {
-        interface User extends FindCursor {
-          _id: string;
-          habits: string[];
-          username: string;
-        }
-        const user = await users.findOne<User>({ _id: new ObjectId(user_id) });
-        if (user) {
-          const habitsArray = user.habits;
-          const week: any = { user_id, habit_week, habits: {} };
-
-          habitsArray.forEach((habit: string) => {
-            console.log(habit);
-            week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
-          });
-          const result = await weeks.insertOne(week);
+        try {
+          const week = await createWeek(user_id, habit_week);
           res.json(week);
+        } catch (err) {
+          next(err);
         }
       }
     } else {

@@ -22,6 +22,7 @@ const db_1 = require("../db/db");
 const user_models_1 = require("../models/user.models");
 const date_utils_1 = require("../utils/date.utils");
 const moment_1 = __importDefault(require("moment"));
+const week_models_1 = require("../models/week.models");
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
@@ -88,30 +89,27 @@ userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 
         res.send(data);
     });
 }));
-userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.get("/:user_id/habits/:habit_week", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;
     const habit_week = req.params.habit_week;
     console.log("userr", user_id, "habitt", habit_week);
     const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
     const habitWeekDate = (0, moment_1.default)(habit_week, "DD-MM-YYYY");
-    const mostRecentMonday = (0, moment_1.default)((0, date_utils_1.getMonday)(0), "DD-MM-YYY");
-    console.log((0, date_utils_1.getMonday)(0), habitWeekDate, habit_week, mostRecentMonday);
+    const mostRecentMonday = (0, moment_1.default)((0, date_utils_1.getMonday)(0), "DD-MM-YYYY");
+    console.log((0, date_utils_1.getMonday)(0), habitWeekDate, habit_week, mostRecentMonday, mostRecentMonday.isSame(habitWeekDate));
     if (!result) {
-        if (!mostRecentMonday.isAfter(habit_week)) {
+        if (!mostRecentMonday.isSame(habitWeekDate)) {
+            console.log("Returning empty");
             res.json({ habits: {} });
         }
         else {
-            const user = yield db_1.users.findOne({ _id: new mongodb_1.ObjectId(user_id) });
-            if (user) {
-                const habitsArray = user.habits;
-                const week = { user_id, habit_week, habits: {} };
-                habitsArray.forEach((habit) => {
-                    console.log(habit);
-                    week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
-                });
-                const result = yield db_1.weeks.insertOne(week);
+            try {
+                const week = yield (0, week_models_1.createWeek)(user_id, habit_week);
                 res.json(week);
+            }
+            catch (err) {
+                next(err);
             }
         }
     }

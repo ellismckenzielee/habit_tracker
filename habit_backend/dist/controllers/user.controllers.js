@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const user_models_1 = require("../models/user.models");
 const secret = process.env.JWT_SECRET;
 const loginUsingJWT = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/login function");
@@ -33,3 +34,18 @@ const loginUsingUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 exports.loginUsingUsernamePassword = loginUsingUsernamePassword;
+const signupWithUsernamePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in POST userRouter/signup function");
+    const username = req.body.username;
+    const password = req.body.password;
+    try {
+        const user = yield (0, user_models_1.handleSignup)(username, password);
+        console.log("end of userRouter/signup function");
+        console.log(user);
+        res.json({ userId: user.insertedId });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.signupWithUsernamePassword = signupWithUsernamePassword;

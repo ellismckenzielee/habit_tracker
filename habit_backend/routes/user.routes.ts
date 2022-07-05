@@ -11,6 +11,7 @@ import { createWeek } from "../models/week.models";
 import {
   loginUsingJWT,
   loginUsingUsernamePassword,
+  signupWithUsernamePassword,
 } from "../controllers/user.controllers";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
@@ -28,22 +29,7 @@ userRouter.post(
   loginUsingUsernamePassword
 );
 
-userRouter.post(
-  "/signup",
-  async (req: Request, res: Response, next: NextFunction) => {
-    console.log("in POST userRouter/signup function");
-    const username = req.body.username!;
-    const password = req.body.password!;
-    try {
-      const user = await handleSignup(username, password);
-      console.log("end of userRouter/signup function");
-      console.log(user);
-      res.json({ userId: user.insertedId });
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+userRouter.post("/signup", signupWithUsernamePassword);
 
 userRouter.post("/:user_id/habits", async (req: Request, res: Response) => {
   console.log("in POST userRouter/:user_id/habits function");

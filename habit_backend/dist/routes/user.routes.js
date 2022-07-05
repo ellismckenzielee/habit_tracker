@@ -17,7 +17,6 @@ const authentication_1 = __importDefault(require("../authentication/authenticati
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
-const user_models_1 = require("../models/user.models");
 const date_utils_1 = require("../utils/date.utils");
 const moment_1 = __importDefault(require("moment"));
 const week_models_1 = require("../models/week.models");
@@ -27,20 +26,7 @@ const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), user_controllers_1.loginUsingJWT);
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), user_controllers_1.loginUsingUsernamePassword);
-userRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in POST userRouter/signup function");
-    const username = req.body.username;
-    const password = req.body.password;
-    try {
-        const user = yield (0, user_models_1.handleSignup)(username, password);
-        console.log("end of userRouter/signup function");
-        console.log(user);
-        res.json({ userId: user.insertedId });
-    }
-    catch (err) {
-        next(err);
-    }
-}));
+userRouter.post("/signup", user_controllers_1.signupWithUsernamePassword);
 userRouter.post("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");
     const user_id = req.params.user_id;

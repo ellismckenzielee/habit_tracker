@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const errors_routes_1 = require("./routes/errors.routes");
+const error_controllers_1 = require("./controllers/error.controllers");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
@@ -26,8 +26,8 @@ app.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     res.send("reached root");
 }));
 app.use("/user", user_routes_1.default);
-app.use(errors_routes_1.handleErrors);
-app.use(errors_routes_1.handle500);
+app.use(error_controllers_1.handleErrors);
+app.use(error_controllers_1.handle500);
 if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => {
         console.log(`Listening on port: ${port}`);

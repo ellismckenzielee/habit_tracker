@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import userRouter from "./routes/user.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { handle500, handleErrors } from "./routes/errors.routes";
+import { handle500, handleErrors } from "./controllers/error.controllers";
 
 const app: Express = express();
 app.use(cors());

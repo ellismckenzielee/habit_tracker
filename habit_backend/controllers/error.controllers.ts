@@ -1,10 +1,4 @@
-import express, {
-  Express,
-  Response,
-  Request,
-  NextFunction,
-  ErrorRequestHandler,
-} from "express";
+import { Response, Request, NextFunction, ErrorRequestHandler } from "express";
 
 interface Err extends ErrorRequestHandler {
   status: number;

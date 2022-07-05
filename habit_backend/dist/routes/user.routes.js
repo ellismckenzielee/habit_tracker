@@ -128,11 +128,11 @@ userRouter.post("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, 
     console.log(habit_week);
     console.log(instructions, habitName, updatedDays);
     console.log(true);
-    const result = yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { [`habits.${habitName}`]: updatedDays } });
+    yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { [`habits.${habitName}`]: updatedDays } });
     console.log("DONE");
     res.sendStatus(204);
 }));
-userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.delete("/:user_id/habits", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(" in userRouter DELETE");
     const user_id = req.params.user_id;
     const habit = req.body.habit;
@@ -143,7 +143,7 @@ userRouter.delete("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, vo
         res.sendStatus(200);
     }
     catch (err) {
-        console.log(err);
+        next(err);
     }
 }));
 exports.default = userRouter;

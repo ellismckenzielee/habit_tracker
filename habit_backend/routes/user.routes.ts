@@ -1,15 +1,14 @@
-import express, { Express, Response, Request, NextFunction } from "express";
+import express, { Response, Request, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import passport from "../authentication/authentication";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { FindCursor, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import { habits, users, weeks } from "../db/db";
 import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
 import moment from "moment";
 import { createWeek } from "../models/week.models";
-import { nextTick } from "process";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -144,7 +143,7 @@ userRouter.post(
     console.log(habit_week);
     console.log(instructions, habitName, updatedDays);
     console.log(true);
-    const result = await weeks.updateOne(
+    await weeks.updateOne(
       { habit_week, user_id },
       { $set: { [`habits.${habitName}`]: updatedDays } }
     );
@@ -153,21 +152,24 @@ userRouter.post(
   }
 );
 
-userRouter.delete("/:user_id/habits", async (req: Request, res: Response) => {
-  console.log(" in userRouter DELETE");
-  const user_id = req.params.user_id;
-  const habit = req.body.habit;
-  const query = { [`habits`]: habit };
-  try {
-    await users.updateOne({ _id: new ObjectId(user_id) }, { $pull: query });
-    await weeks.updateMany(
-      { user_id },
-      { $unset: { [`habits.${habit}`]: "" } }
-    );
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
+userRouter.delete(
+  "/:user_id/habits",
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(" in userRouter DELETE");
+    const user_id = req.params.user_id;
+    const habit = req.body.habit;
+    const query = { [`habits`]: habit };
+    try {
+      await users.updateOne({ _id: new ObjectId(user_id) }, { $pull: query });
+      await weeks.updateMany(
+        { user_id },
+        { $unset: { [`habits.${habit}`]: "" } }
+      );
+      res.sendStatus(200);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 export default userRouter;

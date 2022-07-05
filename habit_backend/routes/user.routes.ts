@@ -9,6 +9,7 @@ import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
 import moment from "moment";
 import { createWeek } from "../models/week.models";
+import { loginUsingJWT } from "../controllers/user.controllers";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -16,10 +17,7 @@ const userRouter = express.Router();
 userRouter.get(
   "/login",
   passport.authenticate("jwt", { session: false }),
-  async (req: Request, res: Response) => {
-    console.log("in GET userRouter/login function");
-    res.json(req.user);
-  }
+  loginUsingJWT
 );
 
 userRouter.post(

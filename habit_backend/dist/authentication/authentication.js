@@ -29,7 +29,7 @@ passport_1.default.use(new passport_local_1.Strategy(function (username, passwor
             done(null, user);
         }
         else {
-            done("error", "user not found");
+            done({ status: 404, message: "user not found" });
         }
     });
 }));

@@ -7,6 +7,7 @@ import { FindCursor, ObjectId } from "mongodb";
 import { habits, users, weeks } from "../db/db";
 import { handleSignup } from "../models/user.models";
 import { getMonday } from "../utils/date.utils";
+import moment from "moment";
 dotenv.config();
 const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
@@ -23,7 +24,7 @@ userRouter.get(
 userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     console.log("in POST userRouter/login function");
     const username = req.body.username!;
     const password = req.body.password!;
@@ -39,11 +40,11 @@ userRouter.post(
             token,
           });
         } else {
-          res.json(null);
+          next({ status: 403, message: "incorrect password" });
         }
       }
     } catch (err) {
-      res.send(null);
+      next({ status: 500, message: "something went wrong" });
     }
   }
 );
@@ -101,23 +102,30 @@ userRouter.get(
     const habit_week = req.params.habit_week;
     console.log("userr", user_id, "habitt", habit_week);
     const result = await weeks.findOne({ user_id, habit_week: habit_week });
+    const habitWeekDate = moment(habit_week, "DD-MM-YYYY");
+    const mostRecentMonday = moment(getMonday(0), "DD-MM-YYY");
+    console.log(getMonday(0), habitWeekDate, habit_week, mostRecentMonday);
     if (!result) {
-      interface User extends FindCursor {
-        _id: string;
-        habits: string[];
-        username: string;
-      }
-      const user = await users.findOne<User>({ _id: new ObjectId(user_id) });
-      if (user) {
-        const habitsArray = user.habits;
-        const week: any = { user_id, habit_week, habits: {} };
+      if (!mostRecentMonday.isAfter(habit_week)) {
+        res.json({ habits: {} });
+      } else {
+        interface User extends FindCursor {
+          _id: string;
+          habits: string[];
+          username: string;
+        }
+        const user = await users.findOne<User>({ _id: new ObjectId(user_id) });
+        if (user) {
+          const habitsArray = user.habits;
+          const week: any = { user_id, habit_week, habits: {} };
 
-        habitsArray.forEach((habit: string) => {
-          console.log(habit);
-          week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
-        });
-        const result = await weeks.insertOne(week);
-        res.json(week);
+          habitsArray.forEach((habit: string) => {
+            console.log(habit);
+            week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
+          });
+          const result = await weeks.insertOne(week);
+          res.json(week);
+        }
       }
     } else {
       res.json(result);

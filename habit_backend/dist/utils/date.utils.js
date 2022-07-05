@@ -13,7 +13,7 @@ const getMonday = (offset = 0) => {
         .match(/^(?<year>[0-9]+)-(?<month>[0-9]+)-(?<day>[0-9]+)/);
     console.log(match);
     if (!(match === null || match === void 0 ? void 0 : match.groups)) {
-        return false;
+        return "";
     }
     else {
         const groups = match.groups;

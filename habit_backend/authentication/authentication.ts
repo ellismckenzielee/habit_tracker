@@ -13,10 +13,11 @@ passport.use(
     const habitDb = client.db("habit_tracker");
     const users = habitDb.collection("users");
     const user = await users.findOne({ username });
+    
     if (user) {
       done(null, user);
     } else {
-      done("error", "user not found");
+      done({ status: 404, message: "user not found" });
     }
   })
 );

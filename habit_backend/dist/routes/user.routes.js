@@ -21,6 +21,7 @@ const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const user_models_1 = require("../models/user.models");
 const date_utils_1 = require("../utils/date.utils");
+const moment_1 = __importDefault(require("moment"));
 dotenv_1.default.config();
 const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
@@ -28,7 +29,7 @@ userRouter.get("/login", authentication_1.default.authenticate("jwt", { session:
     console.log("in GET userRouter/login function");
     res.json(req.user);
 }));
-userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/login function");
     const username = req.body.username;
     const password = req.body.password;
@@ -45,12 +46,12 @@ userRouter.post("/login", authentication_1.default.authenticate("local", { sessi
                 });
             }
             else {
-                res.json(null);
+                next({ status: 403, message: "incorrect password" });
             }
         }
     }
     catch (err) {
-        res.send(null);
+        next({ status: 500, message: "something went wrong" });
     }
 }));
 userRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -93,17 +94,25 @@ userRouter.get("/:user_id/habits/:habit_week", (req, res) => __awaiter(void 0, v
     const habit_week = req.params.habit_week;
     console.log("userr", user_id, "habitt", habit_week);
     const result = yield db_1.weeks.findOne({ user_id, habit_week: habit_week });
+    const habitWeekDate = (0, moment_1.default)(habit_week, "DD-MM-YYYY");
+    const mostRecentMonday = (0, moment_1.default)((0, date_utils_1.getMonday)(0), "DD-MM-YYY");
+    console.log((0, date_utils_1.getMonday)(0), habitWeekDate, habit_week, mostRecentMonday);
     if (!result) {
-        const user = yield db_1.users.findOne({ _id: new mongodb_1.ObjectId(user_id) });
-        if (user) {
-            const habitsArray = user.habits;
-            const week = { user_id, habit_week, habits: {} };
-            habitsArray.forEach((habit) => {
-                console.log(habit);
-                week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
-            });
-            const result = yield db_1.weeks.insertOne(week);
-            res.json(week);
+        if (!mostRecentMonday.isAfter(habit_week)) {
+            res.json({ habits: {} });
+        }
+        else {
+            const user = yield db_1.users.findOne({ _id: new mongodb_1.ObjectId(user_id) });
+            if (user) {
+                const habitsArray = user.habits;
+                const week = { user_id, habit_week, habits: {} };
+                habitsArray.forEach((habit) => {
+                    console.log(habit);
+                    week["habits"][habit] = [1, 1, 0, 0, 0, 0, 0];
+                });
+                const result = yield db_1.weeks.insertOne(week);
+                res.json(week);
+            }
         }
     }
     else {

@@ -29,4 +29,33 @@ const selectWeekByWeekStart = async (user_id: string, habit_week: string) => {
   }
 };
 
-export { selectWeekByWeekStart };
+const updateHabit = async (
+  habitName: string,
+  habit_week: string,
+  user_id: string,
+  updatedDays: number[]
+) => {
+  try {
+    await weeks.updateOne(
+      { habit_week, user_id },
+      { $set: { [`habits.${habitName}`]: updatedDays } }
+    );
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "could not update habit" });
+  }
+};
+
+const deleteHabitFromDB = async (user_id: string, habit: string) => {
+  const query = { [`habits`]: habit };
+  try {
+    await users.updateOne({ _id: new ObjectId(user_id) }, { $pull: query });
+    await weeks.updateMany(
+      { user_id },
+      { $unset: { [`habits.${habit}`]: "" } }
+    );
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "could not delete habit" });
+  }
+};
+
+export { selectWeekByWeekStart, updateHabit, deleteHabitFromDB };

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectWeekByWeekStart = void 0;
+exports.deleteHabitFromDB = exports.updateHabit = exports.selectWeekByWeekStart = void 0;
 const db_1 = require("../db/db");
 const mongodb_1 = require("mongodb");
 const habit_utils_1 = require("../utils/habit.utils");
@@ -36,3 +36,23 @@ const selectWeekByWeekStart = (user_id, habit_week) => __awaiter(void 0, void 0,
     }
 });
 exports.selectWeekByWeekStart = selectWeekByWeekStart;
+const updateHabit = (habitName, habit_week, user_id, updatedDays) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield db_1.weeks.updateOne({ habit_week, user_id }, { $set: { [`habits.${habitName}`]: updatedDays } });
+    }
+    catch (err) {
+        return Promise.reject({ status: 500, message: "could not update habit" });
+    }
+});
+exports.updateHabit = updateHabit;
+const deleteHabitFromDB = (user_id, habit) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = { [`habits`]: habit };
+    try {
+        yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $pull: query });
+        yield db_1.weeks.updateMany({ user_id }, { $unset: { [`habits.${habit}`]: "" } });
+    }
+    catch (err) {
+        return Promise.reject({ status: 500, message: "could not delete habit" });
+    }
+});
+exports.deleteHabitFromDB = deleteHabitFromDB;

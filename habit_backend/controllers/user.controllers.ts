@@ -1,7 +1,11 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { handleSignup, insertHabit } from "../models/user.models";
-import { selectWeekByWeekStart } from "../models/week.models";
+import {
+  deleteHabitFromDB,
+  selectWeekByWeekStart,
+  updateHabit,
+} from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -67,6 +71,41 @@ export const getHabitsByUserIdAndWeek = async (
   try {
     const result = await selectWeekByWeekStart(user_id, habit_week);
     res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const putHabit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in GET userRouter/:user_id/habits/:habit_week");
+  const user_id = req.params.user_id;
+  const habit_week = req.params.habit_week;
+  const instructions = req.body.instructions;
+  const habitName = instructions.habitName;
+  const updatedDays = instructions.updatedDays;
+  try {
+    updateHabit(habitName, habit_week, user_id, updatedDays);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteHabit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log(" in userRouter DELETE");
+  const user_id = req.params.user_id;
+  const habit = req.body.habit;
+  try {
+    deleteHabitFromDB(user_id, habit);
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

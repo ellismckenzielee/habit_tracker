@@ -22,20 +22,11 @@ const moment_1 = __importDefault(require("moment"));
 const week_models_1 = require("../models/week.models");
 const user_controllers_1 = require("../controllers/user.controllers");
 dotenv_1.default.config();
-const secret = process.env.JWT_SECRET;
 const userRouter = express_1.default.Router();
 userRouter.get("/login", authentication_1.default.authenticate("jwt", { session: false }), user_controllers_1.loginUsingJWT);
 userRouter.post("/login", authentication_1.default.authenticate("local", { session: false }), user_controllers_1.loginUsingUsernamePassword);
 userRouter.post("/signup", user_controllers_1.signupWithUsernamePassword);
 userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
-userRouter.get("/:user_id/habits", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in GET userRouter/:user_id/habits");
-    const user_id = req.params.user_id;
-    const result = yield db_1.habits.find({ user_id });
-    result.toArray().then((data) => {
-        res.send(data);
-    });
-}));
 userRouter.get("/:user_id/habits/:habit_week", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;

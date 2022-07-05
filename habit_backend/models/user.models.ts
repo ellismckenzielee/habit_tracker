@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
-import { users, weeks } from "../db/db";
+import { users, weeks, habits } from "../db/db";
 import { getMonday } from "../utils/date.utils";
 
 export const handleSignup = async (username: string, password: string) => {

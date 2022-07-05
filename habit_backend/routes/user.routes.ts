@@ -15,7 +15,6 @@ import {
   signupWithUsernamePassword,
 } from "../controllers/user.controllers";
 dotenv.config();
-const secret: string = process.env.JWT_SECRET!;
 const userRouter = express.Router();
 
 userRouter.get(
@@ -33,15 +32,6 @@ userRouter.post(
 userRouter.post("/signup", signupWithUsernamePassword);
 
 userRouter.post("/:user_id/habits", postHabit);
-
-userRouter.get("/:user_id/habits", async (req: Request, res: Response) => {
-  console.log("in GET userRouter/:user_id/habits");
-  const user_id = req.params.user_id;
-  const result = await habits.find({ user_id });
-  result.toArray().then((data) => {
-    res.send(data);
-  });
-});
 
 userRouter.get(
   "/:user_id/habits/:habit_week",

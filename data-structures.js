@@ -3,7 +3,7 @@ const user = {
   id: "fetru845u9845y",
   username: "ellis",
   password: "dfvbdfl,go4t934gg54g85gjirjbvklfd",
-  habits: ["run", "breakfast"],
+  habits: [{name: "run"}, {name: "breakfast"}],
   pairId: null,
 };
 

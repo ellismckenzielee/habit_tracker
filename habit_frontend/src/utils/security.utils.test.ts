@@ -109,5 +109,17 @@ describe("testing security utility functions", () => {
       // ASSERT
       expect(result).toEqual(expected);
     });
+    test("should return and object with message: username should be at least 5 characters and success: false", () => {
+      // ARRANGE
+      const username = "eli";
+      const expected = {
+        success: false,
+        message: "should be at least 5 characters",
+      };
+      // ACT
+      const result = checkUsername(username);
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
   });
 });

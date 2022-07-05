@@ -27,7 +27,10 @@ const checkPassword: Function = (password: string) => {
   return { success, message };
 };
 
-const checkUsername = () => {
+const checkUsername = (username: string = "") => {
+  if (username.length < 5) {
+    return { success: false, message: "should be at least 5 characters" };
+  }
   return { success: true, message: "" };
 };
 export { checkPassword, checkUsername };

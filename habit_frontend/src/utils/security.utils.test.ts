@@ -98,5 +98,16 @@ describe("testing security utility functions", () => {
       // ASSERT
       expect(typeof result).toBe(expected);
     });
+    test("should result an object with success and message key", () => {
+      // ARRANGE
+      const expected = {
+        success: expect.any(Boolean),
+        message: expect.any(String),
+      };
+      // ACT
+      const result = checkUsername();
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
   });
 });

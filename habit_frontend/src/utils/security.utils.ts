@@ -28,6 +28,6 @@ const checkPassword: Function = (password: string) => {
 };
 
 const checkUsername = () => {
-  return {};
+  return { success: true, message: "" };
 };
 export { checkPassword, checkUsername };

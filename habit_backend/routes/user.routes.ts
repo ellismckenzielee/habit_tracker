@@ -35,7 +35,7 @@ userRouter.post("/:user_id/habits", postHabit);
 
 userRouter.get("/:user_id/habits/:habit_week", getHabitsByUserIdAndWeek);
 
-userRouter.post("/:user_id/habits/:habit_week", putHabit);
+userRouter.put("/:user_id/habits", putHabit);
 
 userRouter.delete("/:user_id/habits", deleteHabit);
 

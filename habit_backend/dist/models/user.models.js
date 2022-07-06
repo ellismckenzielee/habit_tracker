@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createHabit = exports.selectHabitsByUserId = exports.insertHabit = exports.handleSignup = void 0;
+exports.updateHabit = exports.createHabit = exports.selectHabitsByUserId = exports.insertHabit = exports.handleSignup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
@@ -55,3 +55,20 @@ const createHabit = (user_id, habit) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.createHabit = createHabit;
+const updateHabit = (user_id, habit, action, date) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const query = {
+            dates: date,
+        };
+        if (action === "push") {
+            yield db_1.habits.updateOne({ user_id, name: habit }, { $push: query });
+        }
+        else if (action === "pull") {
+            yield db_1.habits.updateOne({ user_id, name: habit }, { $pull: query });
+        }
+    }
+    catch (err) {
+        return Promise.reject({ status: 500, message: "internal server error" });
+    }
+});
+exports.updateHabit = updateHabit;

@@ -44,3 +44,23 @@ export const createHabit = async (user_id: string, habit: string) => {
     return Promise.reject({ status: 500, message: "internal server error" });
   }
 };
+
+export const updateHabit = async (
+  user_id: string,
+  habit: string,
+  action: string,
+  date: string
+) => {
+  try {
+    const query = {
+      dates: date,
+    };
+    if (action === "push") {
+      await habits.updateOne({ user_id, name: habit }, { $push: query });
+    } else if (action === "pull") {
+      await habits.updateOne({ user_id, name: habit }, { $pull: query });
+    }
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "internal server error" });
+  }
+};

@@ -77,5 +77,21 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(result).toEqual(expected);
     });
+    test("should return an array of correct dates", () => {
+      // ARRANGE
+      const expected = [
+        "01-07-2022",
+        "02-07-2022",
+        "03-07-2022",
+        "04-07-2022",
+        "05-07-2022",
+        "06-07-2022",
+        "07-07-2022",
+      ];
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
   });
 });

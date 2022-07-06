@@ -25,8 +25,12 @@ export const getMonday = (offset: number = 0) => {
 
 export const getDatesForWeek = (currentDate: string) => {
   console.log("getDatesForWeek called with: ", currentDate);
+  const dates = [];
   const date = moment(currentDate);
-  console.log(date);
-  console.log(date.add(1, "day"));
-  return ["", "", "", "", "", "", ""];
+  dates.push(date.format("DD-MM-YYYY"));
+  for (let i = 1; i < 7; i++) {
+    dates.push(date.add(1, "day").format("DD-MM-YYYY"));
+  }
+  console.log(dates);
+  return dates;
 };

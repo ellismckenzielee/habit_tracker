@@ -1,6 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { nextTick } from "process";
 import {
+  createHabit,
   handleSignup,
   insertHabit,
   selectHabitsByUserId,
@@ -112,17 +114,27 @@ export const getHabitsByUserId = async (
 ) => {
   console.log("in getHabitsByUserId function");
   const userId = req.params.user_id;
-  const habits = await selectHabitsByUserId(userId);
-  console.log(true);
-  res.json(habits);
+  try {
+    const habits = await selectHabitsByUserId(userId);
+    console.log(true);
+    res.json(habits);
+  } catch (err) {
+    next(err);
+  }
 };
 
-export const postHabit = async (req: Request, res: Response) => {
+export const postHabit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   console.log("in POST userRouter/:user_id/habits function");
   const user_id = req.params.user_id;
-  const habitName = req.body.habit!;
-  console.log(user_id, habitName);
-  const week = insertHabit(user_id, habitName);
-  console.log(week);
-  res.sendStatus(204);
+  const habit = req.body.habit!;
+  try {
+    await createHabit(user_id, habit);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
 };

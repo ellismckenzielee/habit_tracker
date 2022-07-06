@@ -35,3 +35,12 @@ export const selectHabitsByUserId = async (userId: string) => {
     return Promise.reject({ status: 500, message: "internal server error" });
   }
 };
+
+export const createHabit = async (user_id: string, habit: string) => {
+  try {
+    const newHabit = { user_id, name: habit, dates: [] };
+    await habits.insertOne(newHabit);
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "internal server error" });
+  }
+};

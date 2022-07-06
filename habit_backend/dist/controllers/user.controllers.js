@@ -95,18 +95,26 @@ exports.deleteHabit = deleteHabit;
 const getHabitsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in getHabitsByUserId function");
     const userId = req.params.user_id;
-    const habits = yield (0, user_models_1.selectHabitsByUserId)(userId);
-    console.log(true);
-    res.json(habits);
+    try {
+        const habits = yield (0, user_models_1.selectHabitsByUserId)(userId);
+        console.log(true);
+        res.json(habits);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.getHabitsByUserId = getHabitsByUserId;
-const postHabit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const postHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");
     const user_id = req.params.user_id;
-    const habitName = req.body.habit;
-    console.log(user_id, habitName);
-    const week = (0, user_models_1.insertHabit)(user_id, habitName);
-    console.log(week);
-    res.sendStatus(204);
+    const habit = req.body.habit;
+    try {
+        yield (0, user_models_1.createHabit)(user_id, habit);
+        res.sendStatus(204);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.postHabit = postHabit;

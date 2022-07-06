@@ -14,7 +14,7 @@ userRouter.post("/login", authentication_1.default.authenticate("local", { sessi
 userRouter.post("/signup", user_controllers_1.signupWithUsernamePassword);
 userRouter.get("/:user_id/habits", user_controllers_1.getHabitsByUserId);
 userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
-userRouter.get("/:user_id/habits/:habit_week", user_controllers_1.getHabitsByUserIdAndWeek);
 userRouter.put("/:user_id/habits", user_controllers_1.putHabit);
 userRouter.delete("/:user_id/habits", user_controllers_1.deleteHabit);
+userRouter.get("/:user_id/habits/:habit_week", user_controllers_1.getHabitsByUserIdAndWeek);
 exports.default = userRouter;

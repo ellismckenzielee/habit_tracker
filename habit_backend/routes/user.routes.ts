@@ -30,13 +30,15 @@ userRouter.post(
 
 userRouter.post("/signup", signupWithUsernamePassword);
 
+
 userRouter.get("/:user_id/habits", getHabitsByUserId);
 userRouter.post("/:user_id/habits", postHabit);
+userRouter.put("/:user_id/habits", putHabit);
+userRouter.delete("/:user_id/habits", deleteHabit);
+
 
 userRouter.get("/:user_id/habits/:habit_week", getHabitsByUserIdAndWeek);
 
-userRouter.put("/:user_id/habits", putHabit);
 
-userRouter.delete("/:user_id/habits", deleteHabit);
 
 export default userRouter;

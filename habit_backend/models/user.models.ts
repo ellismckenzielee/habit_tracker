@@ -32,7 +32,10 @@ export const selectHabitsByUserId = async (userId: string) => {
     const habitsArray = foundHabits.toArray();
     return habitsArray;
   } catch (err) {
-    return Promise.reject({ status: 500, message: "internal server error" });
+    return Promise.reject({
+      status: 500,
+      message: "internal server error during habit retrieval",
+    });
   }
 };
 
@@ -41,7 +44,10 @@ export const createHabit = async (user_id: string, habit: string) => {
     const newHabit = { user_id, name: habit, dates: [] };
     await habits.insertOne(newHabit);
   } catch (err) {
-    return Promise.reject({ status: 500, message: "internal server error" });
+    return Promise.reject({
+      status: 500,
+      message: "internal server error during creation",
+    });
   }
 };
 
@@ -61,6 +67,20 @@ export const updateHabit = async (
       await habits.updateOne({ user_id, name: habit }, { $pull: query });
     }
   } catch (err) {
-    return Promise.reject({ status: 500, message: "internal server error" });
+    return Promise.reject({
+      status: 500,
+      message: "internal server error during update",
+    });
+  }
+};
+
+export const deleteHabitFromDB = async (user_id: string, habit: string) => {
+  try {
+    await habits.deleteMany({ user_id, name: habit });
+  } catch (err) {
+    return Promise.reject({
+      status: 500,
+      message: "internal server error during deletion",
+    });
   }
 };

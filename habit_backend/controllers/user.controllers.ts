@@ -6,11 +6,9 @@ import {
   handleSignup,
   updateHabit,
   selectHabitsByUserId,
-} from "../models/user.models";
-import {
   deleteHabitFromDB,
-  selectWeekByWeekStart,
-} from "../models/week.models";
+} from "../models/user.models";
+import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -71,22 +69,6 @@ export const getHabitsByUserIdAndWeek = async (
   }
 };
 
-export const deleteHabit = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log(" in userRouter DELETE");
-  const user_id = req.params.user_id;
-  const habit = req.body.habit;
-  try {
-    deleteHabitFromDB(user_id, habit);
-    res.sendStatus(200);
-  } catch (err) {
-    next(err);
-  }
-};
-
 export const getHabitsByUserId = async (
   req: Request,
   res: Response,
@@ -132,6 +114,22 @@ export const putHabit = async (
   try {
     await updateHabit(user_id, habit, action, date);
     res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteHabit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log(" in userRouter DELETE");
+  const user_id = req.params.user_id;
+  const habit = req.body.habit;
+  try {
+    deleteHabitFromDB(user_id, habit);
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

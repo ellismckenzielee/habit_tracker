@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putHabit = exports.postHabit = exports.getHabitsByUserId = exports.deleteHabit = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUserId = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const week_models_1 = require("../models/week.models");
@@ -63,19 +63,6 @@ const getHabitsByUserIdAndWeek = (req, res, next) => __awaiter(void 0, void 0, v
     }
 });
 exports.getHabitsByUserIdAndWeek = getHabitsByUserIdAndWeek;
-const deleteHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(" in userRouter DELETE");
-    const user_id = req.params.user_id;
-    const habit = req.body.habit;
-    try {
-        (0, week_models_1.deleteHabitFromDB)(user_id, habit);
-        res.sendStatus(200);
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.deleteHabit = deleteHabit;
 const getHabitsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in getHabitsByUserId function");
     const userId = req.params.user_id;
@@ -117,3 +104,16 @@ const putHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.putHabit = putHabit;
+const deleteHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(" in userRouter DELETE");
+    const user_id = req.params.user_id;
+    const habit = req.body.habit;
+    try {
+        (0, user_models_1.deleteHabitFromDB)(user_id, habit);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.deleteHabit = deleteHabit;

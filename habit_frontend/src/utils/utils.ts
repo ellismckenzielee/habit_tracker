@@ -1,5 +1,4 @@
 import axios from "axios";
-import Actions from "../components/Actions";
 
 const getHabitsByUserId = (userId: string, setHabits: Function) => {
   axios.get(`http://localhost:5656/user/${userId}/habits`).then(({ data }) => {

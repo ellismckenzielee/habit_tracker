@@ -53,5 +53,13 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(Array.isArray(result)).toBe(expected);
     });
+    test("should return an array of length 7", () => {
+      // ARRANGE
+      const expected = 7;
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result.length).toBe(expected);
+    });
   });
 });

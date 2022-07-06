@@ -1,16 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getWeekByUserIdAndWeekStart, updateWeek } from "../utils/utils";
+import {
+  getHabitsByUserId,
+  getWeekByUserIdAndWeekStart,
+  updateWeek,
+} from "../utils/utils";
 import Actions from "./Actions";
-import { week } from "../types/types";
+import { week, habit } from "../types/types";
+import { getDatesForWeek } from "../utils/date.utils";
+
 const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
-  console.log("WEEK", date, week);
+  const [habits, setHabits] = useState<habit[]>([]);
+  console.log("habits", habits);
   const { user } = useContext(UserContext) as UserContextType;
+  const dates = getDatesForWeek(date);
   useEffect(() => {
     if (user.userId) {
-      getWeekByUserIdAndWeekStart(user.userId, date, setWeek);
+      getHabitsByUserId(user.userId, setHabits);
     }
   }, [date, user.userId]);
   useEffect(() => {}, []);
@@ -25,43 +33,24 @@ const View = ({ date }: { date: string }) => {
             </p>
           );
         })}
-        {Object.keys(week.habits).map((name, indx) => {
+        {habits.map((habit, indx) => {
+          console.log(habit.dates);
           return (
-            <React.Fragment key={name + indx}>
-              <p className={style.HabitTitle}> {name}</p>
-              {","
-                .repeat(7)
-                .split("")
-                .map((num, indx) => {
-                  return (
-                    <div
-                      key={num + indx}
-                      onClick={() => {
-                        const updatedHabits: any = {};
-                        Object.keys(week.habits).forEach((name) => {
-                          const weekRecord = [...week.habits[name]];
-                          updatedHabits[name] = weekRecord;
-                        });
-                        updatedHabits[name][indx] =
-                          1 - updatedHabits[name][indx];
-                        updateWeek(
-                          user.userId,
-                          date,
-                          name,
-                          updatedHabits[name]
-                        );
-                        setWeek(() => {
-                          const updatedWeek = { ...week };
-                          updatedWeek.habits = updatedHabits;
-                          return updatedWeek;
-                        });
-                      }}
-                      className={`${style.HabitCheckBox} ${
-                        week.habits[name][indx] ? style.HabitSuccess : ""
-                      }`}
-                    ></div>
-                  );
-                })}
+            <React.Fragment key={habit.name + indx}>
+              <p className={style.HabitTitle}> {habit.name}</p>
+              {dates.map((date, indx) => {
+                console.log(dates);
+                return (
+                  <div
+                    key={date + indx}
+                    className={`${style.HabitCheckBox} ${
+                      habit.dates.includes(date)
+                        ? style.HabitSuccess
+                        : style.HabitCheckBox
+                    }`}
+                  ></div>
+                );
+              })}
             </React.Fragment>
           );
         })}

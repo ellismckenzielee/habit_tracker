@@ -1,6 +1,8 @@
 interface habit {
-  habit: string;
+  name: string;
   _id: string;
+  user_id: string;
+  dates: string[];
 }
 
 interface week {

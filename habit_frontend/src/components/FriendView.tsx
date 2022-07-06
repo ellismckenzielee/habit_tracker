@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { week } from "../types/types";
+import { habit } from "../types/types";
 import style from "../styles/FriendView.module.css";
-import axios from "axios";
-import { getHabitsByUserId, getWeekByUserIdAndWeekStart } from "../utils/utils";
+import { getHabitsByUserId, updateHabit } from "../utils/utils";
+import { getDatesForWeek } from "../utils/date.utils";
 const FriendView = ({ date, pairId }: { date: string; pairId: string }) => {
-  const [friendWeek, setFriendWeek] = useState<week>({ _id: "", habits: {} });
+  const [friendHabits, setFriendHabits] = useState<habit[]>([]);
   useEffect(() => {
-    getWeekByUserIdAndWeekStart(
-      "62c3ff551ed614bfdfa5d1b6",
-      date,
-      setFriendWeek
-    );
+    getHabitsByUserId("62c3ff551ed614bfdfa5d1b6", setFriendHabits);
   }, [date]);
-  console.log(friendWeek);
+  const dates = getDatesForWeek(date);
   return (
     <div className={style.FriendView}>
       <div className={style.HabitGrid}>
@@ -24,23 +20,23 @@ const FriendView = ({ date, pairId }: { date: string; pairId: string }) => {
             </p>
           );
         })}
-        {Object.keys(friendWeek.habits).map((name, indx) => {
+        {friendHabits.map((habit, indx) => {
+          const name = habit.name;
           return (
-            <React.Fragment key={name + indx}>
-              <p className={style.HabitTitle}> {name}</p>
-              {","
-                .repeat(7)
-                .split("")
-                .map((char, indx) => {
-                  return (
-                    <div
-                      key={indx}
-                      className={`${style.HabitCheckBox} ${
-                        friendWeek.habits[name][indx] ? style.HabitSuccess : ""
-                      }`}
-                    ></div>
-                  );
-                })}
+            <React.Fragment key={habit.name + indx}>
+              <p className={style.HabitTitle}> {habit.name}</p>
+              {dates.map((date, indx) => {
+                return (
+                  <div
+                    key={date + indx}
+                    className={`${style.HabitCheckBox} ${
+                      habit.dates.includes(date)
+                        ? style.HabitSuccess
+                        : style.HabitCheckBox
+                    }`}
+                  ></div>
+                );
+              })}
             </React.Fragment>
           );
         })}

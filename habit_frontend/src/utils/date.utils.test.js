@@ -1,4 +1,4 @@
-import { getMonday } from "./date.utils";
+import { getMonday, getDatesForWeek } from "./date.utils";
 jest.useFakeTimers();
 jest.setSystemTime(new Date("2022-07-01T09:39:19.941Z"));
 describe("testing date related utility functions", () => {
@@ -42,6 +42,16 @@ describe("testing date related utility functions", () => {
       const result = getMonday(-2);
       // ASSERT
       expect(result).toBe(expected);
+    });
+  });
+  describe("getDatesForWeek", () => {
+    test("should return an array", () => {
+      // ARRANGE
+      const expected = true;
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(Array.isArray(result)).toBe(expected);
     });
   });
 });

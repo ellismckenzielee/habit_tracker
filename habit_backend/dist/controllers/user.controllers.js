@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteHabit = exports.putHabit = exports.getHabitsByUserIdAndWeek = exports.postHabit = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.postHabit = exports.getHabitsByUserId = exports.deleteHabit = exports.putHabit = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const week_models_1 = require("../models/week.models");
@@ -50,16 +50,6 @@ const signupWithUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 exports.signupWithUsernamePassword = signupWithUsernamePassword;
-const postHabit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in POST userRouter/:user_id/habits function");
-    const user_id = req.params.user_id;
-    const habitName = req.body.habit;
-    console.log(user_id, habitName);
-    const week = (0, user_models_1.insertHabit)(user_id, habitName);
-    console.log(week);
-    res.sendStatus(204);
-});
-exports.postHabit = postHabit;
 const getHabitsByUserIdAndWeek = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/:user_id/habits/:habit_week!");
     const user_id = req.params.user_id;
@@ -102,3 +92,21 @@ const deleteHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.deleteHabit = deleteHabit;
+const getHabitsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in getHabitsByUserId function");
+    const userId = req.params.user_id;
+    const habits = yield (0, user_models_1.selectHabitsByUserId)(userId);
+    console.log(true);
+    res.json(habits);
+});
+exports.getHabitsByUserId = getHabitsByUserId;
+const postHabit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in POST userRouter/:user_id/habits function");
+    const user_id = req.params.user_id;
+    const habitName = req.body.habit;
+    console.log(user_id, habitName);
+    const week = (0, user_models_1.insertHabit)(user_id, habitName);
+    console.log(week);
+    res.sendStatus(204);
+});
+exports.postHabit = postHabit;

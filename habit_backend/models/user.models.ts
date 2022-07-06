@@ -25,3 +25,13 @@ export const insertHabit = async (user_id: string, habitName: string) => {
   );
   return week;
 };
+
+export const selectHabitsByUserId = async (userId: string) => {
+  try {
+    const foundHabits = await habits.find({ user_id: userId });
+    const habitsArray = foundHabits.toArray();
+    return habitsArray;
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "internal server error" });
+  }
+};

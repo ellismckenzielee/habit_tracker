@@ -17,7 +17,7 @@ const habit = {
   year: 2022,
   week_start: "26-06-2022",
   name: "run",
-  dates: ["DD/YY/MMMM"],
+  dates: ["DD/MM"],
 };
 
 // Each habit has it's own entry in the habit table

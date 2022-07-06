@@ -1,6 +1,10 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { handleSignup, insertHabit } from "../models/user.models";
+import {
+  handleSignup,
+  insertHabit,
+  selectHabitsByUserId,
+} from "../models/user.models";
 import {
   deleteHabitFromDB,
   selectWeekByWeekStart,
@@ -47,16 +51,6 @@ export const signupWithUsernamePassword = async (
   } catch (err) {
     next(err);
   }
-};
-
-export const postHabit = async (req: Request, res: Response) => {
-  console.log("in POST userRouter/:user_id/habits function");
-  const user_id = req.params.user_id;
-  const habitName = req.body.habit!;
-  console.log(user_id, habitName);
-  const week = insertHabit(user_id, habitName);
-  console.log(week);
-  res.sendStatus(204);
 };
 
 export const getHabitsByUserIdAndWeek = async (
@@ -109,4 +103,26 @@ export const deleteHabit = async (
   } catch (err) {
     next(err);
   }
+};
+
+export const getHabitsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in getHabitsByUserId function");
+  const userId = req.params.user_id;
+  const habits = await selectHabitsByUserId(userId);
+  console.log(true);
+  res.json(habits);
+};
+
+export const postHabit = async (req: Request, res: Response) => {
+  console.log("in POST userRouter/:user_id/habits function");
+  const user_id = req.params.user_id;
+  const habitName = req.body.habit!;
+  console.log(user_id, habitName);
+  const week = insertHabit(user_id, habitName);
+  console.log(week);
+  res.sendStatus(204);
 };

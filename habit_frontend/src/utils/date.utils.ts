@@ -31,6 +31,5 @@ export const getDatesForWeek = (currentDate: string) => {
   for (let i = 1; i < 7; i++) {
     dates.push(date.add(1, "day").format("DD-MM-YYYY"));
   }
-  console.log(dates);
   return dates;
 };

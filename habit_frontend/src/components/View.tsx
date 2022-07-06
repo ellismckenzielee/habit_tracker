@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import {
-  getHabitsByUserId,
-  getWeekByUserIdAndWeekStart,
-  updateWeek,
-} from "../utils/utils";
+import { getHabitsByUserId, updateHabit } from "../utils/utils";
 import Actions from "./Actions";
 import { week, habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
@@ -13,7 +9,6 @@ import { getDatesForWeek } from "../utils/date.utils";
 const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
   const [habits, setHabits] = useState<habit[]>([]);
-  console.log("habits", habits);
   const { user } = useContext(UserContext) as UserContextType;
   const dates = getDatesForWeek(date);
   useEffect(() => {
@@ -22,6 +17,7 @@ const View = ({ date }: { date: string }) => {
     }
   }, [date, user.userId]);
   useEffect(() => {}, []);
+  console.log(habits);
   return (
     <div className={style.View}>
       <div className={style.HabitGrid}>
@@ -34,12 +30,11 @@ const View = ({ date }: { date: string }) => {
           );
         })}
         {habits.map((habit, indx) => {
-          console.log(habit.dates);
+          const name = habit.name;
           return (
             <React.Fragment key={habit.name + indx}>
               <p className={style.HabitTitle}> {habit.name}</p>
               {dates.map((date, indx) => {
-                console.log(dates);
                 return (
                   <div
                     key={date + indx}
@@ -48,6 +43,25 @@ const View = ({ date }: { date: string }) => {
                         ? style.HabitSuccess
                         : style.HabitCheckBox
                     }`}
+                    onClick={() => {
+                      console.log("NAME + DATE", name, date);
+                      let action = habit.dates.includes(date) ? "pull" : "push";
+                      updateHabit(user.userId, habit.name, action, date);
+                      setHabits((habits) => {
+                        const habitsCopy = habits.map((habit) => {
+                          if (habit.name === name) {
+                            if (action === "push") habit.dates.push(date);
+                            else {
+                              habit.dates = habit.dates.filter(
+                                (d) => d !== date
+                              );
+                            }
+                          }
+                          return { ...habit };
+                        });
+                        return habitsCopy;
+                      });
+                    }}
                   ></div>
                 );
               })}

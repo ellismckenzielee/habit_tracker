@@ -41,11 +41,23 @@ const updateWeek = (
   );
 };
 
-
+const updateHabit = async (
+  userId: string,
+  habit: string,
+  action: string,
+  date: string
+) => {
+  return axios.put(`http://localhost:5656/user/${userId}/habits/`, {
+    date,
+    habit,
+    action,
+  });
+};
 
 export {
   getHabitsByUserId,
   deleteHabit,
   getWeekByUserIdAndWeekStart,
   updateWeek,
+  updateHabit,
 };

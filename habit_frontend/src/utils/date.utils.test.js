@@ -61,5 +61,21 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(result.length).toBe(expected);
     });
+    test("should return an array of strings", () => {
+      // ARRANGE
+      const expected = [
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+      ];
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
   });
 });

@@ -28,5 +28,5 @@ export const getDatesForWeek = (currentDate: string) => {
   const date = moment(currentDate);
   console.log(date);
   console.log(date.add(1, "day"));
-  return [0, 0, 0, 0, 0, 0, 0];
+  return ["", "", "", "", "", "", ""];
 };

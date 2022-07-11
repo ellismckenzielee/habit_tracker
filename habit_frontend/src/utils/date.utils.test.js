@@ -105,11 +105,20 @@ describe("testing date related utility functions", () => {
     });
     test("should return 0 if passed an empty array", () => {
       // ARRANGE
-      const expected = "number";
+      const expected = 0;
       // ACT
       const result = getStreak([]);
       // ASSERT
-      expect(typeof result).toBe(expected);
+      expect(result).toBe(expected);
+    });
+    test("should return 1 if passed an array with today`'s date", () => {
+      // ARRANGE
+      const expected = 1;
+      const dates = ["01-07-2022"];
+      // ACT
+      const result = getStreak(dates);
+      // ASSERT
+      expect(result).toBe(expected);
     });
   });
 });

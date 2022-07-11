@@ -34,6 +34,7 @@ export const getDatesForWeek = (currentDate: string) => {
   return dates;
 };
 
-export const getStreak = () => {
+export const getStreak = (dates: string[] = []) => {
+  if (dates.length) return 1;
   return 0;
 };

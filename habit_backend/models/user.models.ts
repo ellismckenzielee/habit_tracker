@@ -67,6 +67,7 @@ export const updateHabit = async (
       await habits.updateOne({ user_id, name: habit }, { $pull: query });
     }
   } catch (err) {
+    console.log(err);
     return Promise.reject({
       status: 500,
       message: "internal server error during update",

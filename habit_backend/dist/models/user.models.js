@@ -74,6 +74,7 @@ const updateHabit = (user_id, habit, action, date) => __awaiter(void 0, void 0, 
         }
     }
     catch (err) {
+        console.log(err);
         return Promise.reject({
             status: 500,
             message: "internal server error during update",

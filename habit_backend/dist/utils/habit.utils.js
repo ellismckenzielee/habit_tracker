@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewHabitLogic = void 0;
+exports.addStreaks = exports.createNewHabitLogic = void 0;
 const moment_1 = __importDefault(require("moment"));
 const date_utils_1 = require("./date.utils");
 const createNewHabitLogic = (habit_week) => {
@@ -12,3 +12,7 @@ const createNewHabitLogic = (habit_week) => {
     return mostRecentMonday.isSame(habitWeekDate);
 };
 exports.createNewHabitLogic = createNewHabitLogic;
+const addStreaks = () => {
+    return [];
+};
+exports.addStreaks = addStreaks;

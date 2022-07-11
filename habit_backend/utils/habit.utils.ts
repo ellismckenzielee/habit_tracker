@@ -5,3 +5,7 @@ export const createNewHabitLogic = (habit_week: string) => {
   const mostRecentMonday = moment(getMonday(0), "DD-MM-YYYY");
   return mostRecentMonday.isSame(habitWeekDate);
 };
+
+export const addStreaks = () => {
+  return [];
+};

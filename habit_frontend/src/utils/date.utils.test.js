@@ -94,31 +94,4 @@ describe("testing date related utility functions", () => {
       expect(result).toEqual(expected);
     });
   });
-  describe("getStreak", () => {
-    test("should return a number", () => {
-      // ARRANGE
-      const expected = "number";
-      // ACT
-      const result = getStreak();
-      // ASSERT
-      expect(typeof result).toBe(expected);
-    });
-    test("should return 0 if passed an empty array", () => {
-      // ARRANGE
-      const expected = 0;
-      // ACT
-      const result = getStreak([]);
-      // ASSERT
-      expect(result).toBe(expected);
-    });
-    test("should return 1 if passed an array with today`'s date", () => {
-      // ARRANGE
-      const expected = 1;
-      const dates = ["01-07-2022"];
-      // ACT
-      const result = getStreak(dates);
-      // ASSERT
-      expect(result).toBe(expected);
-    });
-  });
 });

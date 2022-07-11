@@ -79,5 +79,29 @@ describe("testing habit util functions", () => {
       console.log(result);
       expect(result).toEqual(expected);
     });
+    test("should return streak of 1 when yesterday is recorded", () => {
+      // ARRANGE
+      const input = [
+        {
+          name: "swim",
+          _id: "345346gfg",
+          user_id: "ellis",
+          dates: ["30-06-2022"],
+        },
+      ];
+      const expected = [
+        {
+          name: "swim",
+          _id: "345346gfg",
+          user_id: "ellis",
+          dates: ["30-06-2022"],
+          streak: 1,
+        },
+      ]; // ACT
+      const result = addStreaks(input);
+      // ASSERT
+      console.log(result);
+      expect(result).toEqual(expected);
+    });
   });
 });

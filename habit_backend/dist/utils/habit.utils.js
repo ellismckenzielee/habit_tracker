@@ -12,7 +12,9 @@ const createNewHabitLogic = (habit_week) => {
     return mostRecentMonday.isSame(habitWeekDate);
 };
 exports.createNewHabitLogic = createNewHabitLogic;
-const addStreaks = () => {
-    return [];
+const addStreaks = (input) => {
+    return input.map(() => {
+        return { streak: 0 };
+    });
 };
 exports.addStreaks = addStreaks;

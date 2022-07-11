@@ -7,17 +7,20 @@ describe("testing habit util functions", () => {
             // ARRANGE
             const expected = true;
             // ACT
-            const result = (0, habit_utils_1.addStreaks)();
+            const result = (0, habit_utils_1.addStreaks)([]);
             // ASSERT
             expect(Array.isArray(result)).toBe(expected);
         });
-        test("should return an object", () => {
+        test("should an array of objects, where each object has a key of streak", () => {
             // ARRANGE
-            const expected = "object";
+            const input = [{}, {}];
+            const expected = { streak: expect.any(Number) };
             // ACT
-            const result = (0, habit_utils_1.addStreaks)();
+            const result = (0, habit_utils_1.addStreaks)(input);
             // ASSERT
-            expect(typeof result).toBe(expected);
+            result.forEach((obj) => {
+                expect(obj).toEqual(expect.objectContaining({ streak: expect.any(Number) }));
+            });
         });
     });
 });

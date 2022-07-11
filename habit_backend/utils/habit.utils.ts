@@ -6,6 +6,8 @@ export const createNewHabitLogic = (habit_week: string) => {
   return mostRecentMonday.isSame(habitWeekDate);
 };
 
-export const addStreaks = () => {
-  return [];
+export const addStreaks = (input: Array<Object>) => {
+  return input.map(() => {
+    return { streak: 0 };
+  });
 };

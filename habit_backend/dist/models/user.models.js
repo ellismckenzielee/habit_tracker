@@ -17,6 +17,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const date_utils_1 = require("../utils/date.utils");
+const habit_utils_1 = require("../utils/habit.utils");
 const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
     const foundUser = yield db_1.users.findOne({ username });
     if (foundUser)
@@ -37,8 +38,10 @@ exports.insertHabit = insertHabit;
 const selectHabitsByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foundHabits = yield db_1.habits.find({ user_id: userId });
-        const habitsArray = foundHabits.toArray();
-        return habitsArray;
+        const habitsArray = yield foundHabits.toArray();
+        const habitsArrayWithStreak = (0, habit_utils_1.addStreaks)(habitsArray);
+        console.log(habitsArrayWithStreak);
+        return habitsArrayWithStreak;
     }
     catch (err) {
         return Promise.reject({

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 import { users, weeks, habits } from "../db/db";
 import { getMonday } from "../utils/date.utils";
+import { addStreaks } from "../utils/habit.utils";
 
 export const handleSignup = async (username: string, password: string) => {
   const foundUser = await users.findOne({ username });
@@ -28,9 +29,11 @@ export const insertHabit = async (user_id: string, habitName: string) => {
 
 export const selectHabitsByUserId = async (userId: string) => {
   try {
-    const foundHabits = await habits.find({ user_id: userId });
-    const habitsArray = foundHabits.toArray();
-    return habitsArray;
+    const foundHabits = await habits.find<habit>({ user_id: userId });
+    const habitsArray = await foundHabits.toArray();
+    const habitsArrayWithStreak = addStreaks(habitsArray);
+    console.log(habitsArrayWithStreak);
+    return habitsArrayWithStreak;
   } catch (err) {
     return Promise.reject({
       status: 500,

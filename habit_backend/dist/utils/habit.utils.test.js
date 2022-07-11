@@ -55,5 +55,29 @@ describe("testing habit util functions", () => {
             console.log(result);
             expect(result).toEqual(expected);
         });
+        test("should return streak of 0 when previous entries are not consecutive", () => {
+            // ARRANGE
+            const input = [
+                {
+                    name: "swim",
+                    _id: "345346gfg",
+                    user_id: "ellis",
+                    dates: ["28-06-2022", "29-06-2022"],
+                },
+            ];
+            const expected = [
+                {
+                    name: "swim",
+                    _id: "345346gfg",
+                    user_id: "ellis",
+                    dates: ["28-06-2022", "29-06-2022"],
+                    streak: 0,
+                },
+            ]; // ACT
+            const result = (0, habit_utils_1.addStreaks)(input);
+            // ASSERT
+            console.log(result);
+            expect(result).toEqual(expected);
+        });
     });
 });

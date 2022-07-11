@@ -111,5 +111,13 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(result)).toBe(expected);
     });
+    test("should return the date of the previous day", () => {
+      // ARRANGE
+      const expected = "30-06-2022";
+      // ACT
+      const result = getStreakDate();
+      // ASSERT
+      expect(result).toBe(expected);
+    });
   });
 });

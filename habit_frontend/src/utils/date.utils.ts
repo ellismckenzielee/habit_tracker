@@ -35,5 +35,7 @@ export const getDatesForWeek = (currentDate: string) => {
 };
 
 export const getStreakDate = () => {
-  return "12-12-1993";
+  const date = moment();
+  date.subtract(1, "day");
+  return date.format("DD-MM-YYYY");
 };

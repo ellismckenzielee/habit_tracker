@@ -1,4 +1,4 @@
-import { getMonday } from "./date.utils";
+import { getMonday, getDatesForWeek } from "./date.utils";
 jest.useFakeTimers();
 jest.setSystemTime(new Date("2022-07-01T09:39:19.941Z"));
 describe("testing date related utility functions", () => {
@@ -42,6 +42,56 @@ describe("testing date related utility functions", () => {
       const result = getMonday(-2);
       // ASSERT
       expect(result).toBe(expected);
+    });
+  });
+  describe("getDatesForWeek", () => {
+    test("should return an array", () => {
+      // ARRANGE
+      const expected = true;
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(Array.isArray(result)).toBe(expected);
+    });
+    test("should return an array of length 7", () => {
+      // ARRANGE
+      const expected = 7;
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result.length).toBe(expected);
+    });
+    test("should return an array of strings", () => {
+      // ARRANGE
+      const expected = [
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String),
+      ];
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
+    test("should return an array of correct dates", () => {
+      // ARRANGE
+      const expected = [
+        "01-07-2022",
+        "02-07-2022",
+        "03-07-2022",
+        "04-07-2022",
+        "05-07-2022",
+        "06-07-2022",
+        "07-07-2022",
+      ];
+      // ACT
+      const result = getDatesForWeek();
+      // ASSERT
+      expect(result).toEqual(expected);
     });
   });
 });

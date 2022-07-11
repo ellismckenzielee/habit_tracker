@@ -1,19 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getWeekByUserIdAndWeekStart, updateWeek } from "../utils/utils";
+import { getHabitsByUserId, updateHabit } from "../utils/utils";
 import Actions from "./Actions";
-import { week } from "../types/types";
+import { week, habit } from "../types/types";
+import { getDatesForWeek } from "../utils/date.utils";
+
 const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
-  console.log("WEEK", date, week);
+  const [habits, setHabits] = useState<habit[]>([]);
   const { user } = useContext(UserContext) as UserContextType;
+  const dates = getDatesForWeek(date);
   useEffect(() => {
     if (user.userId) {
-      getWeekByUserIdAndWeekStart(user.userId, date, setWeek);
+      getHabitsByUserId(user.userId, setHabits);
     }
   }, [date, user.userId]);
   useEffect(() => {}, []);
+  console.log(habits);
   return (
     <div className={style.View}>
       <div className={style.HabitGrid}>
@@ -25,43 +29,42 @@ const View = ({ date }: { date: string }) => {
             </p>
           );
         })}
-        {Object.keys(week.habits).map((name, indx) => {
+        {habits.map((habit, indx) => {
+          const name = habit.name;
           return (
-            <React.Fragment key={name + indx}>
-              <p className={style.HabitTitle}> {name}</p>
-              {","
-                .repeat(7)
-                .split("")
-                .map((num, indx) => {
-                  return (
-                    <div
-                      key={num + indx}
-                      onClick={() => {
-                        const updatedHabits: any = {};
-                        Object.keys(week.habits).forEach((name) => {
-                          const weekRecord = [...week.habits[name]];
-                          updatedHabits[name] = weekRecord;
+            <React.Fragment key={habit.name + indx}>
+              <p className={style.HabitTitle}> {habit.name}</p>
+              {dates.map((date, indx) => {
+                return (
+                  <div
+                    key={date + indx}
+                    className={`${style.HabitCheckBox} ${
+                      habit.dates.includes(date)
+                        ? style.HabitSuccess
+                        : style.HabitCheckBox
+                    }`}
+                    onClick={() => {
+                      console.log("NAME + DATE", name, date);
+                      let action = habit.dates.includes(date) ? "pull" : "push";
+                      updateHabit(user.userId, habit.name, action, date);
+                      setHabits((habits) => {
+                        const habitsCopy = habits.map((habit) => {
+                          if (habit.name === name) {
+                            if (action === "push") habit.dates.push(date);
+                            else {
+                              habit.dates = habit.dates.filter(
+                                (d) => d !== date
+                              );
+                            }
+                          }
+                          return { ...habit };
                         });
-                        updatedHabits[name][indx] =
-                          1 - updatedHabits[name][indx];
-                        updateWeek(
-                          user.userId,
-                          date,
-                          name,
-                          updatedHabits[name]
-                        );
-                        setWeek(() => {
-                          const updatedWeek = { ...week };
-                          updatedWeek.habits = updatedHabits;
-                          return updatedWeek;
-                        });
-                      }}
-                      className={`${style.HabitCheckBox} ${
-                        week.habits[name][indx] ? style.HabitSuccess : ""
-                      }`}
-                    ></div>
-                  );
-                })}
+                        return habitsCopy;
+                      });
+                    }}
+                  ></div>
+                );
+              })}
             </React.Fragment>
           );
         })}

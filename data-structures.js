@@ -10,13 +10,16 @@ const user = {
   pairId: null,
 };
 
-// habit data for each week
-const weekData = {
+// habit
+const habit = {
   id: "nfdvkdlnbkltn547567",
   user_id: "fetru845u9845y",
+  year: 2022,
   week_start: "26-06-2022",
-  habits: {
-    run: [0, 0, 0, 0, 0, 0, 0],
-    breakfast: [0, 0, 0, 1, 0, 0, 0],
-  },
+  name: "run",
+  dates: ["DD/MM"],
 };
+
+// Each habit has it's own entry in the habit table
+// Stores a list of dates where the habit was achieved
+// Rather than pulling a week, the data for a year is pulled and filtered as necessary

@@ -1,3 +1,4 @@
+import moment from "moment";
 export const getMonday = (offset: number = 0) => {
   const currentDate = new Date();
   const currentDay = currentDate.getDay();
@@ -20,4 +21,15 @@ export const getMonday = (offset: number = 0) => {
     const day = groups.day;
     return `${day}-${month}-${year}`;
   }
+};
+
+export const getDatesForWeek = (currentDate: string) => {
+  console.log("getDatesForWeek called with: ", currentDate);
+  const dates = [];
+  const date = moment(currentDate, "DD-MM-YYYY");
+  dates.push(date.format("DD-MM-YYYY"));
+  for (let i = 1; i < 7; i++) {
+    dates.push(date.add(1, "day").format("DD-MM-YYYY"));
+  }
+  return dates;
 };

@@ -1,11 +1,14 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { handleSignup, insertHabit } from "../models/user.models";
+import { nextTick } from "process";
 import {
-  deleteHabitFromDB,
-  selectWeekByWeekStart,
+  createHabit,
+  handleSignup,
   updateHabit,
-} from "../models/week.models";
+  selectHabitsByUserId,
+  deleteHabitFromDB,
+} from "../models/user.models";
+import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -49,16 +52,6 @@ export const signupWithUsernamePassword = async (
   }
 };
 
-export const postHabit = async (req: Request, res: Response) => {
-  console.log("in POST userRouter/:user_id/habits function");
-  const user_id = req.params.user_id;
-  const habitName = req.body.habit!;
-  console.log(user_id, habitName);
-  const week = insertHabit(user_id, habitName);
-  console.log(week);
-  res.sendStatus(204);
-};
-
 export const getHabitsByUserIdAndWeek = async (
   req: Request,
   res: Response,
@@ -76,19 +69,50 @@ export const getHabitsByUserIdAndWeek = async (
   }
 };
 
+export const getHabitsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in getHabitsByUserId function");
+  const userId = req.params.user_id;
+  try {
+    const habits = await selectHabitsByUserId(userId);
+    console.log(true);
+    res.json(habits);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const postHabit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in POST userRouter/:user_id/habits function");
+  const user_id = req.params.user_id;
+  const habit = req.body.habit!;
+  try {
+    await createHabit(user_id, habit);
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const putHabit = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log("in GET userRouter/:user_id/habits/:habit_week");
   const user_id = req.params.user_id;
-  const habit_week = req.params.habit_week;
-  const instructions = req.body.instructions;
-  const habitName = instructions.habitName;
-  const updatedDays = instructions.updatedDays;
+  const date = req.body.date;
+  const action = req.body.action;
+  const habit = req.body.habit;
+  console.log(user_id, date, action, habit);
   try {
-    updateHabit(habitName, habit_week, user_id, updatedDays);
+    await updateHabit(user_id, habit, action, date);
     res.sendStatus(204);
   } catch (err) {
     next(err);

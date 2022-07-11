@@ -12,9 +12,18 @@ const createNewHabitLogic = (habit_week) => {
     return mostRecentMonday.isSame(habitWeekDate);
 };
 exports.createNewHabitLogic = createNewHabitLogic;
-const addStreaks = (input) => {
-    return input.map(() => {
-        return { streak: 0 };
+const addStreaks = (habits) => {
+    const date = (0, moment_1.default)();
+    console.log(habits, date.format("DD-MM-YYYY"));
+    return habits.map((habit) => {
+        let streak = habit.dates.includes(date.format("DD-MM-YYYY")) ? 1 : 0;
+        date.subtract(1, "day");
+        while (habit.dates.includes(date.format("DD-MM-YYYY"))) {
+            console.log("while");
+            streak++;
+            date.subtract(1, "day");
+        }
+        return Object.assign(Object.assign({}, habit), { streak });
     });
 };
 exports.addStreaks = addStreaks;

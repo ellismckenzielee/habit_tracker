@@ -33,3 +33,7 @@ export const getDatesForWeek = (currentDate: string) => {
   }
   return dates;
 };
+
+export const getStreakDate = () => {
+  return "";
+};

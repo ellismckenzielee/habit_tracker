@@ -103,5 +103,13 @@ describe("testing date related utility functions", () => {
       // ASSERT
       expect(typeof result).toBe(expected);
     });
+    test("should return 0 if passed an empty array", () => {
+      // ARRANGE
+      const expected = "number";
+      // ACT
+      const result = getStreak([]);
+      // ASSERT
+      expect(typeof result).toBe(expected);
+    });
   });
 });

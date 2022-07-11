@@ -11,6 +11,7 @@ const View = ({ date }: { date: string }) => {
   const [habits, setHabits] = useState<habit[]>([]);
   const { user } = useContext(UserContext) as UserContextType;
   const dates = getDatesForWeek(date);
+  const totalDates = habits.length;
   useEffect(() => {
     if (user.userId) {
       getHabitsByUserId(user.userId, setHabits);
@@ -69,6 +70,7 @@ const View = ({ date }: { date: string }) => {
           );
         })}
       </div>
+
       <Actions week={week} setWeek={setWeek} />
     </div>
   );

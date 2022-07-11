@@ -19,3 +19,8 @@
   text-transform: uppercase;
   cursor: pointer;
 }
+
+.DateText {
+  align-self: center;
+  margin: auto 0;
+}

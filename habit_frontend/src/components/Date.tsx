@@ -17,7 +17,7 @@ const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
         {" "}
         Back{" "}
       </button>
-      <p>
+      <p className={style.DateText}>
         Week Commencing: <b>{date}</b>
       </p>
       <button

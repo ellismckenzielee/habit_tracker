@@ -23,7 +23,7 @@ const View = ({ date }: { date: string }) => {
   useEffect(() => {}, []);
   console.log(habits);
   return (
-    <div className={`${style.View} rounded-xl bg-transparent`}>
+    <div className={`${style.View} `}>
       <div className={style.HabitGrid}>
         <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {

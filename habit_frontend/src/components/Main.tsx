@@ -11,13 +11,19 @@ import Switch from "./Switch";
 const Main = () => {
   const { user, isLoggedIn } = useContext(UserContext) as UserContextType;
   const [date, setDate] = useState<string>(getMonday(0));
-
+  const [focus, setFocus] = useState<"user" | "friend">("user");
   console.log(date);
   return (
     <div className={style.Main}>
       {!isLoggedIn && <Navigate to="/" />}
       <Navbar />
-      <Switch />
+      <Switch
+        username={user.username}
+        pairName={user.pairName}
+        setFocus={setFocus}
+      />
+      <h1 className={`p-3 `}>Here are your habits, {user.username}.</h1>
+
       <Date date={date} setDate={setDate} />
 
       <View date={date} />

@@ -25,7 +25,12 @@ const Home = () => {
             console.log("setting user");
             console.log(data);
             setIsLoggedIn(true);
-            setUser({ username: data.username, userId: data.userId });
+            setUser({
+              username: data.username,
+              userId: data.userId,
+              pairId: data.pairId,
+              pairName: data.pairName,
+            });
           }
         });
     }

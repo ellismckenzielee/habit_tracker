@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const habit_routes_1 = __importDefault(require("./routes/habit.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const error_controllers_1 = require("./controllers/error.controllers");
@@ -26,6 +27,7 @@ app.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     res.send("reached root");
 }));
 app.use("/user", user_routes_1.default);
+app.use("/habit", habit_routes_1.default);
 app.use(error_controllers_1.handleErrors);
 app.use(error_controllers_1.handle500);
 if (process.env.NODE_ENV !== "test") {

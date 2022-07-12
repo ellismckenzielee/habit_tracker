@@ -1,35 +1,36 @@
 import style from "../styles/Delete.module.css";
-import { week } from "../types/types";
+import { habit } from "../types/types";
 import { deleteHabit } from "../utils/utils";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext } from "react";
 const Delete = ({
-  week,
-  setWeek,
+  habits,
+  setHabits,
   setAction,
 }: {
-  week: week;
-  setWeek: Function;
+  habits: habit[];
+  setHabits: Function;
   setAction: Function;
 }) => {
   const { user } = useContext(UserContext) as UserContextType;
   return (
     <div className={style.Delete}>
       <p className={style.DeleteTitle}> Delete Habits </p>
-      {Object.keys(week.habits).map((habit, indx) => {
+      {habits.map((habit, indx) => {
         return (
-          <div key={habit + indx} className={style.HabitContainer}>
-            <p className={style.HabitName}> {habit} </p>
+          <div
+            key={habit.name + indx}
+            className={`${style.HabitContainer} rounded-lg`}
+          >
+            <p className={`${style.HabitName} m-auto`}> {habit.name} </p>
             <button
-              className={style.DeleteButton}
+              className={`${style.DeleteButton} rounded-xl bg-indigo-800 text-white hover:bg-indigo-300`}
               onClick={(e) => {
                 e.preventDefault();
-                deleteHabit(habit, user.userId).then(console.log);
+                deleteHabit(habit.name, user.userId).then(console.log);
                 setAction(null);
-                setWeek(() => {
-                  const weekCopy = { ...week };
-                  delete weekCopy.habits[habit];
-                  return weekCopy;
+                setHabits(() => {
+                  return habits.filter((h) => h.name !== habit.name);
                 });
               }}
             >

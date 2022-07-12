@@ -1,3 +1,4 @@
+import moment from "moment";
 export const getMonday = (offset: number = 0) => {
   const currentDate = new Date();
   const currentDay = currentDate.getDay();
@@ -20,4 +21,10 @@ export const getMonday = (offset: number = 0) => {
     const day = groups.day;
     return `${day}-${month}-${year}`;
   }
+};
+
+export const getStreakDate = () => {
+  const date = moment();
+  date.subtract(1, "day");
+  return date.format("DD-MM-YYYY");
 };

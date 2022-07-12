@@ -50,7 +50,12 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     const users = habitDb.collection("users");
     const user = yield users.findOne({ username: jwtPayload });
     if (user) {
-        done(null, { username: user.username, userId: user._id });
+        done(null, {
+            username: user.username,
+            userId: user._id,
+            pairId: user.pairId,
+            pairName: user.pairName,
+        });
     }
 })));
 console.log("PASSPORT", passport_1.default);

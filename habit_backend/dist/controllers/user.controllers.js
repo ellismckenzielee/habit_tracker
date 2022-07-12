@@ -30,6 +30,8 @@ const loginUsingUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
         res.json({
             userId: req.user._id,
             username: req.user.username,
+            pairId: req.user.pairId,
+            pairName: req.user.pairName,
             token,
         });
     }

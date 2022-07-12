@@ -1,4 +1,6 @@
-import { getMonday, getDatesForWeek, getStreak } from "./date.utils";
+
+import { getMonday, getDatesForWeek, getStreakDate } from "./date.utils";
+
 jest.useFakeTimers();
 jest.setSystemTime(new Date("2022-07-01T09:39:19.941Z"));
 describe("testing date related utility functions", () => {
@@ -92,6 +94,32 @@ describe("testing date related utility functions", () => {
       const result = getDatesForWeek("01-07-2022");
       // ASSERT
       expect(result).toEqual(expected);
+    });
+  });
+  describe("getStreakDate", () => {
+    test("should return a string", () => {
+      // ARRANGE
+      const expected = "string";
+      // ACT
+      const result = getStreakDate();
+      // ASSERT
+      expect(typeof result).toBe(expected);
+    });
+    test("should return a datestring of the form 'DD-MM-YYYY", () => {
+      // ARRANGE
+      const expected = true;
+      // ACT
+      const result = getStreakDate();
+      // ASSERT
+      expect(/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(result)).toBe(expected);
+    });
+    test("should return the date of the previous day", () => {
+      // ARRANGE
+      const expected = "30-06-2022";
+      // ACT
+      const result = getStreakDate();
+      // ASSERT
+      expect(result).toBe(expected);
     });
   });
 });

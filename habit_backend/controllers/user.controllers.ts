@@ -29,6 +29,8 @@ export const loginUsingUsernamePassword = async (
     res.json({
       userId: req.user._id,
       username: req.user.username,
+      pairId: req.user.pairId,
+      pairName: req.user.pairName,
       token,
     });
   }

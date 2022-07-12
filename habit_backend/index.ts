@@ -1,5 +1,6 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import userRouter from "./routes/user.routes";
+import habitRouter from "./routes/habit.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { handle500, handleErrors } from "./controllers/error.controllers";
@@ -15,6 +16,7 @@ app.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/user", userRouter);
+app.use("/habit", habitRouter);
 app.use(handleErrors);
 app.use(handle500);
 

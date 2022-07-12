@@ -40,7 +40,12 @@ passport.use(
       const users = habitDb.collection("users");
       const user = await users.findOne({ username: jwtPayload });
       if (user) {
-        done(null, { username: user.username, userId: user._id });
+        done(null, {
+          username: user.username,
+          userId: user._id,
+          pairId: user.pairId,
+          pairName: user.pairName,
+        });
       }
     }
   )

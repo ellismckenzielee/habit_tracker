@@ -5,3 +5,19 @@ export const createNewHabitLogic = (habit_week: string) => {
   const mostRecentMonday = moment(getMonday(0), "DD-MM-YYYY");
   return mostRecentMonday.isSame(habitWeekDate);
 };
+
+export const addStreaks = (habits: habit[]) => {
+  return habits.map((habit) => {
+    const date = moment();
+
+    let streak = habit.dates.includes(date.format("DD-MM-YYYY")) ? 1 : 0;
+    date.subtract(1, "day");
+
+    while (habit.dates.includes(date.format("DD-MM-YYYY"))) {
+      console.log("while");
+      streak++;
+      date.subtract(1, "day");
+    }
+    return { ...habit, streak };
+  });
+};

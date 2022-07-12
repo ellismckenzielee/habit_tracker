@@ -10,6 +10,8 @@ type UserContextType = {
 type UserType = {
   user_id: string;
   username: string;
+  pairId: string;
+  pairName: string;
 };
 const UserContext = createContext<UserContextType | null>(null);
 

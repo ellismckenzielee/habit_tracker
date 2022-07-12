@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMonday = void 0;
+exports.getStreakDate = exports.getMonday = void 0;
+const moment_1 = __importDefault(require("moment"));
 const getMonday = (offset = 0) => {
     const currentDate = new Date();
     const currentDay = currentDate.getDay();
@@ -24,3 +28,9 @@ const getMonday = (offset = 0) => {
     }
 };
 exports.getMonday = getMonday;
+const getStreakDate = () => {
+    const date = (0, moment_1.default)();
+    date.subtract(1, "day");
+    return date.format("DD-MM-YYYY");
+};
+exports.getStreakDate = getStreakDate;

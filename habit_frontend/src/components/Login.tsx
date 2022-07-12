@@ -27,7 +27,12 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
               .then(({ data }) => {
                 const token = data.token;
                 window.localStorage.setItem("jwt-token", token);
-                const user = { username: data.username, userId: data.userId };
+                const user = {
+                  username: data.username,
+                  userId: data.userId,
+                  pairId: data.pairId,
+                  pairName: data.pairName,
+                };
                 setUser(user);
                 setIsLoggedIn(true);
               })

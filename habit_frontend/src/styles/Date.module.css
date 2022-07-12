@@ -3,6 +3,8 @@
   justify-content: center;
   gap: 20px;
   align-items: center;
+  width: 95%;
+  margin: auto;
 }
 
 .DateButtons {
@@ -18,4 +20,9 @@
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.DateText {
+  align-self: center;
+  margin: auto 0;
 }

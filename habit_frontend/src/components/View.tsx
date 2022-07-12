@@ -22,7 +22,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   }, [date, focus]);
   return (
     <div className={`${style.View} `}>
-      <div className={style.HabitGrid}>
+      <div className={`${style.HabitGrid}`}>
         <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {
           return (
@@ -38,7 +38,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           const name = habit.name;
           return (
             <React.Fragment key={habit.name + indx}>
-              <p className={style.HabitTitle}> {habit.name}</p>
+              <p className={`h-10 p-2 my-auto`}> {habit.name}</p>
               {dates.map((date, indx) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;

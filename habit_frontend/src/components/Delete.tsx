@@ -18,10 +18,13 @@ const Delete = ({
       <p className={style.DeleteTitle}> Delete Habits </p>
       {habits.map((habit, indx) => {
         return (
-          <div key={habit.name + indx} className={style.HabitContainer}>
-            <p className={style.HabitName}> {habit.name} </p>
+          <div
+            key={habit.name + indx}
+            className={`${style.HabitContainer} rounded-lg`}
+          >
+            <p className={`${style.HabitName} m-auto`}> {habit.name} </p>
             <button
-              className={`${style.DeleteButton} rounded-xl`}
+              className={`${style.DeleteButton} rounded-xl bg-indigo-800 text-white hover:bg-indigo-300`}
               onClick={(e) => {
                 e.preventDefault();
                 deleteHabit(habit.name, user.userId).then(console.log);

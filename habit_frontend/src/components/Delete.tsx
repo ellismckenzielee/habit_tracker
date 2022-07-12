@@ -21,7 +21,7 @@ const Delete = ({
           <div key={habit.name + indx} className={style.HabitContainer}>
             <p className={style.HabitName}> {habit.name} </p>
             <button
-              className={style.DeleteButton}
+              className={`${style.DeleteButton} rounded-xl`}
               onClick={(e) => {
                 e.preventDefault();
                 deleteHabit(habit.name, user.userId).then(console.log);

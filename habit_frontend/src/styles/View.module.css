@@ -1,6 +1,5 @@
 .HabitGrid {
   display: grid;
-  border: 1px solid black;
   width: 90%;
   margin: auto;
   grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

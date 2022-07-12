@@ -9,7 +9,7 @@ const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
   return (
     <div className={style.Date}>
       <button
-        className={style.DateButtons}
+        className={`${style.DateButtons} rounded-xl`}
         onClick={() => {
           setOffset(offset - 1);
         }}
@@ -21,7 +21,7 @@ const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
         Week Commencing: <b>{date}</b>
       </p>
       <button
-        className={style.DateButtons}
+        className={`${style.DateButtons} rounded-xl`}
         onClick={() => {
           if (offset < 0) {
             setOffset(offset + 1);

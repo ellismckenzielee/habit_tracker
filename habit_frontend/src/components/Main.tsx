@@ -20,7 +20,7 @@ const Main = () => {
       <Date date={date} setDate={setDate} />
 
       <View date={date} />
-      <FriendView date={date} pairId={user.pairId} />
+      {/* <FriendView date={date} pairId={user.pairId} /> */}
     </div>
   );
 };

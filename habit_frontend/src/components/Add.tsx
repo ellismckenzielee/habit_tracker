@@ -52,7 +52,9 @@ const Add = ({
             setHabit(e.target.value);
           }}
         ></input>
-        <button className={style.AddSubmitButton}>Submit</button>
+        <button className={`${style.AddSubmitButton} rounded-xl`}>
+          Submit
+        </button>
       </form>
     </div>
   );

@@ -20,12 +20,15 @@ const View = ({ date }: { date: string }) => {
   useEffect(() => {}, []);
   console.log(habits);
   return (
-    <div className={style.View}>
+    <div className={`${style.View} rounded-xl shadow-md bg-transparent`}>
       <div className={style.HabitGrid}>
         <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {
           return (
-            <p className={style.HabitHeaders} key={day + indx}>
+            <p
+              className={`${style.HabitHeaders} text-indigo-900`}
+              key={day + indx}
+            >
               {day}
             </p>
           );

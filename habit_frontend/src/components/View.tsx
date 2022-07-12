@@ -8,8 +8,7 @@ import { getDatesForWeek } from "../utils/date.utils";
 import moment from "moment";
 import _ from "lodash";
 
-const View = ({ date }: { date: string }) => {
-  const [week, setWeek] = useState<week>({ _id: "", habits: {} });
+const View = ({ date, focus }: { date: string; focus: string }) => {
   const [habits, setHabits] = useState<habit[]>([]);
   const { user } = useContext(UserContext) as UserContextType;
   const dates = getDatesForWeek(date);
@@ -17,11 +16,9 @@ const View = ({ date }: { date: string }) => {
   let count = 0;
   useEffect(() => {
     if (user.userId) {
-      getHabitsByUserId(user.userId, setHabits);
+      getHabitsByUserId(focus, setHabits);
     }
-  }, [date, user.userId]);
-  useEffect(() => {}, []);
-  console.log(habits);
+  }, [date, focus]);
   return (
     <div className={`${style.View} `}>
       <div className={style.HabitGrid}>

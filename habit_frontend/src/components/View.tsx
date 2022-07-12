@@ -5,6 +5,7 @@ import { getHabitsByUserId, updateHabit } from "../utils/utils";
 import Actions from "./Actions";
 import { week, habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
+import moment from "moment";
 
 const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
@@ -51,22 +52,26 @@ const View = ({ date }: { date: string }) => {
                     }`}
                     onClick={() => {
                       console.log("NAME + DATE", name, date);
-                      let action = habit.dates.includes(date) ? "pull" : "push";
-                      updateHabit(user.userId, habit.name, action, date);
-                      setHabits((habits) => {
-                        const habitsCopy = habits.map((habit) => {
-                          if (habit.name === name) {
-                            if (action === "push") habit.dates.push(date);
-                            else {
-                              habit.dates = habit.dates.filter(
-                                (d) => d !== date
-                              );
+                      if (date === moment().format("DD-MM-YYYY")) {
+                        let action = habit.dates.includes(date)
+                          ? "pull"
+                          : "push";
+                        updateHabit(user.userId, habit.name, action, date);
+                        setHabits((habits) => {
+                          const habitsCopy = habits.map((habit) => {
+                            if (habit.name === name) {
+                              if (action === "push") habit.dates.push(date);
+                              else {
+                                habit.dates = habit.dates.filter(
+                                  (d) => d !== date
+                                );
+                              }
                             }
-                          }
-                          return { ...habit };
+                            return { ...habit };
+                          });
+                          return habitsCopy;
                         });
-                        return habitsCopy;
-                      });
+                      }
                     }}
                   ></div>
                 );

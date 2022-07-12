@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  background-color: rgb(139, 38, 53, 0.9);
+  background-color: rgba(49, 46, 129, 0.7);
   left: 0;
   top: 0;
   display: flex;
@@ -30,5 +30,5 @@
 .CloseCross:hover {
   color: white;
   cursor: pointer;
-  background-color: #8b2635;
+  background-color: #312e81;
 }

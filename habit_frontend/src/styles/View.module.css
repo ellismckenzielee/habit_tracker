@@ -9,19 +9,18 @@
   font-weight: bolder;
 }
 .HabitCheckBox {
-  background-color: #48a9a6;
-  border: 1px solid#2E3532;
+  background-color: #eef2ff;
 }
 
 .HabitCheckBoxChecked {
-  background-color: black;
+  background-color: #312e81;
 }
 
 .HabitCheckBox:hover {
-  background-color: #8b2635;
+  background-color: #6366f1;
   cursor: pointer;
 }
 
 .HabitSuccess {
-  background-color: #f4f4f9;
+  background-color: #312e81;
 }

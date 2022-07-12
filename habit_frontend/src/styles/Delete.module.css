@@ -21,7 +21,7 @@
   background-color: #f4f4f9;
 }
 .DeleteButton:hover {
-  color: #b80c09;
+  color: rgb(49, 46, 129);
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;

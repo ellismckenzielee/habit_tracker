@@ -7,9 +7,9 @@ export const createNewHabitLogic = (habit_week: string) => {
 };
 
 export const addStreaks = (habits: habit[]) => {
-  const date = moment();
-  console.log(habits, date.format("DD-MM-YYYY"));
   return habits.map((habit) => {
+    const date = moment();
+
     let streak = habit.dates.includes(date.format("DD-MM-YYYY")) ? 1 : 0;
     date.subtract(1, "day");
 

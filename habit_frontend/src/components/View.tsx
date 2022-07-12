@@ -11,7 +11,8 @@ const View = ({ date }: { date: string }) => {
   const [habits, setHabits] = useState<habit[]>([]);
   const { user } = useContext(UserContext) as UserContextType;
   const dates = getDatesForWeek(date);
-  const totalDates = habits.length;
+  const totalDates = habits.length * 7;
+  let count = 0;
   useEffect(() => {
     if (user.userId) {
       getHabitsByUserId(user.userId, setHabits);
@@ -39,6 +40,7 @@ const View = ({ date }: { date: string }) => {
             <React.Fragment key={habit.name + indx}>
               <p className={style.HabitTitle}> {habit.name}</p>
               {dates.map((date, indx) => {
+                if (habit.dates.includes(date)) count++;
                 return (
                   <div
                     key={date + indx}
@@ -73,7 +75,10 @@ const View = ({ date }: { date: string }) => {
           );
         })}
       </div>
-
+      <p className={`p-10 text-indigo-400`}>
+        {" "}
+        {((count / totalDates) * 100).toFixed(1) + "%"}
+      </p>
       <Actions habits={habits} setHabits={setHabits} />
     </div>
   );

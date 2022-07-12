@@ -7,7 +7,7 @@ import Navbar from "./Navbar";
 import FriendView from "./FriendView";
 import Date from "./Date";
 import { getMonday } from "../utils/date.utils";
-
+import Switch from "./Switch";
 const Main = () => {
   const { user, isLoggedIn } = useContext(UserContext) as UserContextType;
   const [date, setDate] = useState<string>(getMonday(0));
@@ -17,6 +17,7 @@ const Main = () => {
     <div className={style.Main}>
       {!isLoggedIn && <Navigate to="/" />}
       <Navbar />
+      <Switch />
       <Date date={date} setDate={setDate} />
 
       <View date={date} />

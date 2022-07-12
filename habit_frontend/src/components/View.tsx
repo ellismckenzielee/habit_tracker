@@ -75,10 +75,16 @@ const View = ({ date }: { date: string }) => {
           );
         })}
       </div>
-      <p className={`p-10 text-indigo-400`}>
-        {" "}
-        {((count / totalDates) * 100).toFixed(1) + "%"}
-      </p>
+      <div className={`flex flex-row justify-center m-5`}>
+        <div className={`p-10 sm:w-50 bg-indigo-100 rounded-lg`}>
+          <p className={`text-indigo-700 font-bold`}>Week Completion:</p>
+          <p className={`text-indigo-400`}>
+            {" "}
+            {((count / totalDates) * 100).toFixed(1) + "%"}
+          </p>
+        </div>
+      </div>
+
       <Actions habits={habits} setHabits={setHabits} />
     </div>
   );

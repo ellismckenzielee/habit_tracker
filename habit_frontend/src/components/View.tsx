@@ -15,7 +15,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   const totalDates = habits.length * 7;
   let count = 0;
   useEffect(() => {
-    if (user.userId) {
+    if (focus) {
       getHabitsByUserId(focus, setHabits);
     }
   }, [date, focus]);
@@ -49,18 +49,12 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                         : style.HabitCheckBox
                     }`}
                     onClick={(e) => {
-                      console.log("E", e.target);
-                      console.log("NAME + DATE", name, date);
                       if (date === moment().format("DD-MM-YYYY")) {
-                        console.log("IN IF");
                         let action = habit.dates.includes(date)
                           ? "pull"
                           : "push";
-                        updateHabit(user.userId, habit.name, action, date);
-                        console.log("BEFORE SET HABITS");
+                        updateHabit(focus, habit.name, action, date);
                         setHabits(() => {
-                          console.log("RUNNING SET HABITS", e.target);
-                          console.log("HABITS", habits);
                           const habitsCopy = habits.map((habit) => {
                             const habitCopy = _.cloneDeep(habit);
                             if (habitCopy.name === name) {

@@ -19,6 +19,7 @@ const Main = () => {
       <Navbar />
       <Switch
         userId={user.userId}
+        focus={focus}
         pairId={user.pairId}
         username={user.username}
         pairName={user.pairName}

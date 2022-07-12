@@ -6,6 +6,7 @@ import Actions from "./Actions";
 import { week, habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
 import moment from "moment";
+import _ from "lodash";
 
 const View = ({ date }: { date: string }) => {
   const [week, setWeek] = useState<week>({ _id: "", habits: {} });
@@ -22,7 +23,7 @@ const View = ({ date }: { date: string }) => {
   useEffect(() => {}, []);
   console.log(habits);
   return (
-    <div className={`${style.View} rounded-xl shadow-md bg-transparent`}>
+    <div className={`${style.View} rounded-xl bg-transparent`}>
       <div className={style.HabitGrid}>
         <p className={style.HabitHeaders}>Habit name</p>
         {"MTWTFSS".split("").map((day, indx) => {
@@ -50,24 +51,33 @@ const View = ({ date }: { date: string }) => {
                         ? style.HabitSuccess
                         : style.HabitCheckBox
                     }`}
-                    onClick={() => {
+                    onClick={(e) => {
+                      console.log("E", e.target);
                       console.log("NAME + DATE", name, date);
                       if (date === moment().format("DD-MM-YYYY")) {
+                        console.log("IN IF");
                         let action = habit.dates.includes(date)
                           ? "pull"
                           : "push";
                         updateHabit(user.userId, habit.name, action, date);
-                        setHabits((habits) => {
+                        console.log("BEFORE SET HABITS");
+                        setHabits(() => {
+                          console.log("RUNNING SET HABITS", e.target);
+                          console.log("HABITS", habits);
                           const habitsCopy = habits.map((habit) => {
-                            if (habit.name === name) {
-                              if (action === "push") habit.dates.push(date);
-                              else {
-                                habit.dates = habit.dates.filter(
-                                  (d) => d !== date
+                            const habitCopy = _.cloneDeep(habit);
+                            if (habitCopy.name === name) {
+                              if (action === "push") {
+                                habitCopy.dates.push(date);
+                                habitCopy.streak++;
+                              } else {
+                                habitCopy.dates = habitCopy.dates.filter(
+                                  (d: string) => d !== date
                                 );
+                                habitCopy.streak--;
                               }
                             }
-                            return { ...habit };
+                            return habitCopy;
                           });
                           return habitsCopy;
                         });

@@ -3,6 +3,7 @@ interface habit {
   _id: string;
   user_id: string;
   dates: string[];
+  streak: number;
 }
 
 interface week {

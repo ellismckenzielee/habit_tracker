@@ -71,7 +71,7 @@ const View = ({ date }: { date: string }) => {
         })}
       </div>
 
-      <Actions week={week} setWeek={setWeek} />
+      <Actions habits={habits} setHabits={setHabits} />
     </div>
   );
 };

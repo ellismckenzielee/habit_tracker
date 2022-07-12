@@ -3,8 +3,8 @@ import style from "../styles/Actions.module.css";
 import Add from "./Add";
 import Delete from "./Delete";
 import Popup from "./Popup";
-import { habit, week } from "../types/types";
-const Actions = ({ week, setWeek }: { week: week; setWeek: Function }) => {
+import { habit } from "../types/types";
+const Actions = ({habits, setHabits}: {habits: habit[], setHabits: Function}) => {
   const [action, setAction] = useState<null | string>(null);
   return (
     <div className={style.Actions}>
@@ -26,12 +26,12 @@ const Actions = ({ week, setWeek }: { week: week; setWeek: Function }) => {
       </button>
       {action === "add" && (
         <Popup setAction={setAction}>
-          <Add setAction={setAction} week={week} setWeek={setWeek}></Add>
+          <Add setAction={setAction} habits={habits} setHabits={setHabits}></Add>
         </Popup>
       )}
       {action === "delete" && (
         <Popup setAction={setAction}>
-          <Delete setAction={setAction} week={week} setWeek={setWeek}></Delete>
+          <Delete setAction={setAction} habits={habits} setHabits={setHabits}></Delete>
         </Popup>
       )}
     </div>

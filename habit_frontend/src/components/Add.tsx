@@ -2,17 +2,17 @@ import style from "../styles/Add.module.css";
 import { useContext, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import axios, { AxiosResponse } from "axios";
-import { week } from "../types/types";
+import { habit } from "../types/types";
 interface Data extends AxiosResponse {
   data: { insertedId: string };
 }
 const Add = ({
-  week,
-  setWeek,
   setAction,
+  habits,
+  setHabits,
 }: {
-  week: week;
-  setWeek: Function;
+  habits: habit[];
+  setHabits: Function;
   setAction: Function;
 }) => {
   const [habit, setHabit] = useState("");
@@ -31,14 +31,12 @@ const Add = ({
                 habit: habit,
               })
               .then((response: Data) => {
-                setWeek(() => {
-                  const weekCopy = { ...week };
-                  weekCopy.habits[habit] = [0, 0, 0, 0, 0, 0, 0];
-                  return weekCopy;
-                });
                 setAction(null);
               })
               .catch(console.log);
+            setHabits(() => {
+              return [...habits, { name: habit, streak: 0, dates: [] }];
+            });
           }
         }}
       >

@@ -10,7 +10,7 @@ const Home = () => {
     UserContext
   ) as UserContextType;
   const [hasAccount, setHasAccount] = useState(true);
-  console.log(user);
+  console.log(user, isLoggedIn);
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("jwt-token");
     if (jwtToken) {

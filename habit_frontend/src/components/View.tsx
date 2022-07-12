@@ -103,7 +103,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
             <span className={"text-3xl font-bold text-indigo-900"}>
               {longestStreak}
             </span>
-            days
+            {longestStreak === 1 ? " day" : " days"}
           </p>
 
           <p className={`text-indigo-700 font-bold m-auto`}>

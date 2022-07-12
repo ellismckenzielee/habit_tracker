@@ -4,7 +4,6 @@ import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import FriendView from "./FriendView";
 import Date from "./Date";
 import { getMonday } from "../utils/date.utils";
 import Switch from "./Switch";
@@ -41,7 +40,6 @@ const Main = () => {
       <Date date={date} setDate={setDate} />
 
       <View focus={focus} date={date} />
-      {/* <FriendView date={date} pairId={user.pairId} /> */}
     </div>
   );
 };

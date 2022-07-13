@@ -5,9 +5,9 @@ import {
   createHabit,
   handleSignup,
   updateHabit,
-  selectHabitsByUserId,
   deleteHabitFromDB,
   selectPairsByUserId,
+  selectHabitsByUsername,
 } from "../models/user.models";
 import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
@@ -72,15 +72,16 @@ export const getHabitsByUserIdAndWeek = async (
   }
 };
 
-export const getHabitsByUserId = async (
+export const getHabitsByUsername = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   console.log("in getHabitsByUserId function");
-  const userId = req.params.user_id;
+  const username = req.params.user_id;
+  console.log(username);
   try {
-    const habits = await selectHabitsByUserId(userId);
+    const habits = await selectHabitsByUsername(username);
     console.log(true);
     res.json(habits);
   } catch (err) {
@@ -94,10 +95,12 @@ export const postHabit = async (
   next: NextFunction
 ) => {
   console.log("in POST userRouter/:user_id/habits function");
-  const user_id = req.params.user_id;
+  const username = req.params.user_id;
+  console.log(username);
   const habit = req.body.habit!;
+  console.log(habit);
   try {
-    await createHabit(user_id, habit);
+    await createHabit(username, habit);
     res.sendStatus(201);
   } catch (err) {
     next(err);
@@ -128,10 +131,10 @@ export const deleteHabit = async (
   next: NextFunction
 ) => {
   console.log(" in userRouter DELETE");
-  const user_id = req.params.user_id;
+  const username = req.params.user_id;
   const habit = req.body.habit;
   try {
-    deleteHabitFromDB(user_id, habit);
+    deleteHabitFromDB(username, habit);
     res.sendStatus(200);
   } catch (err) {
     next(err);

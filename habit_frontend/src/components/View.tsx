@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getHabitsByUserId, updateHabit } from "../utils/utils";
+import { getHabitsByUsername, updateHabit } from "../utils/utils";
 import Actions from "./Actions";
-import { week, habit } from "../types/types";
+import { habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
 import moment from "moment";
 import _ from "lodash";
@@ -17,7 +17,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   let longestStreak = 0;
   useEffect(() => {
     if (focus) {
-      getHabitsByUserId(focus, setHabits);
+      getHabitsByUsername(focus, setHabits);
     }
   }, [date, focus]);
   return (
@@ -112,7 +112,9 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
         </div>
       </div>
 
-      <Actions habits={habits} setHabits={setHabits} />
+      {user.username === focus && (
+        <Actions habits={habits} setHabits={setHabits} />
+      )}
     </div>
   );
 };

@@ -18,24 +18,24 @@ const Switch = ({
     <div className={`${style.Switch} `}>
       <button
         className={`font-bold mt-10 mb-10 p-4 w-40 md:w-60 rounded-l-lg bg-color-blue ${
-          focus === userId
+          focus === username
             ? "bg-indigo-500 text-indigo-100"
             : "bg-indigo-100 text-indigo-500 text-bold"
         }`}
         onClick={() => {
-          setFocus(userId);
+          setFocus(username);
         }}
       >
         {username}
       </button>
       <button
         className={`font-bold mt-10 mb-10 bg-indigo-500 p-4 w-40 md:w-60 rounded-r-lg   ${
-          focus === pairId
+          focus === pairName
             ? "bg-indigo-500 text-indigo-100"
             : "bg-indigo-100 text-indigo-500 text-bold"
         } `}
         onClick={() => {
-          setFocus(pairId);
+          setFocus(pairName);
         }}
       >
         {pairName}

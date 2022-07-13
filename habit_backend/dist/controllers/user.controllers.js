@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUserId = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const week_models_1 = require("../models/week.models");
@@ -65,11 +65,12 @@ const getHabitsByUserIdAndWeek = (req, res, next) => __awaiter(void 0, void 0, v
     }
 });
 exports.getHabitsByUserIdAndWeek = getHabitsByUserIdAndWeek;
-const getHabitsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getHabitsByUsername = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in getHabitsByUserId function");
-    const userId = req.params.user_id;
+    const username = req.params.user_id;
+    console.log(username);
     try {
-        const habits = yield (0, user_models_1.selectHabitsByUserId)(userId);
+        const habits = yield (0, user_models_1.selectHabitsByUsername)(username);
         console.log(true);
         res.json(habits);
     }
@@ -77,13 +78,15 @@ const getHabitsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         next(err);
     }
 });
-exports.getHabitsByUserId = getHabitsByUserId;
+exports.getHabitsByUsername = getHabitsByUsername;
 const postHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in POST userRouter/:user_id/habits function");
-    const user_id = req.params.user_id;
+    const username = req.params.user_id;
+    console.log(username);
     const habit = req.body.habit;
+    console.log(habit);
     try {
-        yield (0, user_models_1.createHabit)(user_id, habit);
+        yield (0, user_models_1.createHabit)(username, habit);
         res.sendStatus(201);
     }
     catch (err) {
@@ -108,10 +111,10 @@ const putHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 exports.putHabit = putHabit;
 const deleteHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(" in userRouter DELETE");
-    const user_id = req.params.user_id;
+    const username = req.params.user_id;
     const habit = req.body.habit;
     try {
-        (0, user_models_1.deleteHabitFromDB)(user_id, habit);
+        (0, user_models_1.deleteHabitFromDB)(username, habit);
         res.sendStatus(200);
     }
     catch (err) {

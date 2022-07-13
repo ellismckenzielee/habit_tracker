@@ -1,13 +1,15 @@
 import axios from "axios";
 
-const getHabitsByUserId = (userId: string, setHabits: Function) => {
-  axios.get(`http://localhost:5656/user/${userId}/habits`).then(({ data }) => {
-    setHabits(data);
-  });
+const getHabitsByUsername = (username: string, setHabits: Function) => {
+  axios
+    .get(`http://localhost:5656/user/${username}/habits`)
+    .then(({ data }) => {
+      setHabits(data);
+    });
 };
 
-const deleteHabit = (habit: string, userId: string) => {
-  return axios.delete(`http://localhost:5656/user/${userId}/habits`, {
+const deleteHabit = (habit: string, username: string) => {
+  return axios.delete(`http://localhost:5656/user/${username}/habits`, {
     data: { habit },
   });
 };
@@ -42,12 +44,12 @@ const updateWeek = (
 };
 
 const updateHabit = async (
-  userId: string,
+  username: string,
   habit: string,
   action: string,
   date: string
 ) => {
-  return axios.put(`http://localhost:5656/user/${userId}/habits/`, {
+  return axios.put(`http://localhost:5656/user/${username}/habits/`, {
     date,
     habit,
     action,
@@ -75,7 +77,7 @@ const addPair = async (sender: string, recipient: string) => {
 };
 
 export {
-  getHabitsByUserId,
+  getHabitsByUsername,
   deleteHabit,
   getWeekByUserIdAndWeekStart,
   updateWeek,

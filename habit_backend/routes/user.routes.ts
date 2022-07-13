@@ -11,7 +11,7 @@ import {
   postHabit,
   putHabit,
   signupWithUsernamePassword,
-  getHabitsByUserId,
+  getHabitsByUsername,
   getPairsByUserId,
 } from "../controllers/user.controllers";
 dotenv.config();
@@ -31,7 +31,7 @@ userRouter.post(
 
 userRouter.post("/signup", signupWithUsernamePassword);
 
-userRouter.get("/:user_id/habits", getHabitsByUserId);
+userRouter.get("/:user_id/habits", getHabitsByUsername);
 userRouter.post("/:user_id/habits", postHabit);
 userRouter.put("/:user_id/habits", putHabit);
 userRouter.delete("/:user_id/habits", deleteHabit);

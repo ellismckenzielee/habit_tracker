@@ -25,9 +25,9 @@ const Add = ({
         onSubmit={(e) => {
           e.preventDefault();
           console.log(user);
-          if (user.userId) {
+          if (user.username) {
             axios
-              .post(`http://localhost:5656/user/${user.userId}/habits`, {
+              .post(`http://localhost:5656/user/${user.username}/habits`, {
                 habit: habit,
               })
               .then((response: Data) => {

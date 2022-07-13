@@ -1,10 +1,16 @@
 import Navbar from "./Navbar";
 import style from "../styles/Pair.module.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
+import { getPairByUserId } from "../utils/utils";
 const Pair = () => {
-  const { user, isLoggedIn } = useContext(UserContext) as UserContextType;
-  console.log(isLoggedIn);
+  const { user, isLoggedIn, setPair, pair } = useContext(
+    UserContext
+  ) as UserContextType;
+
+  useEffect(() => {
+    getPairByUserId(user.username, setPair);
+  }, [user.username]);
   return (
     <div className={`${style.Pair} `}>
       <Navbar />
@@ -21,16 +27,16 @@ const Pair = () => {
           Choose and remove your habit pair!{" "}
         </h5>
         <h2 className={"text-left text-white p-2 bg-indigo-900 rounded-lg"}>
-          {user.pairId ? "Your Pair" : "You don't have a pair, yet"}
+          {pair.pairId ? "Your Pair" : "You don't have a pair, yet"}
         </h2>
-        {user.pairId && (
+        {pair.pairId && (
           <div
             className={
               "flex flex-column bg-indigo-50 rounded-lg p-5 max-w-md m-auto"
             }
           >
             <h2 className={"rounded-lg basis-1/4 m-auto align-center"}>
-              {user.pairName}
+              {pair.pairId}
             </h2>
             <div
               className={"rounded-full  grow-0 overflow-hidden m-auto my-3 "}

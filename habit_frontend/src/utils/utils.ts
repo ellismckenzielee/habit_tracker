@@ -54,10 +54,19 @@ const updateHabit = async (
   });
 };
 
+const getPairByUserId = async (username: string, setPair: Function) => {
+  return axios
+    .get(`http://localhost:5656/user/${username}/pair`)
+    .then(({ data }) => {
+      setPair(data);
+    });
+};
+
 export {
   getHabitsByUserId,
   deleteHabit,
   getWeekByUserIdAndWeekStart,
   updateWeek,
   updateHabit,
+  getPairByUserId,
 };

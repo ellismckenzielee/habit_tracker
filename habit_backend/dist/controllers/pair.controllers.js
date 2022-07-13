@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePair = void 0;
+exports.postPair = exports.deletePair = void 0;
 const pair_models_1 = require("../models/pair.models");
 const deletePair = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in deletePair function");
@@ -23,3 +23,15 @@ const deletePair = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.deletePair = deletePair;
+const postPair = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in postPair function");
+    const { sender, recipient } = req.body;
+    try {
+        yield (0, pair_models_1.createPair)(sender, recipient);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.postPair = postPair;

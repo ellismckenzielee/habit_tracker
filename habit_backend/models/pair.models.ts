@@ -8,3 +8,12 @@ export const deletePairFromDB = async (pair_id: string) => {
     return Promise.reject({ status: 404, message: "pair not found" });
   }
 };
+
+export const createPair = async (sender: string, recipient: string) => {
+  try {
+    await pairs.insertOne({ sender, recipient });
+    return;
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "pair creation went wrong" });
+  }
+};

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePairFromDB = void 0;
+exports.createPair = exports.deletePairFromDB = void 0;
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const deletePairFromDB = (pair_id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,3 +22,13 @@ const deletePairFromDB = (pair_id) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.deletePairFromDB = deletePairFromDB;
+const createPair = (sender, recipient) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield db_1.pairs.insertOne({ sender, recipient });
+        return;
+    }
+    catch (err) {
+        return Promise.reject({ status: 500, message: "pair creation went wrong" });
+    }
+});
+exports.createPair = createPair;

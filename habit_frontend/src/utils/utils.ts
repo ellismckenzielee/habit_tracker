@@ -70,6 +70,10 @@ const deletePair = async (pair_id: string, setPair: Function) => {
     });
 };
 
+const addPair = async (sender: string, recipient: string) => {
+  return axios.post(`http://localhost:5656/pair`, { sender, recipient });
+};
+
 export {
   getHabitsByUserId,
   deleteHabit,
@@ -78,4 +82,5 @@ export {
   updateHabit,
   getPairByUserId,
   deletePair,
+  addPair,
 };

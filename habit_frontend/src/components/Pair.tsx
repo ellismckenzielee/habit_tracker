@@ -2,12 +2,12 @@ import Navbar from "./Navbar";
 import style from "../styles/Pair.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
-import { deletePair, getPairByUserId } from "../utils/utils";
+import { addPair, deletePair, getPairByUserId } from "../utils/utils";
 const Pair = () => {
   const { user, isLoggedIn, setPair, pair } = useContext(
     UserContext
   ) as UserContextType;
-
+  const [pairInput, setPairInput] = useState("");
   useEffect(() => {
     getPairByUserId(user.username, setPair);
   }, [user.username]);
@@ -57,6 +57,33 @@ const Pair = () => {
               </button>
             </div>
           </div>
+        )}
+        {!pair.pairId && (
+          <form
+            className="flex flex-column align-center gap-2"
+            onSubmit={(e) => {
+              addPair(user.username, pairInput);
+            }}
+          >
+            <label htmlFor="username">
+              Enter the username of the pair you want to add{" "}
+            </label>
+            <input
+              className="m-auto text-center p-3 border-1 border-solid border-black"
+              type="text"
+              value={pairInput}
+              onChange={(e) => {
+                setPairInput(e.target.value);
+              }}
+            ></input>
+            <button
+              className={
+                "rounded-md bg-indigo-500 hover:text-white hover:uppercase p-2 m-auto w-25"
+              }
+            >
+              Add a Pair
+            </button>
+          </form>
         )}
       </div>
     </div>

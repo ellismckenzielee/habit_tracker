@@ -96,10 +96,17 @@ export const selectPairsByUserId = async (user_id: string) => {
     });
     const resultArray = await result.toArray();
     const pairArray = resultArray.map((result) => {
-      return result.sender === user_id ? result.recipient : result.sender;
+      const pairId =
+        result.sender === user_id ? result.recipient : result.sender;
+      const _id = result._id;
+      return { pairId, _id };
     });
     if (pairArray.length > 0) {
-      return { userId: user_id, pairId: pairArray[0] };
+      return {
+        userId: user_id,
+        pairId: pairArray[0].pairId,
+        _id: pairArray[0]._id,
+      };
     } else {
       return { userId: user_id, pairId: null };
     }

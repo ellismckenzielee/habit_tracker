@@ -125,7 +125,7 @@ const getPairsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     try {
         const pairs = yield (0, user_models_1.selectPairsByUserId)(user_id);
         console.log(pairs);
-        res.sendStatus(200);
+        res.json(pairs);
     }
     catch (err) {
         next(err);

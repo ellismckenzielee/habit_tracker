@@ -148,7 +148,7 @@ export const getPairsByUserId = async (
   try {
     const pairs = await selectPairsByUserId(user_id);
     console.log(pairs);
-    res.sendStatus(200);
+    res.json(pairs);
   } catch (err) {
     next(err);
   }

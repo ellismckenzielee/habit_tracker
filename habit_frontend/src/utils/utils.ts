@@ -62,6 +62,14 @@ const getPairByUserId = async (username: string, setPair: Function) => {
     });
 };
 
+const deletePair = async (pair_id: string, setPair: Function) => {
+  return axios
+    .delete(`http://localhost:5656/pair/${pair_id}`)
+    .then(({ data }) => {
+      setPair({});
+    });
+};
+
 export {
   getHabitsByUserId,
   deleteHabit,
@@ -69,4 +77,5 @@ export {
   updateWeek,
   updateHabit,
   getPairByUserId,
+  deletePair,
 };

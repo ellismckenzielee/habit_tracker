@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import style from "../styles/Pair.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
-import { getPairByUserId } from "../utils/utils";
+import { deletePair, getPairByUserId } from "../utils/utils";
 const Pair = () => {
   const { user, isLoggedIn, setPair, pair } = useContext(
     UserContext
@@ -49,6 +49,9 @@ const Pair = () => {
                 className={
                   "rounded-md bg-indigo-500 hover:text-white hover:uppercase p-2 m-auto w-20"
                 }
+                onClick={() => {
+                  deletePair(pair._id, setPair);
+                }}
               >
                 Remove
               </button>

@@ -23,3 +23,9 @@ const habit = {
 // Each habit has it's own entry in the habit table
 // Stores a list of dates where the habit was achieved
 // Rather than pulling a week, the data for a year is pulled and filtered as necessary
+
+const pair = {
+  pairId: "efnrnfkjn677d",
+  sender: "rgfbgf5t",
+  recipient: "vdnfvj38",
+};

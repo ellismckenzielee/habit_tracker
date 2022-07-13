@@ -18,6 +18,7 @@ const habit_routes_1 = __importDefault(require("./routes/habit.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const error_controllers_1 = require("./controllers/error.controllers");
+const pair_routes_1 = __importDefault(require("./routes/pair.routes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
@@ -28,6 +29,7 @@ app.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 app.use("/user", user_routes_1.default);
 app.use("/habit", habit_routes_1.default);
+app.use("/pair", pair_routes_1.default);
 app.use(error_controllers_1.handleErrors);
 app.use(error_controllers_1.handle500);
 if (process.env.NODE_ENV !== "test") {

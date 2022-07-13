@@ -1,5 +1,4 @@
 import { Response, Request, NextFunction } from "express";
-import { createSecurePair } from "tls";
 import { createPair, deletePairFromDB } from "../models/pair.models";
 
 export const deletePair = async (
@@ -31,3 +30,4 @@ export const postPair = async (
     next(err);
   }
 };
+

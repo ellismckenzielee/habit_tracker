@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
-import { users, weeks, habits } from "../db/db";
+import { users, weeks, habits, pairs } from "../db/db";
 import { getMonday } from "../utils/date.utils";
 import { addStreaks } from "../utils/habit.utils";
 
@@ -86,5 +86,17 @@ export const deleteHabitFromDB = async (user_id: string, habit: string) => {
       status: 500,
       message: "internal server error during deletion",
     });
+  }
+};
+
+export const selectPairsByUserId = async (user_id: string) => {
+  try {
+    const result = await pairs.find({
+      $or: [{ sender: user_id }, { recipient: user_id }],
+    });
+    const resultArray = await result.toArray();
+    return resultArray;
+  } catch (err) {
+    return Promise.reject({ status: 404, message: "user pair does not exist" });
   }
 };

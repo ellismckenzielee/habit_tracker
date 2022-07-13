@@ -17,4 +17,5 @@ userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
 userRouter.put("/:user_id/habits", user_controllers_1.putHabit);
 userRouter.delete("/:user_id/habits", user_controllers_1.deleteHabit);
 userRouter.get("/:user_id/habits/:habit_week", user_controllers_1.getHabitsByUserIdAndWeek);
+userRouter.get("/:user_id/pair", user_controllers_1.getPairsByUserId);
 exports.default = userRouter;

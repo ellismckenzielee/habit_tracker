@@ -12,6 +12,7 @@ import {
   putHabit,
   signupWithUsernamePassword,
   getHabitsByUserId,
+  getPairsByUserId,
 } from "../controllers/user.controllers";
 dotenv.config();
 const userRouter = express.Router();
@@ -30,15 +31,11 @@ userRouter.post(
 
 userRouter.post("/signup", signupWithUsernamePassword);
 
-
 userRouter.get("/:user_id/habits", getHabitsByUserId);
 userRouter.post("/:user_id/habits", postHabit);
 userRouter.put("/:user_id/habits", putHabit);
 userRouter.delete("/:user_id/habits", deleteHabit);
-
-
 userRouter.get("/:user_id/habits/:habit_week", getHabitsByUserIdAndWeek);
-
-
+userRouter.get("/:user_id/pair", getPairsByUserId);
 
 export default userRouter;

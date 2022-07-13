@@ -7,6 +7,7 @@ import {
   updateHabit,
   selectHabitsByUserId,
   deleteHabitFromDB,
+  selectPairsByUserId,
 } from "../models/user.models";
 import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
@@ -131,6 +132,22 @@ export const deleteHabit = async (
   const habit = req.body.habit;
   try {
     deleteHabitFromDB(user_id, habit);
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getPairsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("in getPairs by UserId");
+  const { user_id } = req.params;
+  try {
+    const pairs = await selectPairsByUserId(user_id);
+    console.log(pairs);
     res.sendStatus(200);
   } catch (err) {
     next(err);

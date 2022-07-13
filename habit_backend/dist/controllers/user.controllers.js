@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUserId = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUserId = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const week_models_1 = require("../models/week.models");
@@ -119,3 +119,16 @@ const deleteHabit = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.deleteHabit = deleteHabit;
+const getPairsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("in getPairs by UserId");
+    const { user_id } = req.params;
+    try {
+        const pairs = yield (0, user_models_1.selectPairsByUserId)(user_id);
+        console.log(pairs);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getPairsByUserId = getPairsByUserId;

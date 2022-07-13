@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUserId = exports.insertHabit = exports.handleSignup = void 0;
+exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUserId = exports.insertHabit = exports.handleSignup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
@@ -97,3 +97,16 @@ const deleteHabitFromDB = (user_id, habit) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.deleteHabitFromDB = deleteHabitFromDB;
+const selectPairsByUserId = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db_1.pairs.find({
+            $or: [{ sender: user_id }, { recipient: user_id }],
+        });
+        const resultArray = yield result.toArray();
+        return resultArray;
+    }
+    catch (err) {
+        return Promise.reject({ status: 404, message: "user pair does not exist" });
+    }
+});
+exports.selectPairsByUserId = selectPairsByUserId;

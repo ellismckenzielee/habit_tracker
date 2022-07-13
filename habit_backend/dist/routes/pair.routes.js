@@ -8,4 +8,5 @@ const pair_controllers_1 = require("../controllers/pair.controllers");
 const pairRouter = express_1.default.Router();
 pairRouter.delete("/:pair_id", pair_controllers_1.deletePair);
 pairRouter.post("/", pair_controllers_1.postPair);
+pairRouter.put("/:pair_id", pair_controllers_1.putPair);
 exports.default = pairRouter;

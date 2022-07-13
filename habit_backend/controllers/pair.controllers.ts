@@ -1,5 +1,9 @@
 import { Response, Request, NextFunction } from "express";
-import { createPair, deletePairFromDB } from "../models/pair.models";
+import {
+  createPair,
+  deletePairFromDB,
+  updatePair,
+} from "../models/pair.models";
 
 export const deletePair = async (
   req: Request,
@@ -31,3 +35,18 @@ export const postPair = async (
   }
 };
 
+export const putPair = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log(" inside putPair function");
+  const { pair_id } = req.params;
+  console.log(pair_id);
+  try {
+    await updatePair(pair_id);
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};

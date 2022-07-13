@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createPair = exports.deletePairFromDB = void 0;
+exports.updatePair = exports.createPair = exports.deletePairFromDB = void 0;
 const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const deletePairFromDB = (pair_id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,7 +24,7 @@ const deletePairFromDB = (pair_id) => __awaiter(void 0, void 0, void 0, function
 exports.deletePairFromDB = deletePairFromDB;
 const createPair = (sender, recipient) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield db_1.pairs.insertOne({ sender, recipient });
+        yield db_1.pairs.insertOne({ sender, recipient, status: "pending" });
         return;
     }
     catch (err) {
@@ -32,3 +32,17 @@ const createPair = (sender, recipient) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.createPair = createPair;
+const updatePair = (pair_id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(pair_id);
+        const result = yield db_1.pairs.updateOne({ _id: new mongodb_1.ObjectId(pair_id) }, { $set: { status: "accepted" } });
+        return;
+    }
+    catch (err) {
+        return Promise.reject({
+            status: 500,
+            message: "something went wrong during update",
+        });
+    }
+});
+exports.updatePair = updatePair;

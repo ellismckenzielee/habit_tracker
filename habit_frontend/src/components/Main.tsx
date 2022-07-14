@@ -26,6 +26,7 @@ const Main = () => {
       <Switch
         userId={user.userId}
         focus={focus}
+        status={pair.status}
         pairId={pair.pairId}
         username={user.username}
         pairName={pair.pairId}

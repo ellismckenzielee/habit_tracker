@@ -29,7 +29,7 @@ const Pair = () => {
           Pair Settings{" "}
         </h1>
         <div>
-          <h3 className="bg-indigo-50 p-1 align-middle text-indigo-900 mb-1">
+          <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
             Your Pair{" "}
           </h3>
 
@@ -41,7 +41,7 @@ const Pair = () => {
             >
               <h2
                 className={
-                  "rounded-lg basis-1/4 m-auto align-center text-indigo-600"
+                  "rounded-lg basis-1/4 m-auto align-center text-indigo-600 font-bold"
                 }
               >
                 {pair.pairId}
@@ -59,7 +59,7 @@ const Pair = () => {
               <div className={"align-middle"}>
                 <button
                   className={
-                    "w-full p-3 rounded-md bg-indigo-500 text-white hover:text-white hover:font-bold hover:uppercase m-auto "
+                    "w-full p-3 rounded-md bg-indigo-500 text-white hover:text-white hover:font-bold hover:uppercase m-auto mt-2 "
                   }
                   onClick={() => {
                     deletePair(pair._id, setPair);
@@ -74,7 +74,7 @@ const Pair = () => {
         <div className="">
           {pair.status === "pending" && (
             <div>
-              <h3 className="bg-indigo-50 p-1 align-middle text-indigo-900 mb-1">
+              <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
                 Requests{" "}
               </h3>
               <h2>{pair.pairId}</h2>

@@ -7,11 +7,13 @@ const Switch = ({
   pairName,
   userId,
   pairId,
+  status,
   focus,
 }: {
   username: string;
   pairName: string;
   setFocus: Function;
+  status: string;
   userId: string;
   pairId: string;
   focus: string;
@@ -31,7 +33,7 @@ const Switch = ({
       >
         {username}
       </button>
-      {pairName && (
+      {status === "accepted" && (
         <button
           className={`font-bold mt-10 mb-10 bg-indigo-500 p-4 w-40 md:w-60 rounded-r-lg   ${
             focus === pairName
@@ -45,7 +47,7 @@ const Switch = ({
           {pairName}
         </button>
       )}
-      {!pairName && (
+      {status !== "accepted" && (
         <button
           className={`font-bold mt-10 mb-10 bg-indigo-500 p-4 w-40 md:w-60 rounded-r-lg   ${
             focus === pairName

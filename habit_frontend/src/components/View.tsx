@@ -19,6 +19,19 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   const totalDates = habits.length * 7;
   let count = 0;
   let longestStreak = 0;
+  let bestDay = "";
+  let dayScores = [0, 0, 0, 0, 0, 0, 0];
+  let maxScore = 0;
+  let days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   useEffect(() => {
     if (focus) {
       getHabitsByUsername(focus, setHabits);
@@ -47,6 +60,11 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;
                 let success = habit.dates.includes(date);
+                dayScores[indx] += success ? 1 : 0;
+                if (dayScores[indx] > maxScore) {
+                  maxScore = dayScores[indx];
+                  bestDay = days[indx];
+                }
                 const modifiable = checkCheckBoxModifiable(
                   date,
                   user.username,
@@ -125,8 +143,18 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
             Current longest streak
           </p>
         </div>
-      </div>
+        <div
+          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+        >
+          <p className={`text-indigo-400`}>
+            <span className={"text-3xl font-bold text-indigo-900"}>
+              {maxScore + "/" + habits.length}
+            </span>
+          </p>
 
+          <p className={`text-indigo-700 font-bold m-auto`}>{bestDay}</p>
+        </div>
+      </div>
       {user.username === focus && (
         <Actions habits={habits} setHabits={setHabits} />
       )}

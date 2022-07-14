@@ -98,7 +98,16 @@ const Pair = () => {
               <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
                 Pending Requests{" "}
               </h3>
+
               <h2>{pair.pairId}</h2>
+              <button
+                className={`${style.FormButton} rounded-md bg-indigo-500 hover:text-indigo-900 hover:uppercase hover:font-bold  p-2 m-auto w-25`}
+                onClick={() => {
+                  deletePair(pair._id, setPair);
+                }}
+              >
+                Cancel Request
+              </button>
             </div>
           )}
         </div>

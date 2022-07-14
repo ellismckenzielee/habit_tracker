@@ -17,9 +17,14 @@ const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
         {" "}
         Back{" "}
       </button>
-      <p className={style.DateText}>
-        Week Commencing: <b>{date}</b>
-      </p>
+      <div
+        className={`${style.DateText} flex flex-row flex-wrap justify-center gap-1`}
+      >
+        <p className={"grow-0 m-auto"}>Week Commencing:</p>
+        <p className={"grow-0 m-auto"}>
+          <b>{date}</b>
+        </p>
+      </div>
       <button
         className={`${style.DateButtons} rounded-xl`}
         onClick={() => {

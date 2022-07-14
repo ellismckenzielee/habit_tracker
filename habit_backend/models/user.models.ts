@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
-import { users, weeks, habits } from "../db/db";
+import { users, weeks, habits, pairs } from "../db/db";
 import { getMonday } from "../utils/date.utils";
 import { addStreaks } from "../utils/habit.utils";
 
@@ -13,23 +13,23 @@ export const handleSignup = async (username: string, password: string) => {
   return user;
 };
 
-export const insertHabit = async (user_id: string, habitName: string) => {
+export const insertHabit = async (username: string, habitName: string) => {
   const user = await users.updateOne(
-    { _id: new ObjectId(user_id) },
+    { username },
     { $addToSet: { ["habits"]: habitName } }
   );
   const weekToUpdate = getMonday(0);
   console.log("WEEK TO UPDATE", weekToUpdate);
   const week = await weeks.updateOne(
-    { user_id, habit_week: weekToUpdate },
+    { username, habit_week: weekToUpdate },
     { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } }
   );
   return week;
 };
 
-export const selectHabitsByUserId = async (userId: string) => {
+export const selectHabitsByUsername = async (username: string) => {
   try {
-    const foundHabits = await habits.find<habit>({ user_id: userId });
+    const foundHabits = await habits.find<habit>({ username });
     const habitsArray = await foundHabits.toArray();
     const habitsArrayWithStreak = addStreaks(habitsArray);
     console.log(habitsArrayWithStreak);
@@ -42,9 +42,9 @@ export const selectHabitsByUserId = async (userId: string) => {
   }
 };
 
-export const createHabit = async (user_id: string, habit: string) => {
+export const createHabit = async (username: string, habit: string) => {
   try {
-    const newHabit = { user_id, name: habit, dates: [] };
+    const newHabit = { username, name: habit, dates: [] };
     await habits.insertOne(newHabit);
   } catch (err) {
     return Promise.reject({
@@ -78,13 +78,42 @@ export const updateHabit = async (
   }
 };
 
-export const deleteHabitFromDB = async (user_id: string, habit: string) => {
+export const deleteHabitFromDB = async (username: string, habit: string) => {
   try {
-    await habits.deleteMany({ user_id, name: habit });
+    await habits.deleteMany({ username, name: habit });
   } catch (err) {
     return Promise.reject({
       status: 500,
       message: "internal server error during deletion",
     });
+  }
+};
+
+export const selectPairsByUserId = async (user_id: string) => {
+  try {
+    const result = await pairs.find({
+      $or: [{ sender: user_id }, { recipient: user_id }],
+    });
+    const resultArray = await result.toArray();
+    const pairArray = resultArray.map((result) => {
+      const pairId =
+        result.sender === user_id ? result.recipient : result.sender;
+      const _id = result._id;
+      const status = result.status;
+      return { pairId, _id, status, recipient: result.recipient === user_id };
+    });
+    if (pairArray.length > 0) {
+      return {
+        userId: user_id,
+        recipient: pairArray[0].pairId.recipient,
+        pairId: pairArray[0].pairId,
+        _id: pairArray[0]._id,
+        status: pairArray[0].status,
+      };
+    } else {
+      return { userId: user_id, pairId: null, status: null };
+    }
+  } catch (err) {
+    return Promise.reject({ status: 404, message: "user pair does not exist" });
   }
 };

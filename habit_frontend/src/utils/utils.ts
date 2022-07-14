@@ -1,13 +1,16 @@
 import axios from "axios";
+import moment from "moment";
 
-const getHabitsByUserId = (userId: string, setHabits: Function) => {
-  axios.get(`http://localhost:5656/user/${userId}/habits`).then(({ data }) => {
-    setHabits(data);
-  });
+const getHabitsByUsername = (username: string, setHabits: Function) => {
+  axios
+    .get(`http://localhost:5656/user/${username}/habits`)
+    .then(({ data }) => {
+      setHabits(data);
+    });
 };
 
-const deleteHabit = (habit: string, userId: string) => {
-  return axios.delete(`http://localhost:5656/user/${userId}/habits`, {
+const deleteHabit = (habit: string, username: string) => {
+  return axios.delete(`http://localhost:5656/user/${username}/habits`, {
     data: { habit },
   });
 };
@@ -42,22 +45,63 @@ const updateWeek = (
 };
 
 const updateHabit = async (
-  userId: string,
+  username: string,
   habit: string,
   action: string,
   date: string
 ) => {
-  return axios.put(`http://localhost:5656/user/${userId}/habits/`, {
+  return axios.put(`http://localhost:5656/user/${username}/habits/`, {
     date,
     habit,
     action,
   });
 };
 
+const getPairByUserId = async (username: string, setPair: Function) => {
+  return axios
+    .get(`http://localhost:5656/user/${username}/pair`)
+    .then(({ data }) => {
+      setPair(data);
+    });
+};
+
+const deletePair = async (pair_id: string, setPair: Function) => {
+  return axios
+    .delete(`http://localhost:5656/pair/${pair_id}`)
+    .then(({ data }) => {
+      setPair({});
+    });
+};
+
+const addPair = async (sender: string, recipient: string) => {
+  return axios.post(`http://localhost:5656/pair`, { sender, recipient });
+};
+
+const acceptPairRequest = (pair_id: string) => {
+  return axios.put(`http://localhost:5656/pair/${pair_id}`);
+};
+
+const checkCheckBoxModifiable = (
+  date: string,
+  username: string,
+  displayUser: string
+) => {
+  console.log(date, username, displayUser);
+  const currentDate = moment();
+  if (currentDate.format("DD-MM-YYYY") === date && username === displayUser)
+    return true;
+  return false;
+};
+
 export {
-  getHabitsByUserId,
+  getHabitsByUsername,
   deleteHabit,
   getWeekByUserIdAndWeekStart,
   updateWeek,
   updateHabit,
+  getPairByUserId,
+  deletePair,
+  addPair,
+  acceptPairRequest,
+  checkCheckBoxModifiable,
 };

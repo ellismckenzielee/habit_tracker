@@ -5,9 +5,10 @@ import { Navbar as Nav, Container } from "react-bootstrap";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 const navigation = [
-  { name: "Home", href: "#", current: true },
-  { name: "Pair", href: "#", current: true },
+  { name: "Home", location: "/profile", current: true },
+  { name: "Pair", location: "/pair", current: true },
 ];
 
 function classNames(...classes: Array<any>) {
@@ -52,9 +53,9 @@ const Navbar = () => {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
+                        to={item.location}
                         key={item.name}
-                        href={item.href}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white hover:bg-indigo-900"
@@ -64,7 +65,7 @@ const Navbar = () => {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -156,7 +157,6 @@ const Navbar = () => {
                 <Disclosure.Button
                   key={item.name}
                   as="a"
-                  href={item.href}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
@@ -165,7 +165,7 @@ const Navbar = () => {
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  {item.name}
+                  <Link to={item.location}>{item.name}</Link>
                 </Disclosure.Button>
               ))}
             </div>

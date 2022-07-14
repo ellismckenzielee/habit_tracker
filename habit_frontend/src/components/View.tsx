@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import style from "../styles/View.module.css";
-import { getHabitsByUserId, updateHabit } from "../utils/utils";
+import {
+  getHabitsByUsername,
+  updateHabit,
+  checkCheckBoxModifiable,
+} from "../utils/utils";
 import Actions from "./Actions";
-import { week, habit } from "../types/types";
+import { habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
 import moment from "moment";
 import _ from "lodash";
@@ -17,7 +21,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   let longestStreak = 0;
   useEffect(() => {
     if (focus) {
-      getHabitsByUserId(focus, setHabits);
+      getHabitsByUsername(focus, setHabits);
     }
   }, [date, focus]);
   return (
@@ -42,16 +46,21 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
               {dates.map((date, indx) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;
+                let success = habit.dates.includes(date);
+                const modifiable = checkCheckBoxModifiable(
+                  date,
+                  user.username,
+                  focus
+                );
+                console.log("IS MODIFIABLE", modifiable);
                 return (
                   <div
                     key={date + indx}
-                    className={`${style.HabitCheckBox} ${
-                      habit.dates.includes(date)
-                        ? style.HabitSuccess
-                        : style.HabitCheckBox
-                    } w-10 rounded-full ml-auto mr-auto border-2 border-black`}
+                    className={`${modifiable ? style.HabitModifiable : ""} ${
+                      success ? style.HabitSuccess : style.HabitNoSuccess
+                    } w-10 h-10 rounded-full ml-auto mr-auto border-2 border-black flex flex-column justify-center`}
                     onClick={(e) => {
-                      if (date === moment().format("DD-MM-YYYY")) {
+                      if (modifiable) {
                         let action = habit.dates.includes(date)
                           ? "pull"
                           : "push";
@@ -76,7 +85,13 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                         });
                       }
                     }}
-                  ></div>
+                  >
+                    {success && (
+                      <p className={`${style.CheckSymbol} my-0 text-indigo-50`}>
+                        &#10004;
+                      </p>
+                    )}
+                  </div>
                 );
               })}
             </React.Fragment>
@@ -112,7 +127,9 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
         </div>
       </div>
 
-      <Actions habits={habits} setHabits={setHabits} />
+      {user.username === focus && (
+        <Actions habits={habits} setHabits={setHabits} />
+      )}
     </div>
   );
 };

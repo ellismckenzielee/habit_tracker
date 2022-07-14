@@ -27,7 +27,7 @@ const Delete = ({
               className={`${style.DeleteButton} rounded-xl bg-indigo-800 text-white hover:bg-indigo-300`}
               onClick={(e) => {
                 e.preventDefault();
-                deleteHabit(habit.name, user.userId).then(console.log);
+                deleteHabit(habit.name, user.username).then(console.log);
                 setAction(null);
                 setHabits(() => {
                   return habits.filter((h) => h.name !== habit.name);

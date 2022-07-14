@@ -12,9 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUserId = exports.insertHabit = exports.handleSignup = void 0;
+exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUsername = exports.insertHabit = exports.handleSignup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const mongodb_1 = require("mongodb");
 const db_1 = require("../db/db");
 const date_utils_1 = require("../utils/date.utils");
 const habit_utils_1 = require("../utils/habit.utils");
@@ -27,17 +26,17 @@ const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, f
     return user;
 });
 exports.handleSignup = handleSignup;
-const insertHabit = (user_id, habitName) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield db_1.users.updateOne({ _id: new mongodb_1.ObjectId(user_id) }, { $addToSet: { ["habits"]: habitName } });
+const insertHabit = (username, habitName) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield db_1.users.updateOne({ username }, { $addToSet: { ["habits"]: habitName } });
     const weekToUpdate = (0, date_utils_1.getMonday)(0);
     console.log("WEEK TO UPDATE", weekToUpdate);
-    const week = yield db_1.weeks.updateOne({ user_id, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
+    const week = yield db_1.weeks.updateOne({ username, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
     return week;
 });
 exports.insertHabit = insertHabit;
-const selectHabitsByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+const selectHabitsByUsername = (username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const foundHabits = yield db_1.habits.find({ user_id: userId });
+        const foundHabits = yield db_1.habits.find({ username });
         const habitsArray = yield foundHabits.toArray();
         const habitsArrayWithStreak = (0, habit_utils_1.addStreaks)(habitsArray);
         console.log(habitsArrayWithStreak);
@@ -50,10 +49,10 @@ const selectHabitsByUserId = (userId) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 });
-exports.selectHabitsByUserId = selectHabitsByUserId;
-const createHabit = (user_id, habit) => __awaiter(void 0, void 0, void 0, function* () {
+exports.selectHabitsByUsername = selectHabitsByUsername;
+const createHabit = (username, habit) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newHabit = { user_id, name: habit, dates: [] };
+        const newHabit = { username, name: habit, dates: [] };
         yield db_1.habits.insertOne(newHabit);
     }
     catch (err) {
@@ -85,9 +84,9 @@ const updateHabit = (user_id, habit, action, date) => __awaiter(void 0, void 0, 
     }
 });
 exports.updateHabit = updateHabit;
-const deleteHabitFromDB = (user_id, habit) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteHabitFromDB = (username, habit) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield db_1.habits.deleteMany({ user_id, name: habit });
+        yield db_1.habits.deleteMany({ username, name: habit });
     }
     catch (err) {
         return Promise.reject({
@@ -97,3 +96,33 @@ const deleteHabitFromDB = (user_id, habit) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.deleteHabitFromDB = deleteHabitFromDB;
+const selectPairsByUserId = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield db_1.pairs.find({
+            $or: [{ sender: user_id }, { recipient: user_id }],
+        });
+        const resultArray = yield result.toArray();
+        const pairArray = resultArray.map((result) => {
+            const pairId = result.sender === user_id ? result.recipient : result.sender;
+            const _id = result._id;
+            const status = result.status;
+            return { pairId, _id, status, recipient: result.recipient === user_id };
+        });
+        if (pairArray.length > 0) {
+            return {
+                userId: user_id,
+                recipient: pairArray[0].pairId.recipient,
+                pairId: pairArray[0].pairId,
+                _id: pairArray[0]._id,
+                status: pairArray[0].status,
+            };
+        }
+        else {
+            return { userId: user_id, pairId: null, status: null };
+        }
+    }
+    catch (err) {
+        return Promise.reject({ status: 404, message: "user pair does not exist" });
+    }
+});
+exports.selectPairsByUserId = selectPairsByUserId;

@@ -10,7 +10,7 @@ const Home = () => {
     UserContext
   ) as UserContextType;
   const [hasAccount, setHasAccount] = useState(true);
-  console.log(user);
+  console.log(user, isLoggedIn);
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("jwt-token");
     if (jwtToken) {
@@ -39,7 +39,10 @@ const Home = () => {
     <div>
       <div className={style.Home}>
         {isLoggedIn && <Navigate to="/profile" />}
-        <h1 className={style.Header}> Integrate </h1>
+        <h1 className={`${style.Header} text-indigo-900 rounded-lg`}>
+          {" "}
+          Integrate{" "}
+        </h1>
       </div>
       {hasAccount && <Login setHasAccount={setHasAccount} />}
       {!hasAccount && <Signup setHasAccount={setHasAccount} />}

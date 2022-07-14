@@ -43,7 +43,7 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
           <input
             id="username"
             type="text"
-            className={style.Input}
+            className={`${style.Input} focus:border-5 focus:border-indigo-500`}
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -53,13 +53,16 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
           <input
             id="password"
             type="password"
-            className={style.Input}
+            className={`${style.Input}  focus:border-5 focus:border-indigo-500`}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           ></input>
-          <input type="submit" className={style.Submit}></input>
+          <input
+            type="submit"
+            className={`${style.Submit} hover:uppercase hover:font-bold hover:text-indigo-500`}
+          ></input>
           <p
             onClick={() => {
               setHasAccount(false);

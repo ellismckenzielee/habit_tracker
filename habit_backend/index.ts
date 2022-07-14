@@ -4,6 +4,7 @@ import habitRouter from "./routes/habit.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { handle500, handleErrors } from "./controllers/error.controllers";
+import pairRouter from "./routes/pair.routes";
 
 const app: Express = express();
 app.use(cors());
@@ -17,6 +18,7 @@ app.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
 app.use("/user", userRouter);
 app.use("/habit", habitRouter);
+app.use("/pair", pairRouter);
 app.use(handleErrors);
 app.use(handle500);
 

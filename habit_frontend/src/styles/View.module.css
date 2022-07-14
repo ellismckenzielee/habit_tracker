@@ -9,19 +9,18 @@
 .HabitHeaders {
   font-weight: bolder;
 }
-.HabitCheckBox {
-  background-color: #eef2ff;
-}
-
-.HabitCheckBoxChecked {
+.HabitNoSuccess {
   background-color: #312e81;
 }
 
-.HabitCheckBox:hover {
+.HabitModifiable:hover {
   background-color: #6366f1;
   cursor: pointer;
 }
-
 .HabitSuccess {
-  background-color: #312e81;
+  background-color: white;
+}
+
+.CheckSymbol {
+  color: white;
 }

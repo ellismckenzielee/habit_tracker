@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 
 const getHabitsByUsername = (username: string, setHabits: Function) => {
   axios
@@ -80,6 +81,18 @@ const acceptPairRequest = (pair_id: string) => {
   return axios.put(`http://localhost:5656/pair/${pair_id}`);
 };
 
+const checkCheckBoxModifiable = (
+  date: string,
+  username: string,
+  displayUser: string
+) => {
+  console.log(date, username, displayUser);
+  const currentDate = moment();
+  if (currentDate.format("DD-MM-YYYY") === date && username === displayUser)
+    return true;
+  return false;
+};
+
 export {
   getHabitsByUsername,
   deleteHabit,
@@ -90,4 +103,5 @@ export {
   deletePair,
   addPair,
   acceptPairRequest,
+  checkCheckBoxModifiable,
 };

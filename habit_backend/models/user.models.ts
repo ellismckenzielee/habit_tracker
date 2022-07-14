@@ -100,11 +100,12 @@ export const selectPairsByUserId = async (user_id: string) => {
         result.sender === user_id ? result.recipient : result.sender;
       const _id = result._id;
       const status = result.status;
-      return { pairId, _id, status };
+      return { pairId, _id, status, recipient: result.recipient === user_id };
     });
     if (pairArray.length > 0) {
       return {
         userId: user_id,
+        recipient: pairArray[0].pairId.recipient,
         pairId: pairArray[0].pairId,
         _id: pairArray[0]._id,
         status: pairArray[0].status,

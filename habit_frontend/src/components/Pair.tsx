@@ -72,7 +72,7 @@ const Pair = () => {
           )}
         </div>
         <div className="">
-          {pair.status === "pending" && (
+          {pair.status === "pending" && pair.recipient && (
             <div>
               <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
                 Requests{" "}
@@ -89,6 +89,16 @@ const Pair = () => {
               <button className="bg-indigo-900 text-white rounded-lg w-20 h-10 m-1 hover:uppercase hover:font-bold">
                 Reject{" "}
               </button>
+            </div>
+          )}
+        </div>
+        <div className="">
+          {pair.status === "pending" && !pair.recipient && (
+            <div>
+              <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
+                Pending Requests{" "}
+              </h3>
+              <h2>{pair.pairId}</h2>
             </div>
           )}
         </div>

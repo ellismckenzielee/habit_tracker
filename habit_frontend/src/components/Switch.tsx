@@ -26,7 +26,7 @@ const Switch = ({
           focus === username
             ? "bg-indigo-500 text-indigo-100"
             : "bg-indigo-100 text-indigo-500 text-bold"
-        }`}
+        } hover:outline hover:outline-indigo-500 hover:uppercase`}
         onClick={() => {
           setFocus(username);
         }}
@@ -39,7 +39,7 @@ const Switch = ({
             focus === pairName
               ? "bg-indigo-500 text-indigo-100"
               : "bg-indigo-100 text-indigo-500 text-bold"
-          } `}
+          } hover:outline hover:outline-indigo-500 hover:uppercase`}
           onClick={() => {
             setFocus(pairName);
           }}
@@ -53,7 +53,7 @@ const Switch = ({
             focus === pairName
               ? "bg-indigo-500 text-indigo-100"
               : "bg-indigo-100 text-indigo-500 text-bold"
-          } `}
+          } hover:outline-1 hover:outline-indigo-500 hover:uppercase `}
           onClick={() => {
             navigate("/pair");
           }}

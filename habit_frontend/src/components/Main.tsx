@@ -22,7 +22,6 @@ const Main = () => {
   return (
     <div className={style.Main}>
       {!isLoggedIn && <Navigate to="/" />}
-      <Navbar />
       <Switch
         userId={user.userId}
         focus={focus}

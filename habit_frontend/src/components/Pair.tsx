@@ -18,7 +18,6 @@ const Pair = () => {
   }, [user.username]);
   return (
     <div className={`${style.Pair} `}>
-      <Navbar />
       <div className={`w-9/12 md:w-128 m-auto p-1`}>
         <h1
           className={

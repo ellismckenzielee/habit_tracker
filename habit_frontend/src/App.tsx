@@ -7,6 +7,7 @@ import axios from "axios";
 import { UserContext, UserContextType } from "./context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pair from "./components/Pair";
+import Navbar from "./components/Navbar";
 
 function App() {
   const { user } = useContext(UserContext) as UserContextType;
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Main />} />

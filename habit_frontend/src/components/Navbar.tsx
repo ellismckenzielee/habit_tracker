@@ -21,7 +21,7 @@ const Navbar = () => {
   ) as UserContextType;
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-900 h-15">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -51,7 +51,7 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4">
+                  <div className="flex space-x-6">
                     {navigation.map((item) => (
                       <Link
                         to={item.location}

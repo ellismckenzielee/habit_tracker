@@ -70,6 +70,34 @@ const Pair = () => {
               </div>
             </div>
           )}
+          {!pair.pairId && (
+            <form
+              className="flex flex-column align-center gap-2  w-full md:w-1/2  m-auto mt-4"
+              onSubmit={(e) => {
+                addPair(user.username, pairInput);
+              }}
+            >
+              <h2 className={"m-auto p-2 rounded-lg"}>
+                {pair.pairId ? "Your Pair" : "You don't have a pair, yet."}
+              </h2>
+              <label htmlFor="username">
+                Enter the username of the pair you want to add{" "}
+              </label>
+              <input
+                className="m-auto text-center p-3 my-2 w-full border-2 border-indigo-500"
+                type="text"
+                value={pairInput}
+                onChange={(e) => {
+                  setPairInput(e.target.value);
+                }}
+              ></input>
+              <button
+                className={`${style.FormButton} rounded-md bg-indigo-500 hover:text-indigo-900 hover:uppercase hover:font-bold  p-2 m-auto w-25`}
+              >
+                Add a Pair
+              </button>
+            </form>
+          )}
         </div>
         <div className="">
           {pair.status === "pending" && pair.recipient && (
@@ -111,35 +139,6 @@ const Pair = () => {
             </div>
           )}
         </div>
-
-        {!pair.pairId && (
-          <form
-            className="flex flex-column align-center gap-2  w-full md:w-1/2  m-auto mt-4"
-            onSubmit={(e) => {
-              addPair(user.username, pairInput);
-            }}
-          >
-            <h2 className={"m-auto p-2 rounded-lg"}>
-              {pair.pairId ? "Your Pair" : "You don't have a pair, yet."}
-            </h2>
-            <label htmlFor="username">
-              Enter the username of the pair you want to add{" "}
-            </label>
-            <input
-              className="m-auto text-center p-3 my-2 w-full border-2 border-indigo-500"
-              type="text"
-              value={pairInput}
-              onChange={(e) => {
-                setPairInput(e.target.value);
-              }}
-            ></input>
-            <button
-              className={`${style.FormButton} rounded-md bg-indigo-500 hover:text-indigo-900 hover:uppercase hover:font-bold  p-2 m-auto w-25`}
-            >
-              Add a Pair
-            </button>
-          </form>
-        )}
       </div>
     </div>
   );

@@ -118,7 +118,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
       </div>
       <div className={`flex flex-row flex-wrap justify-center m-5 gap-5`}>
         <div
-          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
           <p className={`text-indigo-400`}>
             <span className={"text-3xl font-bold text-indigo-900"}>
@@ -129,7 +129,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           <p className={`text-indigo-700 font-bold m-auto`}>Week Completion</p>
         </div>
         <div
-          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
           <p className={`text-indigo-400`}>
             {" "}
@@ -144,7 +144,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           </p>
         </div>
         <div
-          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
           <p className={`text-indigo-400`}>
             <span className={"text-3xl font-bold text-indigo-900"}>

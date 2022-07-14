@@ -8,6 +8,7 @@ import {
   deletePair,
   getPairByUserId,
 } from "../utils/utils";
+import { Navigate } from "react-router-dom";
 const Pair = () => {
   const { user, isLoggedIn, setPair, pair } = useContext(
     UserContext
@@ -18,6 +19,8 @@ const Pair = () => {
   }, [user.username]);
   return (
     <div className={`${style.Pair} `}>
+      {!isLoggedIn && <Navigate to="/" />}
+
       <div className={`w-9/12 md:w-128 m-auto p-1`}>
         <h1
           className={

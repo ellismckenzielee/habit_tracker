@@ -16,10 +16,10 @@ function classNames(...classes: Array<any>) {
 }
 
 const Navbar = () => {
-  const { user, logout, setIsLoggedIn } = useContext(
+  const { user, logout, setIsLoggedIn, isLoggedIn } = useContext(
     UserContext
   ) as UserContextType;
-
+  console.log(isLoggedIn);
   return (
     <Disclosure as="nav" className="bg-gray-900 h-15">
       {({ open }) => (
@@ -54,7 +54,7 @@ const Navbar = () => {
                   <div className="flex space-x-6">
                     {navigation.map((item) => (
                       <Link
-                        to={item.location}
+                        to={!isLoggedIn ? "/" : item.location}
                         key={item.name}
                         className={classNames(
                           item.current
@@ -127,23 +127,25 @@ const Navbar = () => {
                           </a>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                            onClick={() => {
-                              logout();
-                              setIsLoggedIn(false);
-                            }}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
+                      {
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                              onClick={() => {
+                                logout();
+                                setIsLoggedIn(false);
+                              }}
+                            >
+                              Sign out
+                            </a>
+                          )}
+                        </Menu.Item>
+                      }
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -165,7 +167,9 @@ const Navbar = () => {
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  <Link to={item.location}>{item.name}</Link>
+                  <Link to={!isLoggedIn ? "/" : item.location}>
+                    {item.name}
+                  </Link>
                 </Disclosure.Button>
               ))}
             </div>

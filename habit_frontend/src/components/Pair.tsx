@@ -19,7 +19,7 @@ const Pair = () => {
   return (
     <div className={`${style.Pair} `}>
       <Navbar />
-      <div className={`w-9/12 m-auto p-1`}>
+      <div className={`w-9/12 md:w-128 m-auto p-1`}>
         <h1
           className={
             "text-left  text-indigo-900 font-bold  p-2 mt-5 rounded-lg"
@@ -29,25 +29,27 @@ const Pair = () => {
           Pair Settings{" "}
         </h1>
         <div>
-          <h3 className="bg-indigo-500 align-middle text-white mb-1 p-2 rounded-lg">
+          <h3 className="bg-indigo-900 align-middle text-white mb-1 p-2 rounded-lg">
             Your Pair{" "}
           </h3>
 
           {pair.pairId && pair.status === "accepted" && (
             <div
               className={
-                "flex flex-column bg-indigo-50 rounded-lg p-5  m-auto my-0 w-full sm:w-3/4 md:w-1/2"
+                "flex flex-column bg-indigo-900 rounded-t-lg p-5  m-auto my-0 w-full "
               }
             >
               <h2
                 className={
-                  "rounded-lg basis-1/4 m-auto align-center text-indigo-600 font-bold"
+                  "rounded-lg basis-1/4 m-auto align-center text-white font-bold"
                 }
               >
                 {pair.pairId}
               </h2>
               <div
-                className={"rounded-full  grow-0 overflow-hidden m-auto my-3 "}
+                className={
+                  "rounded-full border-2 border-indigo-500 grow-0 overflow-hidden m-auto my-3 "
+                }
               >
                 <img
                   src={"images/waldo.jpg"}
@@ -72,7 +74,7 @@ const Pair = () => {
           )}
           {!pair.pairId && (
             <form
-              className="flex flex-column align-center gap-2  w-full md:w-1/2  m-auto mt-4"
+              className="flex flex-column align-center gap-2  w-full   m-auto mt-4"
               onSubmit={(e) => {
                 addPair(user.username, pairInput);
               }}
@@ -114,7 +116,12 @@ const Pair = () => {
               >
                 Accept
               </button>
-              <button className="bg-indigo-900 text-white rounded-lg w-20 h-10 m-1 hover:uppercase hover:font-bold">
+              <button
+                className="bg-indigo-900 text-white rounded-lg w-20 h-10 m-1 hover:uppercase hover:font-bold"
+                onClick={() => {
+                  deletePair(pair._id, setPair);
+                }}
+              >
                 Reject{" "}
               </button>
             </div>

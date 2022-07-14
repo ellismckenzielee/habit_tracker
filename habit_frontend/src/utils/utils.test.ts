@@ -26,5 +26,16 @@ describe("testing utility functions", () => {
       // ASSERT
       expect(result).toBe(expected);
     });
+    test("should return false when the current date does not match the date input, and the username matches the displayUser", () => {
+      // ARRANGE
+      const expected = false;
+      const date = "02-07-2022";
+      const username = "ellismckenzielee";
+      const displayUser = "ellismckenzielee";
+      // ACT
+      const result = checkCheckBoxModifiable(date, username, displayUser);
+      // ASSERT
+      expect(result).toBe(expected);
+    });
   });
 });

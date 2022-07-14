@@ -13,6 +13,9 @@
   background-color: #312e81;
 }
 
+.HabitModifiable {
+  transition: background-color 0.5s;
+}
 .HabitModifiable:hover {
   background-color: #6366f1;
   cursor: pointer;

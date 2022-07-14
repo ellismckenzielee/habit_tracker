@@ -125,6 +125,7 @@ exports.deleteHabit = deleteHabit;
 const getPairsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in getPairs by UserId");
     const { user_id } = req.params;
+    console.log(user_id);
     try {
         const pairs = yield (0, user_models_1.selectPairsByUserId)(user_id);
         console.log(pairs);

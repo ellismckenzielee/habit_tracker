@@ -99,16 +99,18 @@ export const selectPairsByUserId = async (user_id: string) => {
       const pairId =
         result.sender === user_id ? result.recipient : result.sender;
       const _id = result._id;
-      return { pairId, _id };
+      const status = result.status;
+      return { pairId, _id, status };
     });
     if (pairArray.length > 0) {
       return {
         userId: user_id,
         pairId: pairArray[0].pairId,
         _id: pairArray[0]._id,
+        status: pairArray[0].status,
       };
     } else {
-      return { userId: user_id, pairId: null };
+      return { userId: user_id, pairId: null, status: null };
     }
   } catch (err) {
     return Promise.reject({ status: 404, message: "user pair does not exist" });

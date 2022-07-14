@@ -17,25 +17,27 @@ const Pair = () => {
       <div className={`w-8/12 m-auto p-1`}>
         <h1
           className={
-            "text-left text-indigo-900 font-bold bg-indigo-50 h-10 mt-2 rounded-lg"
+            "text-left  text-indigo-900 font-bold  p-2 mt-5 rounded-lg"
           }
         >
           {" "}
           Pair Settings{" "}
         </h1>
-        <h5 className={"text-left  rounded-lg"}>
+        <h5 className={"bg- p-2 rounded-lg text-center sm:text-left"}>
           Choose and remove your habit pair!{" "}
         </h5>
-        <h2 className={"text-left text-white p-2 bg-indigo-900 rounded-lg"}>
-          {pair.pairId ? "Your Pair" : "You don't have a pair, yet"}
-        </h2>
+
         {pair.pairId && (
           <div
             className={
-              "flex flex-column bg-indigo-50 rounded-lg p-5 max-w-md m-auto"
+              "flex flex-column bg-indigo-50 rounded-lg p-5  m-auto w-full sm:w-3/4 md:w-1/2"
             }
           >
-            <h2 className={"rounded-lg basis-1/4 m-auto align-center"}>
+            <h2
+              className={
+                "rounded-lg basis-1/4 m-auto align-center text-indigo-600"
+              }
+            >
               {pair.pairId}
             </h2>
             <div
@@ -47,7 +49,7 @@ const Pair = () => {
             <div className={"align-middle"}>
               <button
                 className={
-                  "rounded-md bg-indigo-500 hover:text-white hover:uppercase p-2 m-auto w-20"
+                  "w-full p-3 rounded-md bg-indigo-500 text-white hover:text-white hover:font-bold hover:uppercase m-auto "
                 }
                 onClick={() => {
                   deletePair(pair._id, setPair);
@@ -60,16 +62,19 @@ const Pair = () => {
         )}
         {!pair.pairId && (
           <form
-            className="flex flex-column align-center gap-2"
+            className="flex flex-column align-center gap-2  w-full md:w-1/2  m-auto mt-4"
             onSubmit={(e) => {
               addPair(user.username, pairInput);
             }}
           >
+            <h2 className={"m-auto p-2 rounded-lg"}>
+              {pair.pairId ? "Your Pair" : "You don't have a pair, yet."}
+            </h2>
             <label htmlFor="username">
               Enter the username of the pair you want to add{" "}
             </label>
             <input
-              className="m-auto text-center p-3 border-1 border-solid border-black"
+              className="m-auto text-center p-3 my-2 w-full border-2 border-indigo-500"
               type="text"
               value={pairInput}
               onChange={(e) => {
@@ -77,9 +82,7 @@ const Pair = () => {
               }}
             ></input>
             <button
-              className={
-                "rounded-md bg-indigo-500 hover:text-white hover:uppercase p-2 m-auto w-25"
-              }
+              className={`${style.FormButton} rounded-md bg-indigo-500 hover:text-indigo-900 hover:uppercase hover:font-bold  p-2 m-auto w-25`}
             >
               Add a Pair
             </button>

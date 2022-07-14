@@ -15,6 +15,7 @@ const Main = () => {
   const [date, setDate] = useState<string>(getMonday(0));
   const [focus, setFocus] = useState<string>(user.username);
   console.log("FOCUS", focus);
+  console.log("PAIR", pair);
   useEffect(() => {
     getPairByUserId(user.username, setPair);
   }, [user.username]);

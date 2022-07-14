@@ -42,14 +42,13 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
               {dates.map((date, indx) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;
+                let success = habit.dates.includes(date);
                 return (
                   <div
                     key={date + indx}
                     className={`${style.HabitCheckBox} ${
-                      habit.dates.includes(date)
-                        ? style.HabitSuccess
-                        : style.HabitCheckBox
-                    } w-10 rounded-full ml-auto mr-auto border-2 border-black`}
+                      success ? style.HabitSuccess : style.HabitCheckBox
+                    } w-10 h-10 rounded-full ml-auto mr-auto border-2 border-black flex flex-column justify-center`}
                     onClick={(e) => {
                       if (date === moment().format("DD-MM-YYYY")) {
                         let action = habit.dates.includes(date)
@@ -76,7 +75,13 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                         });
                       }
                     }}
-                  ></div>
+                  >
+                    {success && (
+                      <p className={`${style.CheckSymbol} my-0 text-indigo-50`}>
+                        &#10004;
+                      </p>
+                    )}
+                  </div>
                 );
               })}
             </React.Fragment>

@@ -39,7 +39,10 @@ const Home = () => {
     <div>
       <div className={style.Home}>
         {isLoggedIn && <Navigate to="/profile" />}
-        <h1 className={style.Header}> Integrate </h1>
+        <h1 className={`${style.Header} text-indigo-900 rounded-lg`}>
+          {" "}
+          Integrate{" "}
+        </h1>
       </div>
       {hasAccount && <Login setHasAccount={setHasAccount} />}
       {!hasAccount && <Signup setHasAccount={setHasAccount} />}

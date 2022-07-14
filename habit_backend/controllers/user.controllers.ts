@@ -148,6 +148,7 @@ export const getPairsByUserId = async (
 ) => {
   console.log("in getPairs by UserId");
   const { user_id } = req.params;
+  console.log(user_id);
   try {
     const pairs = await selectPairsByUserId(user_id);
     console.log(pairs);

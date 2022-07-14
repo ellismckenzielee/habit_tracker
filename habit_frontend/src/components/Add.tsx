@@ -47,7 +47,7 @@ const Add = ({
           type="text"
           id="habitName"
           value={habit}
-          className={style.AddNameInput}
+          className={`${style.AddNameInput} text-center border-2 border-indigo-500 focus:outline focus:outline-indigo-900`}
           onChange={(e) => {
             setHabit(e.target.value);
           }}

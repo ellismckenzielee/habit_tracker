@@ -19,7 +19,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   const totalDates = habits.length * 7;
   let count = 0;
   let longestStreak = 0;
-  let bestDay = "";
+  let bestDay = "Monday";
   let dayScores = [0, 0, 0, 0, 0, 0, 0];
   let maxScore = 0;
   let days = [

@@ -1,6 +1,7 @@
 .Home {
   background-color: #f5efed;
-  background-image: url("/public/images/abstract.jpg");
+  background-image: url("/public/images/blue.jpg");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;

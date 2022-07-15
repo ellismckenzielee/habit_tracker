@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-bootstrap/lib/Navbar";
 import { useNavigate } from "react-router-dom";
 import style from "../styles/Switch.module.css";
@@ -12,7 +13,7 @@ const Switch = ({
 }: {
   username: string;
   pairName: string;
-  setFocus: Function;
+  setFocus: React.Dispatch<React.SetStateAction<string>>;
   status: string;
   userId: string;
   pairId: string;

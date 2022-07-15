@@ -4,14 +4,17 @@ import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
+const Login = ({
+  setHasAccount,
+}: {
+  setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const userContext = useContext(UserContext) as UserContextType;
   const isLoggedIn = userContext.isLoggedIn;
   const setIsLoggedIn = userContext.setIsLoggedIn;
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(() => {});
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}
@@ -35,8 +38,7 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
                 };
                 setUser(user);
                 setIsLoggedIn(true);
-              })
-              .catch(() => {});
+              });
           }}
         >
           <label htmlFor="username">username</label>
@@ -68,7 +70,7 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
               setHasAccount(false);
             }}
           >
-            Don't have an account?
+            Don&apos;t have an account?
           </p>
         </form>
       </div>

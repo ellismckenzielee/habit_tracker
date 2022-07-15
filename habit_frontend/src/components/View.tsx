@@ -9,7 +9,6 @@ import {
 import Actions from "./Actions";
 import { habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
-import moment from "moment";
 import _ from "lodash";
 
 const View = ({ date, focus }: { date: string; focus: string }) => {
@@ -20,9 +19,9 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   let count = 0;
   let longestStreak = 0;
   let bestDay = "Monday";
-  let dayScores = [0, 0, 0, 0, 0, 0, 0];
+  const dayScores = [0, 0, 0, 0, 0, 0, 0];
   let maxScore = 0;
-  let days = [
+  const days = [
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -59,7 +58,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
               {dates.map((date, indx) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;
-                let success = habit.dates.includes(date);
+                const success = habit.dates.includes(date);
                 dayScores[indx] += success ? 1 : 0;
                 if (dayScores[indx] > maxScore) {
                   maxScore = dayScores[indx];
@@ -79,7 +78,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                     } w-10 h-10 rounded-full ml-auto mr-auto border-2 border-black flex flex-column justify-center`}
                     onClick={(e) => {
                       if (modifiable) {
-                        let action = habit.dates.includes(date)
+                        const action = habit.dates.includes(date)
                           ? "pull"
                           : "push";
                         updateHabit(focus, habit.name, action, date);

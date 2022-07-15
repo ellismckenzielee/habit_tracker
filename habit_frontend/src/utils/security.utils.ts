@@ -1,4 +1,4 @@
-const checkPassword: Function = (password: string) => {
+const checkPassword = (password: string) => {
   const responseMessages = {
     length: "Minimum 7 characters",
     numeric: "Includes numeric characters",
@@ -27,7 +27,7 @@ const checkPassword: Function = (password: string) => {
   return { success, message };
 };
 
-const checkUsername = (username: string = "") => {
+const checkUsername = (username = "") => {
   if (username.length < 5) {
     return { success: false, message: "should be at least 5 characters" };
   }

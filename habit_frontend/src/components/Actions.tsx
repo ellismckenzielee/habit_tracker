@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import style from "../styles/Actions.module.css";
 import Add from "./Add";
 import Delete from "./Delete";
@@ -9,7 +9,7 @@ const Actions = ({
   setHabits,
 }: {
   habits: habit[];
-  setHabits: Function;
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
 }) => {
   const [action, setAction] = useState<null | string>(null);
   return (

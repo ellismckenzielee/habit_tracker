@@ -9,8 +9,8 @@ const Delete = ({
   setAction,
 }: {
   habits: habit[];
-  setHabits: Function;
-  setAction: Function;
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
+  setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   const { user } = useContext(UserContext) as UserContextType;
   return (

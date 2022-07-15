@@ -1,4 +1,3 @@
-import Navbar from "./Navbar";
 import style from "../styles/Pair.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";

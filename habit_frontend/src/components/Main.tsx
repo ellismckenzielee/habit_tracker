@@ -39,8 +39,8 @@ const Main = () => {
       )}
       {focus !== user.username && (
         <h1 className={`p-3 `}>
-          Here are <span className="text-indigo-500">{user.pairName}</span>'s
-          habits.
+          Here are <span className="text-indigo-500">{user.pairName}</span>
+          $apos;s habits.
         </h1>
       )}
 

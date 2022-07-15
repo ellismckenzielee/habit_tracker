@@ -1,7 +1,11 @@
 import axios from "axios";
 import moment from "moment";
-
-const getHabitsByUsername = (username: string, setHabits: Function) => {
+import React from "react";
+import { habit } from "../types/types";
+const getHabitsByUsername = (
+  username: string,
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>
+) => {
   axios
     .get(`http://localhost:5656/user/${username}/habits`)
     .then(({ data }) => {
@@ -15,17 +19,17 @@ const deleteHabit = (habit: string, username: string) => {
   });
 };
 
-const getWeekByUserIdAndWeekStart = (
-  userId: string,
-  weekStart: string,
-  setWeek: Function
-) => {
-  axios
-    .get(`http://localhost:5656/user/${userId}/habits/${weekStart}`)
-    .then(({ data }) => {
-      setWeek(data);
-    });
-};
+// const getWeekByUserIdAndWeekStart = (
+//   userId: string,
+//   weekStart: string,
+//   setWeek: Function
+// ) => {
+//   axios
+//     .get(`http://localhost:5656/user/${userId}/habits/${weekStart}`)
+//     .then(({ data }) => {
+//       setWeek(data);
+//     });
+// };
 
 const updateWeek = (
   userId: string,
@@ -57,7 +61,10 @@ const updateHabit = async (
   });
 };
 
-const getPairByUserId = async (username: string, setPair: Function) => {
+const getPairByUserId = async (
+  username: string,
+  setPair: React.Dispatch<React.SetStateAction<Record<string, unknown>>>
+) => {
   return axios
     .get(`http://localhost:5656/user/${username}/pair`)
     .then(({ data }) => {
@@ -65,7 +72,10 @@ const getPairByUserId = async (username: string, setPair: Function) => {
     });
 };
 
-const deletePair = async (pair_id: string, setPair: Function) => {
+const deletePair = async (
+  pair_id: string,
+  setPair: React.Dispatch<React.SetStateAction<Record<string, unknown>>>
+) => {
   return axios
     .delete(`http://localhost:5656/pair/${pair_id}`)
     .then(({ data }) => {
@@ -96,7 +106,6 @@ const checkCheckBoxModifiable = (
 export {
   getHabitsByUsername,
   deleteHabit,
-  getWeekByUserIdAndWeekStart,
   updateWeek,
   updateHabit,
   getPairByUserId,

@@ -1,5 +1,5 @@
 import style from "../styles/Add.module.css";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import axios, { AxiosResponse } from "axios";
 import { habit } from "../types/types";
@@ -12,8 +12,8 @@ const Add = ({
   setHabits,
 }: {
   habits: habit[];
-  setHabits: Function;
-  setAction: Function;
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
+  setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   const [habit, setHabit] = useState("");
   const { user } = useContext(UserContext) as UserContextType;
@@ -30,12 +30,19 @@ const Add = ({
               .post(`http://localhost:5656/user/${user.username}/habits`, {
                 habit: habit,
               })
-              .then((response: Data) => {
+              .then(() => {
                 setAction(null);
               })
               .catch(console.log);
-            setHabits(() => {
-              return [...habits, { name: habit, streak: 0, dates: [] }];
+            setHabits((habits: habit[]) => {
+              const additionalHabit: habit = {
+                user_id: user.username,
+                name: habit,
+                streak: 0,
+                dates: [],
+                _id: "35345",
+              };
+              return [...habits, additionalHabit];
             });
           }
         }}

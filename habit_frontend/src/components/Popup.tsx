@@ -4,7 +4,7 @@ const Popup = ({
   setAction,
 }: {
   children: any;
-  setAction: Function;
+  setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   return (
     <div className={style.Popup}>

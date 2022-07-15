@@ -10,9 +10,11 @@ type UserContextType = {
   setUser: any;
   isLoggedIn: any;
   setIsLoggedIn: any;
-  logout: Function;
+  logout: () => void;
   pair: any;
-  setPair: Function;
+  setPair: React.Dispatch<
+    React.SetStateAction<Record<string, unknown> | PairType>
+  >;
 };
 
 type UserType = {
@@ -25,9 +27,9 @@ type UserType = {
 const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = (props: any) => {
-  const [user, setUser] = useState<UserType | {}>({});
+  const [user, setUser] = useState<UserType | Record<string, unknown>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [pair, setPair] = useState<PairType | {}>({});
+  const [pair, setPair] = useState<PairType | Record<string, unknown>>({});
   const values: UserContextType = {
     user,
     setUser,

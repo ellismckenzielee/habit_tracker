@@ -9,6 +9,7 @@ jobs:
       - name: Frontend Lint Checks
         run: cd habit_frontend && npm ci
       - name: Lint Action
+        working-directory: ./habit_frontend
         uses: wearerequired/lint-action@v2.0.1
         with:
           eslint: true

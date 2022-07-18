@@ -3,7 +3,7 @@ const Popup = ({
   children,
   setAction,
 }: {
-  children: any;
+  children: JSX.Element;
   setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   return (

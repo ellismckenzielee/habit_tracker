@@ -3,7 +3,6 @@ import View from "./View";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import Navbar from "./Navbar";
 import Date from "./Date";
 import { getMonday } from "../utils/date.utils";
 import Switch from "./Switch";
@@ -23,10 +22,8 @@ const Main = () => {
     <div className={style.Main}>
       {!isLoggedIn && <Navigate to="/" />}
       <Switch
-        userId={user.userId}
         focus={focus}
         status={pair.status}
-        pairId={pair.pairId}
         username={user.username}
         pairName={pair.pairId}
         setFocus={setFocus}

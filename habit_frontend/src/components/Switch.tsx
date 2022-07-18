@@ -1,13 +1,10 @@
 import React from "react";
-import { Link } from "react-bootstrap/lib/Navbar";
 import { useNavigate } from "react-router-dom";
 import style from "../styles/Switch.module.css";
 const Switch = ({
   setFocus,
   username,
   pairName,
-  userId,
-  pairId,
   status,
   focus,
 }: {
@@ -15,8 +12,6 @@ const Switch = ({
   pairName: string;
   setFocus: React.Dispatch<React.SetStateAction<string>>;
   status: string;
-  userId: string;
-  pairId: string;
   focus: string;
 }) => {
   const navigate = useNavigate();

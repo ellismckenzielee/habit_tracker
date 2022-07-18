@@ -1,7 +1,5 @@
-import style from "../styles/Navbar.module.css";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext } from "react";
-import { Navbar as Nav, Container } from "react-bootstrap";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -11,12 +9,12 @@ const navigation = [
   { name: "Pair", location: "/pair", current: true },
 ];
 
-function classNames(...classes: Array<any>) {
+function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-  const { user, logout, setIsLoggedIn, isLoggedIn } = useContext(
+  const { logout, setIsLoggedIn, isLoggedIn } = useContext(
     UserContext
   ) as UserContextType;
   console.log(isLoggedIn);

@@ -76,7 +76,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                     className={`${modifiable ? style.HabitModifiable : ""} ${
                       success ? style.HabitSuccess : style.HabitNoSuccess
                     } w-10 h-10 rounded-full ml-auto mr-auto border-2 border-black flex flex-column justify-center`}
-                    onClick={(e) => {
+                    onClick={() => {
                       if (modifiable) {
                         const action = habit.dates.includes(date)
                           ? "pull"

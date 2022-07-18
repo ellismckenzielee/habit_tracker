@@ -1,17 +1,13 @@
 import style from "../styles/Add.module.css";
 import React, { useContext, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { habit } from "../types/types";
-interface Data extends AxiosResponse {
-  data: { insertedId: string };
-}
+
 const Add = ({
   setAction,
-  habits,
   setHabits,
 }: {
-  habits: habit[];
   setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
   setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {

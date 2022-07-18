@@ -76,7 +76,7 @@ const Pair = () => {
           {!pair.pairId && (
             <form
               className="flex flex-column align-center gap-2  w-full   m-auto mt-4"
-              onSubmit={(e) => {
+              onSubmit={() => {
                 addPair(user.username, pairInput);
               }}
             >

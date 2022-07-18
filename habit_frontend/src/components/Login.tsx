@@ -1,5 +1,5 @@
 import style from "../styles/Login.module.css";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";

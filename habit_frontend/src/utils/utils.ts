@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import React from "react";
 import { habit } from "../types/types";
+import { PairType } from "../context/UserContext";
 const getHabitsByUsername = (
   username: string,
   setHabits: React.Dispatch<React.SetStateAction<habit[]>>
@@ -63,7 +64,9 @@ const updateHabit = async (
 
 const getPairByUserId = async (
   username: string,
-  setPair: React.Dispatch<React.SetStateAction<Record<string, unknown>>>
+  setPair: React.Dispatch<
+    React.SetStateAction<PairType | Record<string, string>>
+  >
 ) => {
   return axios
     .get(`http://localhost:5656/user/${username}/pair`)
@@ -74,13 +77,13 @@ const getPairByUserId = async (
 
 const deletePair = async (
   pair_id: string,
-  setPair: React.Dispatch<React.SetStateAction<Record<string, unknown>>>
+  setPair: React.Dispatch<
+    React.SetStateAction<PairType | Record<string, string>>
+  >
 ) => {
-  return axios
-    .delete(`http://localhost:5656/pair/${pair_id}`)
-    .then(({ data }) => {
-      setPair({});
-    });
+  return axios.delete(`http://localhost:5656/pair/${pair_id}`).then(() => {
+    setPair({});
+  });
 };
 
 const addPair = async (sender: string, recipient: string) => {

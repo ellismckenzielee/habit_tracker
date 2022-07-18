@@ -49,7 +49,7 @@ const Signup = ({
               username.length > 0 && usernameError === ""
                 ? style.SuccessInput
                 : ""
-            }`}
+            } focus:border-indigo-500`}
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -71,10 +71,10 @@ const Signup = ({
             id="password"
             type="password"
             className={`${style.Input} ${
-              username.length > 0 && usernameError === ""
+              password.length > 0 && passwordError === ""
                 ? style.SuccessInput
                 : ""
-            }`}
+            } focus:border-indigo-500`}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);

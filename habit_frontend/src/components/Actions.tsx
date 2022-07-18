@@ -32,11 +32,7 @@ const Actions = ({
       </button>
       {action === "add" && (
         <Popup setAction={setAction}>
-          <Add
-            setAction={setAction}
-            habits={habits}
-            setHabits={setHabits}
-          ></Add>
+          <Add setAction={setAction} setHabits={setHabits}></Add>
         </Popup>
       )}
       {action === "delete" && (

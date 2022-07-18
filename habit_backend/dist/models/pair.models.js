@@ -24,8 +24,18 @@ const deletePairFromDB = (pair_id) => __awaiter(void 0, void 0, void 0, function
 exports.deletePairFromDB = deletePairFromDB;
 const createPair = (sender, recipient) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield db_1.pairs.insertOne({ sender, recipient, status: "pending" });
-        return;
+        const result = yield db_1.pairs.findOne({
+            $or: [{ sender: sender }, { recipient: sender }],
+        });
+        if (result)
+            return Promise.reject({
+                status: 409,
+                message: "pair creation went wrong - pair already exists",
+            });
+        else {
+            yield db_1.pairs.insertOne({ sender, recipient, status: "pending" });
+            return;
+        }
     }
     catch (err) {
         return Promise.reject({ status: 500, message: "pair creation went wrong" });

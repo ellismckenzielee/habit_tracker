@@ -26,6 +26,7 @@ exports.deletePair = deletePair;
 const postPair = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in postPair function");
     const { sender, recipient } = req.body;
+    console.log(sender, recipient);
     try {
         yield (0, pair_models_1.createPair)(sender, recipient);
         res.sendStatus(200);

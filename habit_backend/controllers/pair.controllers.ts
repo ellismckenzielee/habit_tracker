@@ -27,6 +27,7 @@ export const postPair = async (
 ) => {
   console.log("in postPair function");
   const { sender, recipient } = req.body;
+  console.log(sender, recipient);
   try {
     await createPair(sender, recipient);
     res.sendStatus(200);

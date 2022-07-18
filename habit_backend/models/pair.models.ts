@@ -11,8 +11,18 @@ export const deletePairFromDB = async (pair_id: string) => {
 
 export const createPair = async (sender: string, recipient: string) => {
   try {
-    await pairs.insertOne({ sender, recipient, status: "pending" });
-    return;
+    const result = await pairs.findOne({
+      $or: [{ sender: sender }, { recipient: sender }],
+    });
+    if (result)
+      return Promise.reject({
+        status: 409,
+        message: "pair creation went wrong - pair already exists",
+      });
+    else {
+      await pairs.insertOne({ sender, recipient, status: "pending" });
+      return;
+    }
   } catch (err) {
     return Promise.reject({ status: 500, message: "pair creation went wrong" });
   }

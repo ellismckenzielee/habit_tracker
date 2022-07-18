@@ -8,10 +8,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Frontend Lint Checks
         run: cd habit_frontend && npm ci
-      - name: Lint Action
-        uses: wearerequired/lint-action@v2.0.1
-        with:
-          eslint: true
-          prettier: true
-        working-directory: ./habit_frontend
+      - name: ESLINT
+        run: cd habit_frontend && npm eslint .
       - run: echo "job is running"

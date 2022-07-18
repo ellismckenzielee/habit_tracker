@@ -9,5 +9,5 @@ jobs:
       - name: Frontend Lint Checks
         run: cd habit_frontend && npm ci
       - name: ESLINT
-        run: cd habit_frontend && npm eslint .
+        run: cd habit_frontend && npx eslint .
       - run: echo "job is running"

@@ -6,8 +6,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Frontend Lint Checks
+      - name: Install Frontend Dependencies
         run: cd habit_frontend && npm ci
-      - name: ESLINT
+      - name: Perform Frontend Linting
         run: cd habit_frontend && npx eslint .
-      - run: echo "job is running"
+      - name: Perform Frontend Testing
+        run: cd habit_frontend && npm t

@@ -99,7 +99,6 @@ const checkCheckBoxModifiable = (
   username: string,
   displayUser: string
 ) => {
-  console.log(date, username, displayUser);
   const currentDate = moment();
   if (currentDate.format("DD-MM-YYYY") === date && username === displayUser)
     return true;

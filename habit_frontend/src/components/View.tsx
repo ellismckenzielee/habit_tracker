@@ -69,7 +69,6 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
                   user.username,
                   focus
                 );
-                console.log("IS MODIFIABLE", modifiable);
                 return (
                   <div
                     key={date + indx}

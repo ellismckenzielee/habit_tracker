@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import style from "../styles/Actions.module.css";
 import Add from "./Add";
 import Delete from "./Delete";
@@ -9,7 +9,7 @@ const Actions = ({
   setHabits,
 }: {
   habits: habit[];
-  setHabits: Function;
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
 }) => {
   const [action, setAction] = useState<null | string>(null);
   return (
@@ -32,11 +32,7 @@ const Actions = ({
       </button>
       {action === "add" && (
         <Popup setAction={setAction}>
-          <Add
-            setAction={setAction}
-            habits={habits}
-            setHabits={setHabits}
-          ></Add>
+          <Add setAction={setAction} setHabits={setHabits}></Add>
         </Popup>
       )}
       {action === "delete" && (

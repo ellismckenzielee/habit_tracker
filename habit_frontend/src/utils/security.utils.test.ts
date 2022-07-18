@@ -133,5 +133,17 @@ describe("testing security utility functions", () => {
       // ASSERT
       expect(result).toEqual(expected);
     });
+    test("should return a failure object for username containing whitespace", () => {
+      // ARRANGE
+      const username = "ellis1 993";
+      const expected = {
+        success: false,
+        message: "username cannot contain whitespace",
+      };
+      // ACT
+      const result = checkUsername(username);
+      // ASSERT
+      expect(result).toEqual(expected);
+    });
   });
 });

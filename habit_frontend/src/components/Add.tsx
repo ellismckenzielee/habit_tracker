@@ -1,19 +1,15 @@
 import style from "../styles/Add.module.css";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { habit } from "../types/types";
-interface Data extends AxiosResponse {
-  data: { insertedId: string };
-}
+
 const Add = ({
   setAction,
-  habits,
   setHabits,
 }: {
-  habits: habit[];
-  setHabits: Function;
-  setAction: Function;
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>;
+  setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   const [habit, setHabit] = useState("");
   const { user } = useContext(UserContext) as UserContextType;
@@ -30,12 +26,19 @@ const Add = ({
               .post(`http://localhost:5656/user/${user.username}/habits`, {
                 habit: habit,
               })
-              .then((response: Data) => {
+              .then(() => {
                 setAction(null);
               })
               .catch(console.log);
-            setHabits(() => {
-              return [...habits, { name: habit, streak: 0, dates: [] }];
+            setHabits((habits: habit[]) => {
+              const additionalHabit: habit = {
+                user_id: user.username,
+                name: habit,
+                streak: 0,
+                dates: [],
+                _id: "35345",
+              };
+              return [...habits, additionalHabit];
             });
           }
         }}
@@ -47,7 +50,7 @@ const Add = ({
           type="text"
           id="habitName"
           value={habit}
-          className={style.AddNameInput}
+          className={`${style.AddNameInput} text-center border-2 border-indigo-500 focus:outline focus:outline-indigo-900`}
           onChange={(e) => {
             setHabit(e.target.value);
           }}

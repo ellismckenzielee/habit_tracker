@@ -1,7 +1,13 @@
 import style from "../styles/Date.module.css";
 import { useEffect, useState } from "react";
 import { getMonday } from "../utils/date.utils";
-const Date = ({ date, setDate }: { date: string; setDate: Function }) => {
+const Date = ({
+  date,
+  setDate,
+}: {
+  date: string;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [offset, setOffset] = useState<number>(0);
   useEffect(() => {
     setDate(getMonday(offset));

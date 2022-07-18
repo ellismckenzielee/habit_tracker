@@ -1,10 +1,11 @@
 .Home {
   background-color: #f5efed;
-  background-image: url("/public/images/abstract.jpg");
-  height: 60vh;
+  background-image: url("/public/images/blue.jpg");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
 }
 
 .Header {

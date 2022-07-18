@@ -1,7 +1,5 @@
-import style from "../styles/Navbar.module.css";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { useContext } from "react";
-import { Navbar as Nav, Container } from "react-bootstrap";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -11,17 +9,17 @@ const navigation = [
   { name: "Pair", location: "/pair", current: true },
 ];
 
-function classNames(...classes: Array<any>) {
+function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-  const { user, logout, setIsLoggedIn } = useContext(
+  const { logout, setIsLoggedIn, isLoggedIn } = useContext(
     UserContext
   ) as UserContextType;
-
+  console.log(isLoggedIn);
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-900 h-15">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -51,10 +49,10 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4">
+                  <div className="flex space-x-6">
                     {navigation.map((item) => (
                       <Link
-                        to={item.location}
+                        to={!isLoggedIn ? "/" : item.location}
                         key={item.name}
                         className={classNames(
                           item.current
@@ -127,23 +125,25 @@ const Navbar = () => {
                           </a>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                            onClick={() => {
-                              logout();
-                              setIsLoggedIn(false);
-                            }}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
+                      {
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                              onClick={() => {
+                                logout();
+                                setIsLoggedIn(false);
+                              }}
+                            >
+                              Sign out
+                            </a>
+                          )}
+                        </Menu.Item>
+                      }
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -165,7 +165,9 @@ const Navbar = () => {
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  <Link to={item.location}>{item.name}</Link>
+                  <Link to={!isLoggedIn ? "/" : item.location}>
+                    {item.name}
+                  </Link>
                 </Disclosure.Button>
               ))}
             </div>

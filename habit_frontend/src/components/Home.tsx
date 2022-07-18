@@ -36,8 +36,8 @@ const Home = () => {
     }
   }, []);
   return (
-    <div>
-      <div className={style.Home}>
+    <div className={style.Home}>
+      <div>
         {isLoggedIn && <Navigate to="/profile" />}
         <h1 className={`${style.Header} text-indigo-900 rounded-lg`}>
           {" "}

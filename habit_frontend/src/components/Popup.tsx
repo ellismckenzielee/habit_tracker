@@ -3,8 +3,8 @@ const Popup = ({
   children,
   setAction,
 }: {
-  children: any;
-  setAction: Function;
+  children: JSX.Element;
+  setAction: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   return (
     <div className={style.Popup}>

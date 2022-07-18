@@ -1,18 +1,24 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 type PairType = {
   userId: string;
   pairId: string;
   _id: string;
+  status: string;
+  recipient: boolean;
 };
 type UserContextType = {
-  user: any; // Not sure what these are, type it appropriately
-  setUser: any;
-  isLoggedIn: any;
-  setIsLoggedIn: any;
-  logout: Function;
-  pair: any;
-  setPair: Function;
+  user: UserType | Record<string, string>; // Not sure what these are, type it appropriately
+  setUser: React.Dispatch<
+    React.SetStateAction<UserType | Record<string, string>>
+  >;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  logout: () => void;
+  pair: PairType | Record<string, string>;
+  setPair: React.Dispatch<
+    React.SetStateAction<PairType | Record<string, string>>
+  >;
 };
 
 type UserType = {
@@ -24,10 +30,10 @@ type UserType = {
 
 const UserContext = createContext<UserContextType | null>(null);
 
-const UserProvider = (props: any) => {
-  const [user, setUser] = useState<UserType | {}>({});
+const UserProvider = ({ children }: { children: JSX.Element }) => {
+  const [user, setUser] = useState<UserType | Record<string, string>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [pair, setPair] = useState<PairType | {}>({});
+  const [pair, setPair] = useState<PairType | Record<string, string>>({});
   const values: UserContextType = {
     user,
     setUser,
@@ -40,10 +46,8 @@ const UserProvider = (props: any) => {
       window.localStorage.removeItem("jwt-token");
     },
   };
-  return (
-    <UserContext.Provider value={values}>{props.children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };
 
 export { UserContext, UserProvider };
-export type { UserContextType, UserType };
+export type { UserContextType, UserType, PairType };

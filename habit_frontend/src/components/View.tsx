@@ -9,7 +9,6 @@ import {
 import Actions from "./Actions";
 import { habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
-import moment from "moment";
 import _ from "lodash";
 
 const View = ({ date, focus }: { date: string; focus: string }) => {
@@ -19,6 +18,19 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
   const totalDates = habits.length * 7;
   let count = 0;
   let longestStreak = 0;
+  let bestDay = "Monday";
+  const dayScores = [0, 0, 0, 0, 0, 0, 0];
+  let maxScore = 0;
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   useEffect(() => {
     if (focus) {
       getHabitsByUsername(focus, setHabits);
@@ -46,22 +58,26 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
               {dates.map((date, indx) => {
                 if (habit.dates.includes(date)) count++;
                 if (habit.streak > longestStreak) longestStreak = habit.streak;
-                let success = habit.dates.includes(date);
+                const success = habit.dates.includes(date);
+                dayScores[indx] += success ? 1 : 0;
+                if (dayScores[indx] > maxScore) {
+                  maxScore = dayScores[indx];
+                  bestDay = days[indx];
+                }
                 const modifiable = checkCheckBoxModifiable(
                   date,
                   user.username,
                   focus
                 );
-                console.log("IS MODIFIABLE", modifiable);
                 return (
                   <div
                     key={date + indx}
                     className={`${modifiable ? style.HabitModifiable : ""} ${
                       success ? style.HabitSuccess : style.HabitNoSuccess
                     } w-10 h-10 rounded-full ml-auto mr-auto border-2 border-black flex flex-column justify-center`}
-                    onClick={(e) => {
+                    onClick={() => {
                       if (modifiable) {
-                        let action = habit.dates.includes(date)
+                        const action = habit.dates.includes(date)
                           ? "pull"
                           : "push";
                         updateHabit(focus, habit.name, action, date);
@@ -100,7 +116,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
       </div>
       <div className={`flex flex-row flex-wrap justify-center m-5 gap-5`}>
         <div
-          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
           <p className={`text-indigo-400`}>
             <span className={"text-3xl font-bold text-indigo-900"}>
@@ -111,7 +127,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           <p className={`text-indigo-700 font-bold m-auto`}>Week Completion</p>
         </div>
         <div
-          className={`p-2 grow basis-1/2 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
           <p className={`text-indigo-400`}>
             {" "}
@@ -125,8 +141,18 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
             Current longest streak
           </p>
         </div>
-      </div>
+        <div
+          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
+        >
+          <p className={`text-indigo-400`}>
+            <span className={"text-3xl font-bold text-indigo-900"}>
+              {maxScore + "/" + habits.length}
+            </span>
+          </p>
 
+          <p className={`text-indigo-700 font-bold m-auto`}>{bestDay}</p>
+        </div>
+      </div>
       {user.username === focus && (
         <Actions habits={habits} setHabits={setHabits} />
       )}

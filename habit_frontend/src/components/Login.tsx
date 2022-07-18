@@ -1,17 +1,23 @@
 import style from "../styles/Login.module.css";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
+const Login = ({
+  setHasAccount,
+}: {
+  setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const userContext = useContext(UserContext) as UserContextType;
   const isLoggedIn = userContext.isLoggedIn;
   const setIsLoggedIn = userContext.setIsLoggedIn;
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(() => {});
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}
@@ -35,8 +41,7 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
                 };
                 setUser(user);
                 setIsLoggedIn(true);
-              })
-              .catch(() => {});
+              });
           }}
         >
           <label htmlFor="username">username</label>
@@ -49,6 +54,7 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
               setUsername(e.target.value);
             }}
           ></input>
+          <p className="h-2">{usernameError}</p>
           <label htmlFor="password">password</label>
           <input
             id="password"
@@ -59,6 +65,8 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
               setPassword(e.target.value);
             }}
           ></input>
+          <p className="h-2">{passwordError}</p>
+
           <input
             type="submit"
             className={`${style.Submit} hover:uppercase hover:font-bold hover:text-indigo-500`}
@@ -67,8 +75,11 @@ const Login = ({ setHasAccount }: { setHasAccount: Function }) => {
             onClick={() => {
               setHasAccount(false);
             }}
+            className={
+              "p-2 bg-indigo-900 rounded-lg hover:uppercase hover:font-bold hover:cursor-pointer"
+            }
           >
-            Don't have an account?
+            Don&apos;t have an account?
           </p>
         </form>
       </div>

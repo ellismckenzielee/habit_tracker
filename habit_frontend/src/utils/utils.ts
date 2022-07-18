@@ -1,7 +1,12 @@
 import axios from "axios";
 import moment from "moment";
-
-const getHabitsByUsername = (username: string, setHabits: Function) => {
+import React from "react";
+import { habit } from "../types/types";
+import { PairType } from "../context/UserContext";
+const getHabitsByUsername = (
+  username: string,
+  setHabits: React.Dispatch<React.SetStateAction<habit[]>>
+) => {
   axios
     .get(`http://localhost:5656/user/${username}/habits`)
     .then(({ data }) => {
@@ -15,17 +20,17 @@ const deleteHabit = (habit: string, username: string) => {
   });
 };
 
-const getWeekByUserIdAndWeekStart = (
-  userId: string,
-  weekStart: string,
-  setWeek: Function
-) => {
-  axios
-    .get(`http://localhost:5656/user/${userId}/habits/${weekStart}`)
-    .then(({ data }) => {
-      setWeek(data);
-    });
-};
+// const getWeekByUserIdAndWeekStart = (
+//   userId: string,
+//   weekStart: string,
+//   setWeek: Function
+// ) => {
+//   axios
+//     .get(`http://localhost:5656/user/${userId}/habits/${weekStart}`)
+//     .then(({ data }) => {
+//       setWeek(data);
+//     });
+// };
 
 const updateWeek = (
   userId: string,
@@ -57,7 +62,12 @@ const updateHabit = async (
   });
 };
 
-const getPairByUserId = async (username: string, setPair: Function) => {
+const getPairByUserId = async (
+  username: string,
+  setPair: React.Dispatch<
+    React.SetStateAction<PairType | Record<string, string>>
+  >
+) => {
   return axios
     .get(`http://localhost:5656/user/${username}/pair`)
     .then(({ data }) => {
@@ -65,12 +75,15 @@ const getPairByUserId = async (username: string, setPair: Function) => {
     });
 };
 
-const deletePair = async (pair_id: string, setPair: Function) => {
-  return axios
-    .delete(`http://localhost:5656/pair/${pair_id}`)
-    .then(({ data }) => {
-      setPair({});
-    });
+const deletePair = async (
+  pair_id: string,
+  setPair: React.Dispatch<
+    React.SetStateAction<PairType | Record<string, string>>
+  >
+) => {
+  return axios.delete(`http://localhost:5656/pair/${pair_id}`).then(() => {
+    setPair({});
+  });
 };
 
 const addPair = async (sender: string, recipient: string) => {
@@ -86,7 +99,6 @@ const checkCheckBoxModifiable = (
   username: string,
   displayUser: string
 ) => {
-  console.log(date, username, displayUser);
   const currentDate = moment();
   if (currentDate.format("DD-MM-YYYY") === date && username === displayUser)
     return true;
@@ -96,7 +108,6 @@ const checkCheckBoxModifiable = (
 export {
   getHabitsByUsername,
   deleteHabit,
-  getWeekByUserIdAndWeekStart,
   updateWeek,
   updateHabit,
   getPairByUserId,

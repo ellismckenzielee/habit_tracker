@@ -9,12 +9,14 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
+    "@types/lodash.clonedeep": "^4.5.7",
     "@types/node": "^16.11.39",
     "@types/react": "^18.0.14",
     "@types/react-bootstrap": "^0.32.30",
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0-beta1",
+    "eslint-plugin-jest": "^26.6.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "react": "^18.1.0",
@@ -51,7 +53,11 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
     "autoprefixer": "^10.4.7",
+    "eslint": "^8.19.0",
+    "eslint-plugin-react": "^7.30.1",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.5"
   }

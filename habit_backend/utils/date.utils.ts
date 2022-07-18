@@ -1,9 +1,9 @@
 import moment from "moment";
-export const getMonday = (offset: number = 0) => {
+export const getMonday = (offset = 0) => {
   const currentDate = new Date();
   const currentDay = currentDate.getDay();
   console.log(currentDay - 1);
-  let mostRecentMondayDate = new Date();
+  const mostRecentMondayDate = new Date();
   mostRecentMondayDate.setDate(
     currentDate.getDate() - (currentDay - 1) + 7 * offset
   );

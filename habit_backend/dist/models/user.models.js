@@ -68,12 +68,16 @@ const updateHabit = (user_id, habit, action, date) => __awaiter(void 0, void 0, 
         const query = {
             dates: date,
         };
+        console.log(query, user_id, habit);
         if (action === "push") {
-            yield db_1.habits.updateOne({ user_id, name: habit }, { $push: query });
+            yield db_1.habits.updateOne({ username: user_id, name: habit }, { $push: query });
         }
         else if (action === "pull") {
-            yield db_1.habits.updateOne({ user_id, name: habit }, { $pull: query });
+            yield db_1.habits.updateOne({ username: user_id, name: habit }, { $pull: query });
         }
+        const red = yield db_1.habits.findOne({ username: user_id, name: habit });
+        console.log(red);
+        console.log("complete");
     }
     catch (err) {
         console.log(err);

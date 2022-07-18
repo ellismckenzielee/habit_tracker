@@ -64,11 +64,21 @@ export const updateHabit = async (
     const query = {
       dates: date,
     };
+    console.log(query, user_id, habit);
     if (action === "push") {
-      await habits.updateOne({ user_id, name: habit }, { $push: query });
+      await habits.updateOne(
+        { username: user_id, name: habit },
+        { $push: query }
+      );
     } else if (action === "pull") {
-      await habits.updateOne({ user_id, name: habit }, { $pull: query });
+      await habits.updateOne(
+        { username: user_id, name: habit },
+        { $pull: query }
+      );
     }
+    const red = await habits.findOne({ username: user_id, name: habit });
+    console.log(red);
+    console.log("complete");
   } catch (err) {
     console.log(err);
     return Promise.reject({

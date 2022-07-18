@@ -9,8 +9,8 @@ const Signup = ({
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   return (
     <div className={style.Signup}>
       <h2> Sign up </h2>
@@ -22,8 +22,8 @@ const Signup = ({
             const passwordResult = checkPassword(password);
             const usernameResult = checkUsername(username);
             if (passwordResult.success && usernameResult.success) {
-              setPasswordMessage("");
-              setUsernameMessage("");
+              setPasswordError("");
+              setUsernameError("");
               axios
                 .post("http://localhost:5656/user/signup", {
                   username,
@@ -35,7 +35,7 @@ const Signup = ({
                 .catch((err) => {
                   console.dir(err);
                   if (err.response.status === 409) {
-                    setUsernameMessage("username already taken");
+                    setUsernameError("username already taken");
                   }
                 });
             }
@@ -45,43 +45,57 @@ const Signup = ({
           <input
             id="username"
             type="text"
-            className={style.Input}
+            className={`${style.Input} ${
+              username.length > 0 && usernameError === ""
+                ? style.SuccessInput
+                : ""
+            }`}
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
+              console.log(e.target.value);
               const usernameCheck = checkUsername(e.target.value);
+              console.log(usernameCheck);
               if (!usernameCheck.success) {
-                setUsernameMessage(usernameCheck.message);
+                console.log("unsucc");
+                setUsernameError(usernameCheck.message);
               } else {
-                setUsernameMessage("");
+                setUsernameError("");
               }
             }}
           ></input>
-          <p>{usernameMessage}</p>
+          <p className="h-2">{usernameError}</p>
 
           <label htmlFor="password">password</label>
           <input
             id="password"
             type="password"
-            className={style.Input}
+            className={`${style.Input} ${
+              username.length > 0 && usernameError === ""
+                ? style.SuccessInput
+                : ""
+            }`}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
               const passwordCheck = checkPassword(e.target.value);
               if (!passwordCheck.success) {
-                setPasswordMessage(passwordCheck.message);
+                setPasswordError(passwordCheck.message);
               } else {
-                setPasswordMessage("");
+                setPasswordError("");
               }
             }}
           ></input>
-          <p>{passwordMessage}</p>
+          <p className="h-2">{passwordError}</p>
 
           <input type="submit" className={style.Submit}></input>
           <p
             onClick={() => {
               setHasAccount(true);
             }}
+            className={
+              "p-2 bg-indigo-900 rounded-lg hover:uppercase hover:font-bold hover:cursor-pointer"
+            }
           >
             Already have an account?
           </p>

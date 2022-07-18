@@ -1,10 +1,10 @@
 .Signup {
-  height: 40vh;
-  padding: 10px;
+  padding: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: white;
 }
 
 .FormContainer {
@@ -28,10 +28,16 @@
   margin: 5px;
   border: 3px solid black;
   text-align: center;
+  color: black;
 }
 
 .Input:focus {
   border: 3px solid #b80c09;
+  outline: none;
+}
+
+.SuccessInput {
+  border: 3px solid rgb(2, 159, 2);
   outline: none;
 }
 

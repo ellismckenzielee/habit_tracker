@@ -15,6 +15,9 @@ const Login = ({
   const setUser = userContext.setUser;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   return (
     <div className={style.Login}>
       {isLoggedIn && <Navigate to="/profile" />}
@@ -51,6 +54,7 @@ const Login = ({
               setUsername(e.target.value);
             }}
           ></input>
+          <p className="h-2">{usernameError}</p>
           <label htmlFor="password">password</label>
           <input
             id="password"
@@ -61,6 +65,8 @@ const Login = ({
               setPassword(e.target.value);
             }}
           ></input>
+          <p className="h-2">{passwordError}</p>
+
           <input
             type="submit"
             className={`${style.Submit} hover:uppercase hover:font-bold hover:text-indigo-500`}
@@ -69,6 +75,9 @@ const Login = ({
             onClick={() => {
               setHasAccount(false);
             }}
+            className={
+              "p-2 bg-indigo-900 rounded-lg hover:uppercase hover:font-bold hover:cursor-pointer"
+            }
           >
             Don&apos;t have an account?
           </p>

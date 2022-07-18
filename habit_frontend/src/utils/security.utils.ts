@@ -31,6 +31,9 @@ const checkUsername = (username = "") => {
   if (username.length < 5) {
     return { success: false, message: "should be at least 5 characters" };
   }
+  if (username.includes(" ")) {
+    return { success: false, message: "username cannot contain whitespace" };
+  }
   return { success: true, message: "valid" };
 };
 export { checkPassword, checkUsername };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PairType, UserContextType, UserType } from "../context/UserContext";
+import { PairType, UserType } from "../context/UserContext";
 import { getPairByUserId } from "../utils/utils";
 import { getMonday } from "../utils/date.utils";
 const usePair = (

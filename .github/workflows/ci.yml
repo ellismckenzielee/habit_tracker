@@ -19,4 +19,4 @@ jobs:
       - name: Perform Backend Testing
         run: cd habit_backend && npm t
         env:
-          credentials: ${{ secrets.JWT_TOKEN }}
+          JWT_TOKEN: ${{ secrets.JWT_TOKEN }}

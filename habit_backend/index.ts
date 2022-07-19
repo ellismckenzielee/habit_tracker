@@ -1,6 +1,5 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import userRouter from "./routes/user.routes";
-import habitRouter from "./routes/habit.routes";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { handle500, handleErrors } from "./controllers/error.controllers";
@@ -9,15 +8,18 @@ import pairRouter from "./routes/pair.routes";
 const app: Express = express();
 app.use(cors());
 app.use(bodyParser.json());
-const port: string = process.env.PORT!;
+const port: string = process.env.PORT || "";
 
 app.get("/", async (req: Request, res: Response, next: NextFunction) => {
   console.log("reached / endpoint");
-  res.send("reached root");
+  try {
+    res.send("reached root");
+  } catch (err) {
+    next();
+  }
 });
 
 app.use("/user", userRouter);
-app.use("/habit", habitRouter);
 app.use("/pair", pairRouter);
 app.use(handleErrors);
 app.use(handle500);

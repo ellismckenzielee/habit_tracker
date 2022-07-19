@@ -12,11 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.getHabitsByUserIdAndWeek = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
-const week_models_1 = require("../models/week.models");
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET || "";
 const loginUsingJWT = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/login function");
     res.json(req.user);
@@ -35,6 +34,9 @@ const loginUsingUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
             token,
         });
     }
+    else {
+        next();
+    }
 });
 exports.loginUsingUsernamePassword = loginUsingUsernamePassword;
 const signupWithUsernamePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,19 +54,6 @@ const signupWithUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 exports.signupWithUsernamePassword = signupWithUsernamePassword;
-const getHabitsByUserIdAndWeek = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("in GET userRouter/:user_id/habits/:habit_week!");
-    const user_id = req.params.user_id;
-    const habit_week = req.params.habit_week;
-    try {
-        const result = yield (0, week_models_1.selectWeekByWeekStart)(user_id, habit_week);
-        res.json(result);
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.getHabitsByUserIdAndWeek = getHabitsByUserIdAndWeek;
 const getHabitsByUsername = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in getHabitsByUserId function");
     const username = req.params.user_id;

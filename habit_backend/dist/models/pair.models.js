@@ -45,7 +45,7 @@ exports.createPair = createPair;
 const updatePair = (pair_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(pair_id);
-        const result = yield db_1.pairs.updateOne({ _id: new mongodb_1.ObjectId(pair_id) }, { $set: { status: "accepted" } });
+        yield db_1.pairs.updateOne({ _id: new mongodb_1.ObjectId(pair_id) }, { $set: { status: "accepted" } });
         return;
     }
     catch (err) {

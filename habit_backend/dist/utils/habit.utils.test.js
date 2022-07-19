@@ -23,7 +23,6 @@ describe("testing habit util functions", () => {
                     dates: ["01-07-2022", "30-06-2022"],
                 },
             ];
-            const expected = { streak: expect.any(Number) };
             // ACT
             const result = (0, habit_utils_1.addStreaks)(input);
             // ASSERT

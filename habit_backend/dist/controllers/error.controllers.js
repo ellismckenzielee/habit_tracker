@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handle500 = exports.handleErrors = void 0;
 const handleErrors = (err, req, res, next) => {
     if (err.status) {
-        res.status(err.status).json({ message: err.message });
+        res
+            .status(err.status)
+            .json({ message: err.message, errorCause: err.errorCause });
     }
     else {
         next();

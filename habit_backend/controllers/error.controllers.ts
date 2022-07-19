@@ -3,6 +3,7 @@ import { Response, Request, NextFunction, ErrorRequestHandler } from "express";
 interface Err extends ErrorRequestHandler {
   status: number;
   message: string;
+  errorCause: string;
 }
 const handleErrors = (
   err: Err,
@@ -11,7 +12,9 @@ const handleErrors = (
   next: NextFunction
 ) => {
   if (err.status) {
-    res.status(err.status).json({ message: err.message });
+    res
+      .status(err.status)
+      .json({ message: err.message, errorCause: err.errorCause });
   } else {
     next();
   }

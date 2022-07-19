@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { setErrorMessages } from "../utils/security.utils";
 
 const Login = ({
   setHasAccount,
@@ -42,9 +43,22 @@ const Login = ({
                 setUser(user);
                 setIsLoggedIn(true);
               })
-              .catch(() => {
-                setUsernameError("something went wrong");
-                setPasswordError("something went wrong");
+              .catch(({ response }) => {
+                console.log(response);
+                console.log(
+                  response.status,
+                  response.data.message,
+                  response.data.errorCause
+                );
+                setErrorMessages(
+                  {
+                    status: response.status,
+                    message: response.data.message,
+                    errorCause: response.data.errorCause,
+                  },
+                  setUsernameError,
+                  setPasswordError
+                );
               });
           }}
         >

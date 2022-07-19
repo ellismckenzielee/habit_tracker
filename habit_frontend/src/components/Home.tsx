@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div className={style.Home}>
       <div>
-        {isLoggedIn && <Navigate to="/profile" />}
+        {isLoggedIn && <Navigate to="/dashboard" />}
         <h1 className={`${style.Header} text-indigo-900 rounded-lg`}>
           {" "}
           Integrate{" "}

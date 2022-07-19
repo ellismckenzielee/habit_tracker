@@ -17,7 +17,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Main />} />
+          <Route path="/dashboard" element={<Main />} />
           <Route path="/pair" element={<Pair />} />
         </Routes>
       </BrowserRouter>

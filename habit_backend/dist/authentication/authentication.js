@@ -33,11 +33,19 @@ passport_1.default.use(new passport_local_1.Strategy(function (username, passwor
                 done(null, user);
             }
             else {
-                done({ status: 403, message: "incorrect password" });
+                done({
+                    status: 403,
+                    message: "incorrect password",
+                    errorCause: "password",
+                });
             }
         }
         else {
-            done({ status: 404, message: "user not found" });
+            done({
+                status: 404,
+                message: "username not found",
+                errorCause: "username",
+            });
         }
     });
 }));

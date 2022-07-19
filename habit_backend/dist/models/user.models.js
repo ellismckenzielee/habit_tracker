@@ -19,7 +19,11 @@ const habit_utils_1 = require("../utils/habit.utils");
 const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
     const foundUser = yield db_1.users.findOne({ username });
     if (foundUser)
-        return Promise.reject({ status: 409, message: "username already exists" });
+        return Promise.reject({
+            status: 409,
+            message: "username already exists",
+            errorCause: "username",
+        });
     const hash = yield bcryptjs_1.default.hash(password, 10);
     const user = yield db_1.users.insertOne({ username, password: hash });
     return user;

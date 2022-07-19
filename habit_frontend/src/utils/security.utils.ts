@@ -1,3 +1,5 @@
+import React from "react";
+
 const checkPassword = (password: string) => {
   const responseMessages = {
     length: "Minimum 7 characters",
@@ -36,4 +38,23 @@ const checkUsername = (username = "") => {
   }
   return { success: true, message: "valid" };
 };
-export { checkPassword, checkUsername };
+
+interface Response {
+  status: boolean;
+  message: string;
+  errorCause: string;
+}
+const setErrorMessages = (
+  response: Response,
+  setUsernameError: React.Dispatch<React.SetStateAction<string>>,
+  setPasswordError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  if (response.errorCause === "username") {
+    setUsernameError(response.message);
+    setPasswordError("");
+  } else {
+    setUsernameError("");
+    setPasswordError(response.message);
+  }
+};
+export { checkPassword, checkUsername, setErrorMessages };

@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { UserContext, UserContextType } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { setErrorMessages } from "../utils/security.utils";
 
 const Login = ({
   setHasAccount,
@@ -20,7 +21,7 @@ const Login = ({
 
   return (
     <div className={style.Login}>
-      {isLoggedIn && <Navigate to="/profile" />}
+      {isLoggedIn && <Navigate to="/dashboard" />}
       <h2> Do it over and over and over again </h2>
 
       <div className={style.FormContainer}>
@@ -41,6 +42,23 @@ const Login = ({
                 };
                 setUser(user);
                 setIsLoggedIn(true);
+              })
+              .catch(({ response }) => {
+                console.log(response);
+                console.log(
+                  response.status,
+                  response.data.message,
+                  response.data.errorCause
+                );
+                setErrorMessages(
+                  {
+                    status: response.status,
+                    message: response.data.message,
+                    errorCause: response.data.errorCause,
+                  },
+                  setUsernameError,
+                  setPasswordError
+                );
               });
           }}
         >
@@ -69,7 +87,7 @@ const Login = ({
 
           <input
             type="submit"
-            className={`${style.Submit} hover:uppercase hover:font-bold hover:text-indigo-500`}
+            className={`${style.Submit} rounded-lg bg-white hover:text-indigo-900 hover:font-bold`}
           ></input>
           <p
             onClick={() => {

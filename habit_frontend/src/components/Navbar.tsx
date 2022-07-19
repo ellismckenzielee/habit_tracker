@@ -5,7 +5,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 const navigation = [
-  { name: "Home", location: "/profile", current: true },
+  { name: "Home", location: "/dashboard", current: true },
   { name: "Pair", location: "/pair", current: true },
 ];
 

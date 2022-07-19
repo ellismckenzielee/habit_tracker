@@ -1,7 +1,11 @@
 import { useState } from "react";
 import style from "../styles/Signup.module.css";
 import axios from "axios";
-import { checkPassword, checkUsername } from "../utils/security.utils";
+import {
+  checkPassword,
+  checkUsername,
+  setErrorMessages,
+} from "../utils/security.utils";
 const Signup = ({
   setHasAccount,
 }: {
@@ -32,11 +36,16 @@ const Signup = ({
                 .then(() => {
                   setHasAccount(true);
                 })
-                .catch((err) => {
-                  console.dir(err);
-                  if (err.response.status === 409) {
-                    setUsernameError("username already taken");
-                  }
+                .catch(({ response }) => {
+                  setErrorMessages(
+                    {
+                      status: response.status,
+                      message: response.data.message,
+                      errorCause: response.data.errorCause,
+                    },
+                    setUsernameError,
+                    setPasswordError
+                  );
                 });
             }
           }}
@@ -88,7 +97,10 @@ const Signup = ({
           ></input>
           <p className="h-2">{passwordError}</p>
 
-          <input type="submit" className={style.Submit}></input>
+          <input
+            type="submit"
+            className={`${style.Submit} rounded-lg bg-white hover:text-indigo-900 hover:font-bold`}
+          ></input>
           <p
             onClick={() => {
               setHasAccount(true);

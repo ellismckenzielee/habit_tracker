@@ -41,6 +41,10 @@ const Login = ({
                 };
                 setUser(user);
                 setIsLoggedIn(true);
+              })
+              .catch(() => {
+                setUsernameError("something went wrong");
+                setPasswordError("something went wrong");
               });
           }}
         >

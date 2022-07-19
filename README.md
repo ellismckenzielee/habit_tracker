@@ -10,6 +10,7 @@ A simple web-based application that allows the user to perform the following act
 - Add a habit
 - Delete a habit
 - Pair with another user
+- Mark habits as complete
 ```
 
 I wanted to explore a bunch of different technologies in this project:
@@ -19,6 +20,8 @@ I wanted to explore a bunch of different technologies in this project:
 - JWT Tokens
 - Passport JS
 - Bcrypt
+- MongoDB
+- Github Actions
 ```
 
 ## Installation Instructions

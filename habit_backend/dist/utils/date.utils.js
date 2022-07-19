@@ -9,7 +9,7 @@ const getMonday = (offset = 0) => {
     const currentDate = new Date();
     const currentDay = currentDate.getDay();
     console.log(currentDay - 1);
-    let mostRecentMondayDate = new Date();
+    const mostRecentMondayDate = new Date();
     mostRecentMondayDate.setDate(currentDate.getDate() - (currentDay - 1) + 7 * offset);
     console.log(" MOST RECENT MONDAY", mostRecentMondayDate);
     const match = mostRecentMondayDate

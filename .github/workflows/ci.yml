@@ -1,14 +1,26 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  Run-Tests:
+  Run-Test-Lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+      - name: Start-Docker
+        run: docker-compose up -d mongo backend
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Install Frontend Dependencies
         run: cd habit_frontend && npm ci
       - name: Perform Frontend Linting
         run: cd habit_frontend && npx eslint .
       - name: Perform Frontend Testing
         run: cd habit_frontend && npm t
+      - name: Install Backend Dependencies
+        run: cd habit_backend && npm ci
+      - name: Perform Backend Linting
+        run: cd habit_backend && npx eslint .
+      - name: Perform Backend Testing
+        run: cd habit_backend && npm t
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}

@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUsername = exports.insertHabit = exports.handleSignup = void 0;
+exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUsername = exports.handleSignup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const db_1 = require("../db/db");
-const date_utils_1 = require("../utils/date.utils");
 const habit_utils_1 = require("../utils/habit.utils");
 const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
     const foundUser = yield db_1.users.findOne({ username });
@@ -26,14 +25,6 @@ const handleSignup = (username, password) => __awaiter(void 0, void 0, void 0, f
     return user;
 });
 exports.handleSignup = handleSignup;
-const insertHabit = (username, habitName) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield db_1.users.updateOne({ username }, { $addToSet: { ["habits"]: habitName } });
-    const weekToUpdate = (0, date_utils_1.getMonday)(0);
-    console.log("WEEK TO UPDATE", weekToUpdate);
-    const week = yield db_1.weeks.updateOne({ username, habit_week: weekToUpdate }, { $set: { [`habits.${habitName}`]: [0, 0, 0, 0, 0, 0, 0] } });
-    return week;
-});
-exports.insertHabit = insertHabit;
 const selectHabitsByUsername = (username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foundHabits = yield db_1.habits.find({ username });

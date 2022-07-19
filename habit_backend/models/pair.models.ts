@@ -32,7 +32,7 @@ export const updatePair = async (pair_id: string) => {
   try {
     console.log(pair_id);
 
-    const result = await pairs.updateOne(
+    await pairs.updateOne(
       { _id: new ObjectId(pair_id) },
       { $set: { status: "accepted" } }
     );

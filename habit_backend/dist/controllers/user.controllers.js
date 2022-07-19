@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET || "";
 const loginUsingJWT = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("in GET userRouter/login function");
     res.json(req.user);
@@ -33,6 +33,9 @@ const loginUsingUsernamePassword = (req, res, next) => __awaiter(void 0, void 0,
             pairName: req.user.pairName,
             token,
         });
+    }
+    else {
+        next();
     }
 });
 exports.loginUsingUsernamePassword = loginUsingUsernamePassword;

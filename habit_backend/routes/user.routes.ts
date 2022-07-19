@@ -1,8 +1,6 @@
-import express, { Response, Request, NextFunction } from "express";
+import express from "express";
 import passport from "../authentication/authentication";
 import dotenv from "dotenv";
-import { ObjectId } from "mongodb";
-import { users, weeks } from "../db/db";
 import {
   deleteHabit,
   loginUsingJWT,

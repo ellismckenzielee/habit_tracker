@@ -1,4 +1,4 @@
-import express, { Response, Request, NextFunction } from "express";
+import express from "express";
 import { deletePair, postPair, putPair } from "../controllers/pair.controllers";
 
 const pairRouter = express.Router();

@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId, WithId } from "mongodb";
+import { MongoClient } from "mongodb";
 const host = process.env.NODE_ENV === "test" ? "localhost" : "mongo";
 const url = `mongodb://root:example@${host}:27017/?maxPoolSize=20&w=majority`;
 const client = new MongoClient(url);

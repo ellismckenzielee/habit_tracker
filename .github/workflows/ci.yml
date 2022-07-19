@@ -1,17 +1,14 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  Docker-Compose:
+  Run-Test-Lint:
     runs-on: ubuntu-latest
+    needs: Docker-Compose
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Start-Docker
         run: docker-compose up
-  Run-Tests-And-Lint:
-    runs-on: ubuntu-latest
-    needs: Docker-Compose
-    steps:
       - name: Install Frontend Dependencies
         run: cd habit_frontend && npm ci
       - name: Perform Frontend Linting

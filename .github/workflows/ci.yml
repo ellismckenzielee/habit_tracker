@@ -18,3 +18,5 @@ jobs:
         run: cd habit_backend && npx eslint .
       - name: Perform Backend Testing
         run: cd habit_backend && npm t
+        env:
+          credentials: ${{ secrets.JTW_TOKEN }}

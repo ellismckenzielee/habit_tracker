@@ -12,3 +12,7 @@ jobs:
         run: cd habit_frontend && npx eslint .
       - name: Perform Frontend Testing
         run: cd habit_frontend && npm t
+      - name: Install Backend Dependencies
+        run: cd habit_backend && npm ci
+      - name: Perform Backend Linting
+        run: cd habit_backend && npx eslint .

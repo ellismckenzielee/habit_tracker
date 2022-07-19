@@ -16,3 +16,5 @@ jobs:
         run: cd habit_backend && npm ci
       - name: Perform Backend Linting
         run: cd habit_backend && npx eslint .
+      - name: Perform Backend Testing
+        run: cd habit_backend && npm t

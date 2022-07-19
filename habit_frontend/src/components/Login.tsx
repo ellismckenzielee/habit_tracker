@@ -20,7 +20,7 @@ const Login = ({
 
   return (
     <div className={style.Login}>
-      {isLoggedIn && <Navigate to="/profile" />}
+      {isLoggedIn && <Navigate to="/dashboard" />}
       <h2> Do it over and over and over again </h2>
 
       <div className={style.FormContainer}>

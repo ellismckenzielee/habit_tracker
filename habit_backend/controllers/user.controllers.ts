@@ -1,6 +1,5 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { nextTick } from "process";
 import {
   createHabit,
   handleSignup,
@@ -9,7 +8,6 @@ import {
   selectPairsByUserId,
   selectHabitsByUsername,
 } from "../models/user.models";
-import { selectWeekByWeekStart } from "../models/week.models";
 const secret: string = process.env.JWT_SECRET!;
 
 export const loginUsingJWT = async (req: Request, res: Response) => {
@@ -50,23 +48,6 @@ export const signupWithUsernamePassword = async (
     console.log("end of userRouter/signup function");
     console.log(user);
     res.json({ userId: user.insertedId });
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getHabitsByUserIdAndWeek = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("in GET userRouter/:user_id/habits/:habit_week!");
-  const user_id = req.params.user_id;
-  const habit_week = req.params.habit_week;
-
-  try {
-    const result = await selectWeekByWeekStart(user_id, habit_week);
-    res.json(result);
   } catch (err) {
     next(err);
   }

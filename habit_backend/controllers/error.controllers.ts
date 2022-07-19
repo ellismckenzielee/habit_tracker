@@ -10,15 +10,14 @@ const handleErrors = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(err.status).json({ message: err.message });
+  if (err.status) {
+    res.status(err.status).json({ message: err.message });
+  } else {
+    next();
+  }
 };
 
-const handle500 = (
-  err: ErrorRequestHandler,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const handle500 = (err: ErrorRequestHandler, req: Request, res: Response) => {
   res.send({ status: 500, message: "internal server error" });
 };
 

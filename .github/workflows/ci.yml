@@ -1,7 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  Run-Tests & Linting:
+  Run-Tests-And-Lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

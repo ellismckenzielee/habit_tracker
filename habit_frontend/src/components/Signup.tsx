@@ -97,7 +97,10 @@ const Signup = ({
           ></input>
           <p className="h-2">{passwordError}</p>
 
-          <input type="submit" className={style.Submit}></input>
+          <input
+            type="submit"
+            className={`${style.Submit} rounded-lg bg-white hover:text-indigo-900 hover:font-bold`}
+          ></input>
           <p
             onClick={() => {
               setHasAccount(true);

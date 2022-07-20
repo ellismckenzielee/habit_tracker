@@ -120,7 +120,7 @@ const Navbar = () => {
                                 to="/"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
+                                  "block px-4 py-2 text-sm text-gray-700 hover:decoration-black"
                                 )}
                               >
                                 <p
@@ -130,6 +130,7 @@ const Navbar = () => {
                                     setIsLoggedIn(false);
                                     logout();
                                   }}
+                                  className="my-auto hover:text-red-800 hover:decoration-black"
                                 >
                                   {" "}
                                   Delete Account

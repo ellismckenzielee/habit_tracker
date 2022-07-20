@@ -127,6 +127,7 @@ const getPairsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 exports.getPairsByUserId = getPairsByUserId;
 const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(" in deleteUser controller");
         const username = req.params.user_id;
         yield (0, user_models_1.removeUserByUsername)(username);
         res.sendStatus(200);

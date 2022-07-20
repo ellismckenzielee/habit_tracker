@@ -127,7 +127,7 @@ const selectPairsByUserId = (user_id) => __awaiter(void 0, void 0, void 0, funct
 exports.selectPairsByUserId = selectPairsByUserId;
 const removeUserByUsername = (username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield db_1.users.findOne({ username });
+        const user = yield db_1.users.deleteOne({ username });
         console.log("USER", user);
         if (!user)
             return Promise.reject({ status: 404, message: "username not found" });

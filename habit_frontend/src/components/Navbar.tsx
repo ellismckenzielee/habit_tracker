@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+import { deleteUser } from "../utils/utils";
 const navigation = [
   { name: "Home", location: "/dashboard", current: true },
   { name: "Pair", location: "/pair", current: true },
@@ -14,7 +15,7 @@ function classNames(...classes: Array<string>) {
 }
 
 const Navbar = () => {
-  const { logout, setIsLoggedIn, isLoggedIn } = useContext(
+  const { user, logout, setIsLoggedIn, isLoggedIn } = useContext(
     UserContext
   ) as UserContextType;
   console.log(isLoggedIn);
@@ -115,15 +116,25 @@ const Navbar = () => {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                to="/"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                Settings
-                              </a>
+                                <p
+                                  onClick={() => {
+                                    console.log("clicked");
+                                    deleteUser(user.username);
+                                    setIsLoggedIn(false);
+                                    logout();
+                                  }}
+                                >
+                                  {" "}
+                                  Delete Account
+                                </p>
+                              </Link>
                             )}
                           </Menu.Item>
                           {

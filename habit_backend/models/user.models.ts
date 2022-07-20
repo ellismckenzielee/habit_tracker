@@ -118,7 +118,7 @@ export const selectPairsByUserId = async (user_id: string) => {
 
 export const removeUserByUsername = async (username: string) => {
   try {
-    const user = await users.findOne({ username });
+    const user = await users.deleteOne({ username });
     console.log("USER", user);
     if (!user)
       return Promise.reject({ status: 404, message: "username not found" });

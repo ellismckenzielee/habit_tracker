@@ -94,6 +94,11 @@ const acceptPairRequest = (pair_id: string) => {
   return axios.put(`http://localhost:5656/pair/${pair_id}`);
 };
 
+const deleteUser = (username: string) => {
+  console.log("in delete user ", username);
+  return axios.delete(`http://localhost:5656/user/${username}`);
+};
+
 const checkCheckBoxModifiable = (
   date: string,
   username: string,
@@ -115,4 +120,5 @@ export {
   addPair,
   acceptPairRequest,
   checkCheckBoxModifiable,
+  deleteUser,
 };

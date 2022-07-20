@@ -148,6 +148,7 @@ export const deleteUser = async (
   next: NextFunction
 ) => {
   try {
+    console.log(" in deleteUser controller");
     const username = req.params.user_id;
     await removeUserByUsername(username);
     res.sendStatus(200);

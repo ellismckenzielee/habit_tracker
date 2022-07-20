@@ -114,11 +114,11 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           );
         })}
       </div>
-      <div className={`flex flex-row flex-wrap justify-center m-5 gap-5`}>
+      <div className={`flex flex-row flex-wrap justify-center m-5 gap-2`}>
         <div
           className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
-          <p className={`text-indigo-400`}>
+          <p className={`text-indigo-400 mb-1`}>
             <span className={"text-3xl font-bold text-indigo-900"}>
               {((count / totalDates) * 100).toFixed(1)}
             </span>{" "}
@@ -129,7 +129,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
         <div
           className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
-          <p className={`text-indigo-400`}>
+          <p className={`text-indigo-400 mb-1`}>
             {" "}
             <span className={"text-3xl font-bold text-indigo-900"}>
               {longestStreak}
@@ -144,7 +144,7 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
         <div
           className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
         >
-          <p className={`text-indigo-400`}>
+          <p className={`text-indigo-400 mb-1`}>
             <span className={"text-3xl font-bold text-indigo-900"}>
               {maxScore + "/" + habits.length}
             </span>

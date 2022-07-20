@@ -36,7 +36,7 @@ describe("testing habit_backend API", () => {
       }
     });
   });
-  describe.only("POST /user/signup ENDPOINT", () => {
+  describe("POST /user/signup ENDPOINT", () => {
     test("Successful Signup: returns status 200 and userId", async () => {
       const username = "eddievedder";
       const password = "pearljam10";
@@ -66,6 +66,26 @@ describe("testing habit_backend API", () => {
       } catch (err) {
         console.log(err);
       }
+    });
+  });
+  describe.only("DELETE /user/:user_id ENDPOINT", () => {
+    test("Successful deletion: status 200", async () => {
+      const username = "ellismckenzielee";
+      const password = "pearljam10";
+      await backend.post("/user/signup").send({ username, password });
+      const response = await backend.delete(`/user/${username}`);
+      expect(response.status).toBe(200);
+    });
+    test("Unsuccessful deletion: status 404, message: username not found", async () => {
+      const username = "ellismckenzielee2";
+      const response = await backend.delete(`/user/${username}`);
+      expect(response.status).toBe(404);
+    });
+    test("Unsuccessful deletion: status 404, message: invalid url", async () => {
+      const username = "ellismckenzielee";
+
+      const response = await backend.delete(`/user/${username}/fb`);
+      expect(response.status).toBe(404);
     });
   });
 });

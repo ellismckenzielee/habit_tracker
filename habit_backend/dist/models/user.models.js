@@ -129,7 +129,7 @@ const removeUserByUsername = (username) => __awaiter(void 0, void 0, void 0, fun
     try {
         const user = yield db_1.users.deleteOne({ username });
         console.log("USER", user);
-        if (!user)
+        if (!user.deletedCount)
             return Promise.reject({ status: 404, message: "username not found" });
         else {
             return;

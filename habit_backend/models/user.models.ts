@@ -120,7 +120,7 @@ export const removeUserByUsername = async (username: string) => {
   try {
     const user = await users.deleteOne({ username });
     console.log("USER", user);
-    if (!user)
+    if (!user.deletedCount)
       return Promise.reject({ status: 404, message: "username not found" });
     else {
       return;

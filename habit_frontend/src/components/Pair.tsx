@@ -112,7 +112,13 @@ const Pair = () => {
               <button
                 className="bg-indigo-900 text-white rounded-lg w-20 h-10 m-1 hover:uppercase hover:font-bold"
                 onClick={() => {
-                  acceptPairRequest(pair._id);
+                  acceptPairRequest(pair._id).then(() => {
+                    setPair((prevPair) => {
+                      const newPair = { ...prevPair };
+                      prevPair.status = "accepted";
+                      return newPair;
+                    });
+                  });
                 }}
               >
                 Accept

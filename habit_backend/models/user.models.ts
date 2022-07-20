@@ -115,3 +115,17 @@ export const selectPairsByUserId = async (user_id: string) => {
     return Promise.reject({ status: 404, message: "user pair does not exist" });
   }
 };
+
+export const removeUserByUsername = async (username: string) => {
+  try {
+    const user = await users.deleteOne({ username });
+    console.log("USER", user);
+    if (!user.deletedCount)
+      return Promise.reject({ status: 404, message: "username not found" });
+    else {
+      return;
+    }
+  } catch (err) {
+    return Promise.reject({ status: 500, message: "internal server error" });
+  }
+};

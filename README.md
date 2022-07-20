@@ -27,8 +27,12 @@ I wanted to explore a bunch of different technologies in this project:
 ## Installation Instructions
 
 ```
-- Clone this repo onto your own computer
+- Clone this repo onto your own compute
 - RUN cd habit_tracker
+- RUN cd habit_frontend && npm install
+- RUN cd ..
+- RUN cd habit_backend && npm install
+- RUN cd ..
 - RUN docker compose up --build
 - Visit http://localhost:3000 to view the site
 ```

@@ -10,6 +10,7 @@ import Actions from "./Actions";
 import { habit } from "../types/types";
 import { getDatesForWeek } from "../utils/date.utils";
 import _ from "lodash";
+import Stats from "./Stats";
 
 const View = ({ date, focus }: { date: string; focus: string }) => {
   const [habits, setHabits] = useState<habit[]>([]);
@@ -114,45 +115,14 @@ const View = ({ date, focus }: { date: string; focus: string }) => {
           );
         })}
       </div>
-      <div className={`flex flex-row flex-wrap justify-center m-5 gap-5`}>
-        <div
-          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
-        >
-          <p className={`text-indigo-400`}>
-            <span className={"text-3xl font-bold text-indigo-900"}>
-              {((count / totalDates) * 100).toFixed(1)}
-            </span>{" "}
-            %
-          </p>
-          <p className={`text-indigo-700 font-bold m-auto`}>Week Completion</p>
-        </div>
-        <div
-          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
-        >
-          <p className={`text-indigo-400`}>
-            {" "}
-            <span className={"text-3xl font-bold text-indigo-900"}>
-              {longestStreak}
-            </span>
-            {longestStreak === 1 ? " day" : " days"}
-          </p>
-
-          <p className={`text-indigo-700 font-bold m-auto`}>
-            Current longest streak
-          </p>
-        </div>
-        <div
-          className={`p-2 grow basis-1/3 md:basis-1/4  bg-indigo-100 rounded-lg flex flex-col justify-center`}
-        >
-          <p className={`text-indigo-400`}>
-            <span className={"text-3xl font-bold text-indigo-900"}>
-              {maxScore + "/" + habits.length}
-            </span>
-          </p>
-
-          <p className={`text-indigo-700 font-bold m-auto`}>{bestDay}</p>
-        </div>
-      </div>
+      <Stats
+        habits={habits}
+        maxScore={maxScore}
+        longestStreak={longestStreak}
+        totalDates={totalDates}
+        bestDay={bestDay}
+        count={count}
+      />
       {user.username === focus && (
         <Actions habits={habits} setHabits={setHabits} />
       )}

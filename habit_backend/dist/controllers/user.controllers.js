@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
+exports.deleteUser = exports.getPairsByUserId = exports.deleteHabit = exports.putHabit = exports.postHabit = exports.getHabitsByUsername = exports.signupWithUsernamePassword = exports.loginUsingUsernamePassword = exports.loginUsingJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_models_1 = require("../models/user.models");
 const secret = process.env.JWT_SECRET || "";
@@ -125,3 +125,15 @@ const getPairsByUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.getPairsByUserId = getPairsByUserId;
+const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(" in deleteUser controller");
+        const username = req.params.user_id;
+        yield (0, user_models_1.removeUserByUsername)(username);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.deleteUser = deleteUser;

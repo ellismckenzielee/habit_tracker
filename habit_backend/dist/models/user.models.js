@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUsername = exports.handleSignup = void 0;
+exports.removeUserByUsername = exports.selectPairsByUserId = exports.deleteHabitFromDB = exports.updateHabit = exports.createHabit = exports.selectHabitsByUsername = exports.handleSignup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const db_1 = require("../db/db");
 const habit_utils_1 = require("../utils/habit.utils");
@@ -125,3 +125,18 @@ const selectPairsByUserId = (user_id) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.selectPairsByUserId = selectPairsByUserId;
+const removeUserByUsername = (username) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db_1.users.deleteOne({ username });
+        console.log("USER", user);
+        if (!user.deletedCount)
+            return Promise.reject({ status: 404, message: "username not found" });
+        else {
+            return;
+        }
+    }
+    catch (err) {
+        return Promise.reject({ status: 500, message: "internal server error" });
+    }
+});
+exports.removeUserByUsername = removeUserByUsername;

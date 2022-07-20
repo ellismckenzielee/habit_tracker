@@ -7,6 +7,7 @@ import {
   deleteHabitFromDB,
   selectPairsByUserId,
   selectHabitsByUsername,
+  removeUserByUsername,
 } from "../models/user.models";
 const secret: string = process.env.JWT_SECRET || "";
 
@@ -136,6 +137,20 @@ export const getPairsByUserId = async (
     const pairs = await selectPairsByUserId(user_id);
     console.log(pairs);
     res.json(pairs);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const username = req.params.user_id;
+    await removeUserByUsername(username);
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

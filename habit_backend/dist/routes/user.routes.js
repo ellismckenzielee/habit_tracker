@@ -16,5 +16,9 @@ userRouter.get("/:user_id/habits", user_controllers_1.getHabitsByUsername);
 userRouter.post("/:user_id/habits", user_controllers_1.postHabit);
 userRouter.put("/:user_id/habits", user_controllers_1.putHabit);
 userRouter.delete("/:user_id/habits", user_controllers_1.deleteHabit);
+userRouter.delete("/:user_id", user_controllers_1.deleteUser);
 userRouter.get("/:user_id/pair", user_controllers_1.getPairsByUserId);
+userRouter.all("/*", (req, res, next) => {
+    next({ status: 404, message: "invalid URL" });
+});
 exports.default = userRouter;
